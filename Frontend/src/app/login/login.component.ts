@@ -12,6 +12,7 @@ import { TokenService } from '../services/token.service';
 })
 export class LoginComponent implements OnInit {
 
+  @ViewChild('modal',{static:true}) modal;
   isloading = false;
   error = "";
   
@@ -19,6 +20,7 @@ export class LoginComponent implements OnInit {
   constructor(private AuthService:AuthService,private tokenservice:TokenService,private router:Router) { }
 
   ngOnInit(): void {
+    console.log(this.modal);
   }
 
   onSubmit(form:NgForm){
@@ -32,7 +34,10 @@ export class LoginComponent implements OnInit {
     form.reset();
     this.tokenservice.handle(data.token);
     this.AuthService.changeAuthStatus(true);
+    this.modal.nativeElement.click();
     this.router.navigate(['/']);
+    // this.modal.hide();
+    
     
 
   },error=>{

@@ -105,7 +105,7 @@
                                         <select class="form-control" name="size_id[]" multiple>
                                         <option selected disabled>---Select Size---</option>
                                         @foreach ($size as $row )
-                                          <option value="{{ $row->id}}">{{ $row->size_name}}</option>    
+                                          <option value="{{ $row->size_name}}">{{ $row->size_name}}</option>    
                                         @endforeach
                                         </select>
                                         @error('size_id')
@@ -162,7 +162,7 @@
                                         <label for="customCheckbox1" class="custom-control-label">istrending</label>
                                     </div>
                                     
-                                    </div>
+                            </div>
                         </div>
                         <!-- /.card-body -->
 

@@ -39,6 +39,7 @@ export class ProductListComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params:Params)=>{
+      this.filterproduct = [];
       this.id = +params['id'];
       this.selected = [];
       this.countsubcategory = [];
@@ -75,14 +76,16 @@ export class ProductListComponent implements OnInit {
       this.product = data.filter(item=>item.category_name==this.Category);
       this.filterproduct = this.product;
       this.isloading = false;
-      
-    });
-      
       this.countsizes();
       this.countcolors();
+      this.countsubcategories();  
+    });
+      
+     
   }
   getSubCategory(categoryid:number){
     this.SubCategoryService.getSubcategories().subscribe(data=>{
+      
       this.subcategory = data.filter(item=>item.category_id==categoryid);
       this.countsubcategories();  
     });
@@ -133,6 +136,7 @@ export class ProductListComponent implements OnInit {
       for (let index = 0; index < this.subcategory.length; index++) {
         const element = this.checkedsubcat[index];
         if(element!=0){
+
           const prod = this.product.filter(m=>m.subcategory_name==this.subcategory[index].subcategory_name);
           temp.push(...prod);
 
@@ -150,7 +154,22 @@ export class ProductListComponent implements OnInit {
       for (let index = 0; index < this.size.length; index++) {
         const element = this.checkedsize[index];
         if(element!=0){
-          const prod = temp.filter(m=>m.size_name == this.size[index].size_name);
+
+          const prod = temp.filter((m,i)=>{
+            const t = m.size_id.split(",");
+            if(t.includes(this.size[index].size_name)){
+              if(!temp1.includes(m)){
+                return true;  
+              }
+              else{
+                return false;
+              }
+              
+            }
+            else{
+              return false;
+            }
+            });
           temp1.push(...prod);
         }
         
@@ -239,33 +258,50 @@ export class ProductListComponent implements OnInit {
   }
 
   countsubcategories(){
-    this.checkedsubcat = this.subcategory.map(()=>{
+    this.checkedsubcat = this.subcategory.map((value,index)=>{
+      this.subcategory[index]['count'] = 0;
       return 0;
     });
-    console.log(this.product);
+    
     for (let index = 0; index < this.subcategory.length; index++) {
-      console.log(this.product);
+      
       
       const len = (this.product.filter(m=>m.subcategory_name == this.subcategory[index].subcategory_name)).length;
-      this.countsubcategory.push(len);
+      this.subcategory[index].count = len;
       
     }
-    
+    console.log(this.subcategory);
     
   }
   countsizes(){
-    // for (let index = 0; index < this.size.length; index++) {
-    //   // console.log(this.size[index].size_name);
-      
-    //   const len = (this.product.filter(m=>m.size_name == this.size[index].size_name)).length;
-    //   this.countsize.push(len);
-      
-    // }
     
-    this.checkedsize = this.size.map(()=>{
+    
+    
+    this.checkedsize = this.size.map((value,index)=>{
+      (this.size[index])['count'] = 0;
       return 0;
     });
-    console.log(this.checkedsize);
+    console.log(this.size);
+    for (let index = 0; index < this.size.length; index++) {
+      // console.log(this.size[index].size_name);
+      
+      const len = (this.product.filter((m,i)=>{
+       const temp =  this.product[i].size_id.split(",");
+       if(temp.includes(this.size[index].size_name)){
+        
+        return true;
+       }
+       else{
+         return false;
+       }
+
+        })).length;
+
+      this.size[index].count = len;
+      
+      
+    }
+    console.log(this.size);
   }
   countcolors(){
     // for (let index = 0; index < this.color.length; index++) {
@@ -275,13 +311,13 @@ export class ProductListComponent implements OnInit {
     //   this.countcolor.push(len);
       
     // }
-    // console.log(this.color);
+    console.log(this.color);
 
-    // this.countcolor = this.color.map((value,index)=>{
-    //   console.log(value.color_name);
-    //   const len = this.product.filter(m=>value.color_name == m.color_name).length;
-    //   return len;
-    // });
-    // console.log(this.countcolor);
+    this.countcolor = this.color.map((value,index)=>{
+      (this.color[index])['count']= 0;
+      const len = this.product.filter(m=>value.color_name == m.color_name).length;
+      this.color[index]['count']=len;
+    });
+
   }
 }

@@ -17,12 +17,16 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.ProductService.GetProduct().subscribe(data=>{
-      this.product = data;
-      this.filterproduct = this.product.filter(m=>m.istrending == 1).slice(0,this.i);
+      this.product = data.filter(m=>m.istrending == 1);
+      this.filterproduct = this.product.slice(0,this.i);
       
     });
    
     
+  }
+  moreproduct(){
+    this.i = this.i + 4; 
+   this.filterproduct =  this.product.slice(0,this.i);
   }
 
 }

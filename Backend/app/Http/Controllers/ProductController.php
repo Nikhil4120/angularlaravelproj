@@ -20,8 +20,8 @@ class ProductController extends Controller
         $products = DB::table('products')->join('categories','categories.id','products.category_id')
                     ->join('subcategories','subcategories.id','products.subcategory_id')
                     ->join('colors','colors.id','products.color_id')
-                    ->join('sizes','sizes.id','products.size_id')
-                    ->select('products.*','categories.category_name','subcategories.subcategory_name','colors.color_name','sizes.size_name')
+                    
+                    ->select('products.*','categories.category_name','subcategories.subcategory_name','colors.color_name')
                     ->where('products.status','<>',-1)
                     ->orderBy('products.id','desc')
                     ->get();
@@ -59,7 +59,7 @@ class ProductController extends Controller
         $data['category_id'] = $request->category_id;
         $data['subcategory_id'] = $request->subcategory_id;
         $data['color_id'] = $request->color_id;
-        $data['size_id'] = $request->size_id[0];
+        $data['size_id'] = implode(',',$request->size_id);
         $data['sku_id'] = $request->sku_id;
         $data['price'] = $request->price;
         $data['istrending'] = $request->istrending;

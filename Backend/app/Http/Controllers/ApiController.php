@@ -158,8 +158,8 @@ class ApiController extends Controller implements JWTSubject
         $product = DB::table('products')->join('categories','categories.id','products.category_id')
         ->join('subcategories','subcategories.id','products.subcategory_id')
         ->join('colors','colors.id','products.color_id')
-        ->join('sizes','sizes.id','products.size_id')
-        ->select('products.id','products.product_name','products.product_description','products.product_image','products.sku_id','products.price','categories.category_name','subcategories.subcategory_name','colors.color_name','sizes.size_name','products.istrending')
+        
+        ->select('products.id','products.product_name','products.product_description','products.product_image','products.sku_id','products.price','categories.category_name','subcategories.subcategory_name','colors.color_name','products.istrending','products.size_id')
         ->where('products.status',1)
         ->orderBy('products.id','desc')
         ->get();

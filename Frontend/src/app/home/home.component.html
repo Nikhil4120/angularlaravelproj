@@ -59,7 +59,7 @@
                         
                         <div class="col-sm-12 col-xs-12">
                             <span class="button-outer text-center">
-                              <a href="product.html" title="More Products" class="btn-tertiary">More Products</a>
+                              <a (click)="moreproduct()" title="More Products" class="btn-tertiary" style="cursor:pointer" *ngIf="filterproduct.length!=product.length">More Products</a>
                           </span>
                       </div>
                   </div>

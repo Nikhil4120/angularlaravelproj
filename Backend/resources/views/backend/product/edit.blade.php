@@ -103,13 +103,16 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Size</label>
-                                        <select class="form-control" name="size_id">
-                                        <option selected disabled>---Select Size---</option>
+                                        <select class="form-control" name="size_id" multiple>
+                                        <option disabled>---Select Size---</option>
+                                        @php
+                                            $size_id = explode(",",$products->size_id);
+                                        @endphp
                                         @foreach ($size as $row )
-                                            @if($row->id == $products->size_id)
-                                            <option value="{{ $row->id}}" selected>{{ $row->size_name}}</option>    
+                                            @if(in_array($row->size_name,$size_id))
+                                            <option value="{{ $row->size_name}}" selected>{{ $row->size_name}}</option>    
                                             @else
-                                            <option value="{{ $row->id}}">{{ $row->size_name}}</option>    
+                                            <option value="{{ $row->size_name}}">{{ $row->size_name}}</option>    
                                             @endif
                                           
                                         @endforeach
@@ -132,6 +135,29 @@
                                     placeholder="Product Price" min="0" value="{{ $products->price}}">
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Quantity</label>
+                                        <input type="number" class="form-control" id="quantity" name="quantity"
+                                    placeholder="quantity" min="0" value="{{$products->quantity}}">
+                                   
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    
+                                </div>
+                            </div>
+                            <div class="form-group">
+
+                                    <div class="custom-control custom-checkbox">
+                                        <input class="custom-control-input" type="checkbox" id="customCheckbox1" value="1" name="istrending" @if ($products->istrending == 1)
+                                            checked
+                                        @endif>
+                                        <label for="customCheckbox1" class="custom-control-label" >istrending</label>
+                                    </div>
+                                    
                             </div>
 
                         </div>

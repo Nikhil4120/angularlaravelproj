@@ -1,7 +1,7 @@
 export class Color{
     
     
-    constructor(id:number,color_name:string,color_code:string){
+    constructor(public id:number,public color_name:string,public color_code:string){
         
     }
 

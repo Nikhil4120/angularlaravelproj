@@ -39,7 +39,8 @@
               "src/assets/js/html5shiv.min.js",
               "src/assets/js/jquery.fancybox.js",
               "src/assets/js/respond.min.js",
-              "src/assets/js/general.js"
+              "src/assets/js/general.js",
+              "src/assets/js/bootstrap-slider.min.js"
 
             ]
           },

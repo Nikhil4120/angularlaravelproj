@@ -58,7 +58,7 @@
                         <td><img src="{{ $row->product_image }}" style="width:50px; height:50px;"></td>
                        
                         <td>{{ $row->color_name }}</td>
-                        <td>{{ $row->size_name }}</td>
+                        <td>{{ $row->size_id }}</td>
                         
                         <td>{{ $row->price }}</td>
                         
