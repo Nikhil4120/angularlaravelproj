@@ -8,6 +8,10 @@ use Illuminate\Support\Carbon;
 class CategoryController extends Controller
 {
     //
+    public function __construct(){
+
+        $this->middleware('auth');
+    }
     public function index(){
         $categories = DB::table('categories')->where('status','<>',-1)->orderBy('id','desc')->get();
         return view('backend.category.index',compact('categories'));

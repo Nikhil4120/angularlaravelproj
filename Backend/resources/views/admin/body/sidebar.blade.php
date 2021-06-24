@@ -26,7 +26,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item menu-open">
-            <a href="{{route('dashboard')}}" class="nav-link active">
+            <a href="{{route('dashboard')}}" class="nav-link {{ Route::is('dashboard') ? 'active' : ''}}">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -47,13 +47,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{ route('add.category') }}" class="nav-link">
+                <a href="{{ route('add.category') }}" class="nav-link {{ Route::is('add.category') ? 'active' : ''}}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Add Categories</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{ route('categories') }}" class="nav-link">
+                <a href="{{ route('categories') }}" class="nav-link {{ Route::is('categories') ? 'active' : ''}}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>All Categories</p>
                 </a>
@@ -61,8 +61,107 @@
               
             </ul>
           </li>
-          
-          
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-copy"></i>
+              <p>
+                Sub Categories
+                <i class="fas fa-angle-left right"></i>
+                
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('add.subcategory') }}" class="nav-link {{ Route::is('add.subcategory') ? 'active' : ''}}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add SubCategories</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('subcategories') }}" class="nav-link {{ Route::is('subcategories') ? 'active' : ''}}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>All SubCategories</p>
+                </a>
+              </li>
+              
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-copy"></i>
+              <p>
+                Products
+                <i class="fas fa-angle-left right"></i>
+                
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('add.product') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add Products</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('product') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>All Products</p>
+                </a>
+              </li>
+              
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-copy"></i>
+              <p>
+                Colors & Size
+                <i class="fas fa-angle-left right"></i>
+                
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              
+              <li class="nav-item">
+                <a href="{{ route('colors') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>All Colors</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('size') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>All Size</p>
+                </a>
+              </li>
+              
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-copy"></i>
+              <p>
+                Countries
+                <i class="fas fa-angle-left right"></i>
+                
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('add.country') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add Country</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('countries') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>All Country</p>
+                </a>
+              </li>
+              
+            </ul>
+          </li>
           
         </ul>
       </nav>
