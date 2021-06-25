@@ -44,6 +44,9 @@
                                     <div class="input-group-append">
                                         <span class="input-group-text">Upload</span>
                                     </div>
+                                    @error('product_image')
+                                        {{ $message }}
+                                    @enderror
                                 </div>
                             </div>
                             <div class="row">

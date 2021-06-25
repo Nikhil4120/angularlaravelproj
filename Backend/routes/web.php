@@ -22,7 +22,7 @@ use App\Http\controllers\CityController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return Redirect()->route('login');
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {

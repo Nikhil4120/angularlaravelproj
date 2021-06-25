@@ -49,7 +49,8 @@ class ProductController extends Controller
             'color_id' => 'required',
             'size_id' => 'required',
             'sku_id' => 'required',
-            'price' => 'required'
+            'price' => 'required',
+            'product_image' => 'required|mimes:jpg,jpeg,png,gif|max:2048'
 
     	]);
         $data = array();
