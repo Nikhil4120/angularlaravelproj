@@ -15,13 +15,22 @@
                     <div class="form-group">
                         <label for="country_name">Country Name</label>
                         <input type="text" class="form-control" id="country_name" name="country_name" placeholder="Country Name">
-                        
+                        @error('country_name')
+
+                            <span class="text-danger">{{ $message }}</span>
+                            
+                        @enderror    
                     </div>
                     
                     
                     <div class="form-group">
                         <label>Country Code</label>
                         <input type="text" class="form-control" id="country_code" name="country_code" placeholder="Country Code">
+                        @error('country_code')
+
+                            <span class="text-danger">{{ $message }}</span>
+                            
+                        @enderror
                       </div>
                     </div>
                     <!-- /.card-body -->

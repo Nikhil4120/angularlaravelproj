@@ -24,7 +24,13 @@ class StateController extends Controller
     }
 
     public function StoreState(Request $request){
-        
+        $validatedata = $request->validate([
+
+    		'state_name' => 'required',
+    		
+            
+
+    	]);
         $data = array();
         $data['state_name'] = $request->state_name;
         $data['country_id'] = $request->country_id;

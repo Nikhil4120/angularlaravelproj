@@ -15,7 +15,9 @@
                     <div class="form-group">
                         <label for="state_name">state Name</label>
                         <input type="text" class="form-control" id="state_name" name="state_name" placeholder="State Name">
-                        
+                        @error('state_name')
+                            <span class="text-danger">{{ $message}}</span>
+                        @enderror
                     </div>
                     
                     

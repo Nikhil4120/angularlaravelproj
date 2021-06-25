@@ -15,7 +15,11 @@
                     <div class="form-group">
                         <label for="city_name">City Name</label>
                         <input type="text" class="form-control" id="city_name" name="city_name" placeholder="City Name">
-                        
+                        @error('city_name')
+
+                            <span class="text-danger">{{ $message }}</span>
+                            
+                        @enderror
                     </div>
                     
                     

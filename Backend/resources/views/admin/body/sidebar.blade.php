@@ -97,13 +97,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{ route('add.product') }}" class="nav-link">
+                <a href="{{ route('add.product') }}" class="nav-link {{ Route::is('add.product') ? 'active' : ''}}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Add Products</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{ route('product') }}" class="nav-link">
+                <a href="{{ route('product') }}" class="nav-link {{ Route::is('product') ? 'active' : ''}}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>All Products</p>
                 </a>
@@ -123,13 +123,13 @@
             <ul class="nav nav-treeview">
               
               <li class="nav-item">
-                <a href="{{ route('colors') }}" class="nav-link">
+                <a href="{{ route('colors') }}" class="nav-link {{ Route::is('colors') ? 'active' : ''}}" >
                   <i class="far fa-circle nav-icon"></i>
                   <p>All Colors</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{ route('size') }}" class="nav-link">
+                <a href="{{ route('size') }}" class="nav-link {{ Route::is('size') ? 'active' : ''}}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>All Size</p>
                 </a>
@@ -148,13 +148,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{ route('add.country') }}" class="nav-link">
+                <a href="{{ route('add.country') }}" class="nav-link {{ Route::is('add.country') ? 'active' : ''}}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Add Country</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{ route('countries') }}" class="nav-link">
+                <a href="{{ route('countries') }}" class="nav-link {{ Route::is('countries') ? 'active' : ''}}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>All Country</p>
                 </a>
@@ -173,13 +173,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{ route('add.state') }}" class="nav-link">
+                <a href="{{ route('add.state') }}" class="nav-link {{ Route::is('add.state') ? 'active' : ''}}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Add State</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{ route('state') }}" class="nav-link">
+                <a href="{{ route('state') }}" class="nav-link {{ Route::is('state') ? 'active' : ''}}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>All States</p>
                 </a>
@@ -198,13 +198,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{ route('add.city') }}" class="nav-link">
+                <a href="{{ route('add.city') }}" class="nav-link {{ Route::is('add.city') ? 'active' : ''}}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Add City</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{ route('city') }}" class="nav-link">
+                <a href="{{ route('city') }}" class="nav-link {{ Route::is('city') ? 'active' : ''}}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>All City</p>
                 </a>

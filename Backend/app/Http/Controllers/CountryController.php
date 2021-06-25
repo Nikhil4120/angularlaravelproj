@@ -24,6 +24,13 @@ class CountryController extends Controller
 
     public function StoreCountry(Request $request){
         
+        $validatedata = $request->validate([
+
+    		'country_name' => 'required',
+    		'country_code' => 'required',
+            
+
+    	]);
         $data = array();
         $data['country_name'] = $request->country_name;
         $data['country_code'] = $request->country_code;

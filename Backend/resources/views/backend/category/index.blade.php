@@ -49,7 +49,7 @@
                         <td>{{ $i++ }}</td>
                         <td>{{ $row->category_name }}</td>
                         <td>{{ $row->category_description }}</td>
-                        <td>{{ $row->created_at }}</td>
+                        <td>{{ Carbon\Carbon::parse($row->created_at)->diffForHumans()  }}</td>
                         <td>
                         <a href="{{ route('category.view',$row->id)}}" class="btn btn-info"><i class="nav-icon fas fa-eye"></i></a>
                         <a href="{{ route('edit.category',$row->id)}}" class="btn btn-info"><i class="nav-icon fas fa-edit"></i></a>

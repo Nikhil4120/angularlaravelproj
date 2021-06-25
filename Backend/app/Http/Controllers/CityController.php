@@ -25,6 +25,13 @@ class CityController extends Controller
 
     public function StoreCity(Request $request){
         
+        $validatedata = $request->validate([
+
+    		'city_name' => 'required',
+    		
+            
+
+    	]);
         $data = array();
         $data['city_name'] = $request->city_name;
         $data['state_id'] = $request->state_id;
