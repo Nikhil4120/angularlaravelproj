@@ -16,6 +16,11 @@
                                 <label for="product_name">Product Name</label>
                                 <input type="text" class="form-control" id="product_name" name="product_name"
                                     placeholder="Product Name">
+                                @error('product_name')
+
+                                    <span class="text-danger">{{ $message }}</span>
+                                    
+                                @enderror
 
                             </div>
 
@@ -23,7 +28,11 @@
                             <div class="form-group">
                                 <label>Description</label>
                                 <textarea class="form-control" rows="3" name="product_description"></textarea>
+                                @error('product_description')
 
+                                    <span class="text-danger">{{ $message }}</span>
+                                    
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputFile">File input</label>
@@ -49,6 +58,11 @@
                                         
                                         
                                         </select>
+                                        @error('category_id')
+
+                                            <span class="text-danger">{{ $message}}</span>
+                                            
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -57,6 +71,11 @@
                                         <select class="form-control" id="subcategory_id" name="subcategory_id">
                                         <option selected disabled>---Select SubCategory---</option>
                                         </select>
+                                        @error('subcategory_id')
+
+                                            <span class="text-danger">{{ $message}}</span>
+                                            
+                                        @enderror
                                     </div>
                                 </div>
                             </div>
@@ -70,6 +89,11 @@
                                           <option value="{{ $row->id}}">{{ $row->color_name}}</option>    
                                         @endforeach
                                         </select>
+                                        @error('color_id')
+
+                                            <span class="text-danger">{{ $message}}</span>
+                                            
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -81,6 +105,11 @@
                                           <option value="{{ $row->id}}">{{ $row->size_name}}</option>    
                                         @endforeach
                                         </select>
+                                        @error('size_id')
+
+                                            <span class="text-danger">{{ $message}}</span>
+                                            
+                                        @enderror
                                     </div>
                                 </div>
                             </div>
@@ -90,6 +119,11 @@
                                         <label>Sku id</label>
                                         <input type="text" class="form-control" id="product_name" name="sku_id"
                                     placeholder="Product SKUid">
+                                    @error('sku_id')
+
+                                            <span class="text-danger">{{ $message}}</span>
+                                            
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -97,6 +131,11 @@
                                         <label>Price</label>
                                         <input type="number" class="form-control" id="product_name" name="price"
                                     placeholder="Product Price" min="0">
+                                    @error('price')
+
+                                            <span class="text-danger">{{ $message}}</span>
+                                            
+                                    @enderror
                                     </div>
                                 </div>
                             </div>

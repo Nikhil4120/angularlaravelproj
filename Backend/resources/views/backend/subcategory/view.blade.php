@@ -36,7 +36,7 @@
                             @if($subcategories->status == 1)
                                 <span class="badge badge-success">Active</span>
                             @elseif ($subcategories->status == 0)
-                                <span class="badge badge-danger">Active</span>
+                                <span class="badge badge-danger">De Active</span>
                             @endif
                         </div>
                         <hr>
@@ -51,7 +51,12 @@
                             Modified Date
                         </div>
                         <div class="col-md-6">
+                        @if ($subcategories->updated_at)
                         {{Carbon\Carbon::parse($subcategories->updated_at)->diffForHumans()}}
+                        @else
+                        -    
+                        @endif
+                        
                         
                         </div>
                     </div>

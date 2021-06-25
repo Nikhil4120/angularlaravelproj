@@ -25,6 +25,12 @@ class SubcategoryController extends Controller
         return view('backend.subcategory.add',compact('categories'));
     }
     public function StoreSubCategory(Request $request){
+        $validatedata = $request->validate([
+
+    		'subcategory_name' => 'required|max:255',
+    		'subcategory_description' => 'required|max:255',
+
+    	]);
         $data = array();
         $data['subcategory_name'] = $request->subcategory_name;
         $data['subcategory_description'] = $request->subcategory_description;
@@ -32,7 +38,11 @@ class SubcategoryController extends Controller
         $data['status'] = 1;
         $data['created_at'] = Carbon::now();
         DB::table('subcategories')->insert($data);
-        return Redirect()->route('subcategories');
+        $notification = array(
+            'message' => 'SubCategory Inserted Successfully',
+            'alert-type' => 'success'
+            );
+        return Redirect()->route('subcategories')->with($notification);
     }
 
     public function EditSubCategory($id){
@@ -48,7 +58,11 @@ class SubcategoryController extends Controller
         $data['category_id'] = $request->category_id;
         $data['updated_at'] = Carbon::now();
         DB::table('subcategories')->where('id',$id)->update($data);
-        return Redirect()->route('subcategories');
+        $notification = array(
+            'message' => 'SubCategory Updated Successfully',
+            'alert-type' => 'success'
+            );
+        return Redirect()->route('subcategories')->with($notification);
 
     }
     public function DeleteSubCategory($id){
@@ -56,7 +70,11 @@ class SubcategoryController extends Controller
         $data['status'] = -1;
         $data['updated_at'] = Carbon::now();
         DB::table('subcategories')->where('id',$id)->update($data);
-        return Redirect()->route('subcategories');
+        $notification = array(
+            'message' => 'SubCategory Deleted Successfully',
+            'alert-type' => 'success'
+            );
+        return Redirect()->route('subcategories')->with($notification);
     }
 
     public function ActiveSubCategory($id){
@@ -64,14 +82,22 @@ class SubcategoryController extends Controller
         $data['status'] = 1;
         $data['updated_at'] = Carbon::now();
         DB::table('subcategories')->where('id',$id)->update($data);
-        return Redirect()->route('subcategories');
+        $notification = array(
+            'message' => 'SubCategory Activated Successfully',
+            'alert-type' => 'success'
+            );
+        return Redirect()->route('subcategories')->with($notification);
     }
     public function DeactiveSubCategory($id){
         $data = array();
         $data['status'] = 0;
         $data['updated_at'] = Carbon::now();
         DB::table('subcategories')->where('id',$id)->update($data);
-        return Redirect()->route('subcategories');
+        $notification = array(
+            'message' => 'SubCategory Deactivated Successfully',
+            'alert-type' => 'success'
+            );
+        return Redirect()->route('subcategories')->with($notification);
     }
 
     public function ViewSubCategory($id){

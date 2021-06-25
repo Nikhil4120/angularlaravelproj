@@ -6,7 +6,7 @@
                 <div class="col-md-12">
                 <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">Add Categories</h3>
+                    <h3 class="card-title">Add SubCategories</h3>
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
@@ -15,14 +15,22 @@
                     <div class="form-group">
                         <label for="subcategory_name">SubCategory Name</label>
                         <input type="text" class="form-control" id="subcategory_name" name="subcategory_name" placeholder="SubCategory Name">
-                        
+                        @error('subcategory_name')
+
+                          <span class="text-danger">{{ $message }}</span>
+                          
+                        @enderror
                     </div>
                     
                     
                     <div class="form-group">
                         <label>Description</label>
                         <textarea class="form-control" rows="3" name="subcategory_description"></textarea>
-                        
+                        @error('subcategory_description')
+
+                          <span class="text-danger">{{ $message }}</span>
+                          
+                        @enderror
                       </div>
                       <div class="form-group">
                         <label>Category</label>

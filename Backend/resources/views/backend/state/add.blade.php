@@ -6,28 +6,32 @@
                 <div class="col-md-12">
                 <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">Edit Country</h3>
+                    <h3 class="card-title">Add State</h3>
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form action = "{{ route('update.country',$countries->id)}}" method="post">@csrf
+                <form action = "{{ route('store.state')}}" method="post">@csrf
                     <div class="card-body">
                     <div class="form-group">
-                        <label for="country_name">Country Name</label>
-                        <input type="text" class="form-control" id="country_name" name="country_name" placeholder="Country Name" value="{{ $countries->country_name }}">
+                        <label for="state_name">state Name</label>
+                        <input type="text" class="form-control" id="state_name" name="state_name" placeholder="State Name">
                         
                     </div>
                     
                     
                     <div class="form-group">
-                        <label>Country Code</label>
-                        <input type="text" class="form-control" id="country_code" name="country_code" placeholder="Country Code" value="{{ $countries->country_code }}">
+                        <label>Country</label>
+                        <select class="form-control" name="country_id">
+                          <option selected disabled>--Select Country--</option>
+                          @foreach($countries as $row)
+                            <option value="{{ $row->id }}"> {{ $row->country_name }}</option>
+                          @endforeach
+                        </select>
                       </div>
-                    </div>
                     <!-- /.card-body -->
 
                     <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Update</button>
+                    <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
                 </form>
                 </div>

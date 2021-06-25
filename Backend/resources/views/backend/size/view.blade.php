@@ -6,49 +6,30 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-6">
-                            Country Name
+                            Size Name
                         </div>
                         <div class="col-md-6">
-                            {{ $country->country_name }}
+                            {{ $size->size_name }}
                         </div>
                         <hr>
-                        <div class="col-md-6">
-                            Country Code
-                        </div>
                         
-                        <div class="col-md-6">
-                            {{ $country->country_code }}
-                        </div>
-                        <hr>
-                        <div class="col-md-6">
-                            States
-                        </div>
                         
-                        <div class="col-md-6">
-                            @foreach ($states as $row )
-
-                                <span class="badge badge-info">{{ $row->state_name }}</span>
-                                
-                            @endforeach
-                        </div>
-                        <hr>
                         <div class="col-md-6">
                             Created Date
                         </div>
                         <div class="col-md-6">
-                        {{Carbon\Carbon::parse($country->created_at)->diffForHumans()}}
+                        {{Carbon\Carbon::parse($size->created_at)->diffForHumans()}}
                         </div>
                         <hr>
                         <div class="col-md-6">
                             Modified Date
                         </div>
                         <div class="col-md-6">
-                        @if ($country->updated_at)
-                            {{Carbon\Carbon::parse($country->updated_at)->diffForHumans()}}
+                        @if ($size->updated_at)
+                        {{Carbon\Carbon::parse($size->updated_at)->diffForHumans()}}
                         @else
-
-                            -
-
+                        -
+                            
                         @endif
                         
                         

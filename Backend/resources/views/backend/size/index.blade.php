@@ -51,7 +51,7 @@
                         
                         <td>{{ $row->created_at }}</td>
                         <td>
-                        <a href="{{ route('category.view',$row->id)}}" class="btn btn-info"><i class="nav-icon fas fa-eye"></i></a>
+                        <a href="{{ route('size.view',$row->id)}}" class="btn btn-info"><i class="nav-icon fas fa-eye"></i></a>
                         <a href="{{ route('edit.size',$row->id)}}" class="btn btn-info"><i class="nav-icon fas fa-edit"></i></a>
                         <a href="{{ route('delete.size',$row->id)}}" class="btn btn-danger" onclick="return confirm('Are you sure to delete')"><i class="nav-icon fas fa-trash"></i></a>
                               @if($row->status == 1)

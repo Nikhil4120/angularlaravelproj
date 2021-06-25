@@ -6,28 +6,28 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-6">
+                            State Name
+                        </div>
+                        <div class="col-md-6">
+                            {{ $state->state_name }}
+                        </div>
+                        <hr>
+                        <div class="col-md-6">
                             Country Name
                         </div>
+                        
                         <div class="col-md-6">
-                            {{ $country->country_name }}
+                            {{ $state->country_name }}
                         </div>
                         <hr>
                         <div class="col-md-6">
-                            Country Code
+                            Cities
                         </div>
                         
                         <div class="col-md-6">
-                            {{ $country->country_code }}
-                        </div>
-                        <hr>
-                        <div class="col-md-6">
-                            States
-                        </div>
-                        
-                        <div class="col-md-6">
-                            @foreach ($states as $row )
+                            @foreach ($cities as $row )
 
-                                <span class="badge badge-info">{{ $row->state_name }}</span>
+                                <span class="badge badge-info">{{ $row->city_name }}</span>
                                 
                             @endforeach
                         </div>
@@ -36,15 +36,15 @@
                             Created Date
                         </div>
                         <div class="col-md-6">
-                        {{Carbon\Carbon::parse($country->created_at)->diffForHumans()}}
+                        {{Carbon\Carbon::parse($state->created_at)->diffForHumans()}}
                         </div>
                         <hr>
                         <div class="col-md-6">
                             Modified Date
                         </div>
                         <div class="col-md-6">
-                        @if ($country->updated_at)
-                            {{Carbon\Carbon::parse($country->updated_at)->diffForHumans()}}
+                        @if ($state->updated_at)
+                            {{Carbon\Carbon::parse($state->updated_at)->diffForHumans()}}
                         @else
 
                             -

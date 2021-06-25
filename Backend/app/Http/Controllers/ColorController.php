@@ -71,5 +71,10 @@ class ColorController extends Controller
         return Redirect()->route('colors');
     }
 
+    public function ViewColor($id){
+        $color = DB::table('colors')->where('id',$id)->first();
+        return view('backend.color.view',compact('color'));
+    }
+
 
 }

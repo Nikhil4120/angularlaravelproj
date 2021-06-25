@@ -40,6 +40,18 @@ class ProductController extends Controller
     }
 
     public function StoreProduct(Request $request){
+        $validatedata = $request->validate([
+
+    		'product_name' => 'required',
+    		'product_description' => 'required',
+            'category_id' => 'required',
+            'subcategory_id' => 'required',
+            'color_id' => 'required',
+            'size_id' => 'required',
+            'sku_id' => 'required',
+            'price' => 'required'
+
+    	]);
         $data = array();
         $data['product_name'] = $request->product_name;
         $data['product_description'] = $request->product_description;
@@ -58,7 +70,11 @@ class ProductController extends Controller
             Image::make($image)->resize(500,300)->save('image/products/'.$image_one);
             $data['product_image'] = 'image/products/'.$image_one;
             DB::table('products')->insert($data);
-            return redirect()->route('product');
+            $notification = array(
+                'message' => 'Product Inserted Successfully',
+                'alert-type' => 'success'
+                );
+            return redirect()->route('product')->with($notification);
 
         } 
         else{
@@ -94,13 +110,21 @@ class ProductController extends Controller
             Image::make($image)->resize(500,300)->save('image/products/'.$image_one);
             $data['product_image'] = 'image/products/'.$image_one;
             DB::table('products')->where('id',$id)->update($data);
-            return redirect()->route('product');
+            $notification = array(
+                'message' => 'Product Updated Successfully',
+                'alert-type' => 'success'
+                );
+            return redirect()->route('product')->with($notification);
 
         } 
         else{
             $data['product_image'] = $oldimage;
             DB::table('products')->where('id',$id)->update($data);
-            return redirect()->route('product');
+            $notification = array(
+                'message' => 'Product Updated Successfully',
+                'alert-type' => 'success'
+                );
+            return redirect()->route('product')->with($notification);
 
         }
 
@@ -110,8 +134,11 @@ class ProductController extends Controller
         $data['updated_at'] = Carbon::now();
         $data['status'] = -1;
         DB::table('products')->where('id',$id)->update($data);
-        
-        return Redirect()->route('product');
+        $notification = array(
+            'message' => 'Product Deleted Successfully',
+            'alert-type' => 'success'
+            );
+        return Redirect()->route('product')->with($notification);
     }
 
     public function ActiveProduct($id){
@@ -119,16 +146,23 @@ class ProductController extends Controller
         $data['updated_at'] = Carbon::now();
         $data['status'] = 1;
         DB::table('products')->where('id',$id)->update($data);
-        
-        return Redirect()->route('product');
+        $notification = array(
+            'message' => 'Product Activated Successfully',
+            'alert-type' => 'success'
+            );
+        return Redirect()->route('product')->with($notification);
     }
     public function DeactiveProduct($id){
         $data = array();
         $data['updated_at'] = Carbon::now();
         $data['status'] = 0;
         DB::table('products')->where('id',$id)->update($data);
+        $notification = array(
+            'message' => 'Product Deactivated Successfully',
+            'alert-type' => 'success'
+            );
         
-        return Redirect()->route('product');
+        return Redirect()->route('product')->with($notification);
     }
     public function ViewProduct($id){
         $products = DB::table('products')->join('categories','categories.id','products.category_id')

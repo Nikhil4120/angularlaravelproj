@@ -80,6 +80,7 @@ class CategoryController extends Controller
 
     public function ViewCategory($id){
         $categories = DB::table('categories')->where('id',$id)->first();
-        return view('backend.category.view',compact('categories'));        
+        $subcategories = DB::table('subcategories')->where('category_id',$id)->get();
+        return view('backend.category.view',compact('categories','subcategories'));        
     }
 }

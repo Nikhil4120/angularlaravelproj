@@ -70,4 +70,10 @@ class SizeController extends Controller
         return Redirect()->route('sizes');
     }
 
+    public function ViewSize($id)
+    {
+        $size = DB::table('sizes')->where('id',$id)->first();
+        return view('backend.size.view',compact('size'));
+    }
+
 }

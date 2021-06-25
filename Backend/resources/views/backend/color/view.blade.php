@@ -6,49 +6,37 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-6">
-                            Country Name
+                            Color Name
                         </div>
                         <div class="col-md-6">
-                            {{ $country->country_name }}
+                            {{ $color->color_name }}
                         </div>
                         <hr>
                         <div class="col-md-6">
-                            Country Code
+                            Color Image
                         </div>
                         
                         <div class="col-md-6">
-                            {{ $country->country_code }}
+                        <i class="fas fa-circle" style="color:{{ $color->color_code }};border-radius:50%;text-align:center" ></i>
                         </div>
                         <hr>
-                        <div class="col-md-6">
-                            States
-                        </div>
                         
-                        <div class="col-md-6">
-                            @foreach ($states as $row )
-
-                                <span class="badge badge-info">{{ $row->state_name }}</span>
-                                
-                            @endforeach
-                        </div>
-                        <hr>
                         <div class="col-md-6">
                             Created Date
                         </div>
                         <div class="col-md-6">
-                        {{Carbon\Carbon::parse($country->created_at)->diffForHumans()}}
+                        {{Carbon\Carbon::parse($color->created_at)->diffForHumans()}}
                         </div>
                         <hr>
                         <div class="col-md-6">
                             Modified Date
                         </div>
                         <div class="col-md-6">
-                        @if ($country->updated_at)
-                            {{Carbon\Carbon::parse($country->updated_at)->diffForHumans()}}
+                        @if ($color->updated_at)
+                        {{Carbon\Carbon::parse($color->updated_at)->diffForHumans()}}
                         @else
-
-                            -
-
+                        -
+                            
                         @endif
                         
                         

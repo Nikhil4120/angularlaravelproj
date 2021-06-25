@@ -8,6 +8,8 @@ use App\Http\controllers\ColorController;
 use App\Http\controllers\SizeController;
 use App\Http\controllers\ProductController;
 use App\Http\controllers\CountryController;
+use App\Http\controllers\StateController;
+use App\Http\controllers\CityController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -58,7 +60,8 @@ Route::get('/active/category/{id}',[CategoryController::class,'ActiveCategory'])
  Route::get('/delete/color/{id}',[ColorController::class,'DeleteColor'])->name('delete.color');
  Route::get('/active/color/{id}',[ColorController::class,'ActiveColor'])->name('color.active');
  Route::get('/deactive/color/{id}',[ColorController::class,'DeactiveColor'])->name('color.deactive');
- 
+ Route::get('/view/color/{id}',[ColorController::class,'ViewColor'])->name('color.view');
+
  Route::get('/size',[SizeController::class,'Index'])->name('size');
  Route::get('/add/size',[SizeController::class,'AddSize'])->name('add.size');
  Route::post('/store/size',[SizeController::class,'StoreSize'])->name('store.size');
@@ -67,6 +70,7 @@ Route::get('/active/category/{id}',[CategoryController::class,'ActiveCategory'])
  Route::get('/delete/size/{id}',[SizeController::class,'DeleteSize'])->name('delete.size');
  Route::get('/active/size/{id}',[SizeController::class,'ActiveSize'])->name('size.active');
  Route::get('/deactive/size/{id}',[SizeController::class,'DeactiveSize'])->name('size.deactive');
+ Route::get('/view/size/{id}',[SizeController::class,'ViewSize'])->name('size.view');
  
 
  Route::get('/get/subcategory/{id}',[ProductController::class,'GetSubCategory']);
@@ -83,3 +87,30 @@ Route::get('/active/category/{id}',[CategoryController::class,'ActiveCategory'])
  Route::get('/countries',[CountryController::class,'Index'])->name('countries');
  Route::get('/add/country',[CountryController::class,'AddCountry'])->name('add.country');
  Route::post('/store/country',[CountryController::class,'StoreCountry'])->name('store.country');
+ Route::get('/edit/country/{id}',[CountryController::class,'EditCountry'])->name('edit.country');
+ Route::post('/update/country/{id}',[CountryController::class,'UpdateCountry'])->name('update.country');
+ Route::get('/delete/country/{id}',[CountryController::class,'DeleteCountry'])->name('delete.country');
+ Route::get('/active/country/{id}',[CountryController::class,'ActiveCountry'])->name('country.active');
+ Route::get('/deactive/country/{id}',[CountryController::class,'DeactiveCountry'])->name('country.deactive');
+ Route::get('/view/country/{id}',[CountryController::class,'ViewCountry'])->name('country.view');
+ 
+ Route::get('/states',[StateController::class,'Index'])->name('state');
+ Route::get('/add/state',[StateController::class,'AddState'])->name('add.state');
+ Route::post('/store/state',[StateController::class,'StoreState'])->name('store.state');
+ Route::get('/edit/state/{id}',[StateController::class,'EditState'])->name('edit.state');
+ Route::post('/update/state/{id}',[StateController::class,'UpdateState'])->name('update.state');
+ Route::get('/delete/state/{id}',[StateController::class,'DeleteState'])->name('delete.state');
+ Route::get('/active/state/{id}',[StateController::class,'ActiveState'])->name('state.active');
+ Route::get('/deactive/state/{id}',[StateController::class,'DeactiveState'])->name('state.deactive');
+ Route::get('/view/state/{id}',[StateController::class,'ViewState'])->name('state.view');
+ 
+ Route::get('/cities',[CityController::class,'Index'])->name('city');
+ Route::get('/add/city',[CityController::class,'AddCity'])->name('add.city');
+ Route::post('/store/city',[CityController::class,'StoreCity'])->name('store.city');
+ Route::get('/edit/city/{id}',[CityController::class,'EditCity'])->name('edit.city');
+ Route::post('/update/city/{id}',[CityController::class,'UpdateCity'])->name('update.city');
+ Route::get('/delete/city/{id}',[CityController::class,'DeleteCity'])->name('delete.city');
+ Route::get('/active/city/{id}',[CityController::class,'ActiveCity'])->name('city.active');
+ Route::get('/deactive/city/{id}',[CityController::class,'DeactiveCity'])->name('city.deactive');
+ Route::get('/view/city/{id}',[CityController::class,'ViewCity'])->name('city.view');
+ 

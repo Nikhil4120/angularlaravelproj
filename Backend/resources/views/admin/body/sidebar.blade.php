@@ -13,7 +13,7 @@
           <img src="{{ asset('admin/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Alexander Pierce</a>
+          <a href="#" class="d-block">{{ Auth::User()->name }}</a>
         </div>
       </div>
 
@@ -157,6 +157,56 @@
                 <a href="{{ route('countries') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>All Country</p>
+                </a>
+              </li>
+              
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-copy"></i>
+              <p>
+                States
+                <i class="fas fa-angle-left right"></i>
+                
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('add.state') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add State</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('state') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>All States</p>
+                </a>
+              </li>
+              
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-copy"></i>
+              <p>
+                Cities
+                <i class="fas fa-angle-left right"></i>
+                
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('add.city') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add City</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('city') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>All City</p>
                 </a>
               </li>
               

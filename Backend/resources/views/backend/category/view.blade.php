@@ -21,6 +21,18 @@
                         </div>
                         <hr>
                         <div class="col-md-6">
+                            Subcategories
+                        </div>
+                        
+                        <div class="col-md-6">
+                            @foreach ($subcategories as $row )
+
+                                <span class="badge badge-info">{{ $row->subcategory_name }}</span>
+                                
+                            @endforeach
+                        </div>
+                        <hr>
+                        <div class="col-md-6">
                             Created Date
                         </div>
                         <div class="col-md-6">
@@ -31,7 +43,13 @@
                             Modified Date
                         </div>
                         <div class="col-md-6">
+                        @if ($categories->updated_at)
                         {{Carbon\Carbon::parse($categories->updated_at)->diffForHumans()}}
+                        @else
+                        -
+                            
+                        @endif
+                        
                         
                         </div>
                     </div>
