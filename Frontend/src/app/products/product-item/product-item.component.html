@@ -1,0 +1,13 @@
+<div class="col-sm-3 col-xs-6">
+    <figure class="effect-goliath">
+        <div class="thumb-outer">
+            <a href="#" title="{{ product.product_name }}" class="thumb-image"><img
+                    src="http://localhost:8000/{{ product.product_image}}" alt="thumb"></a>
+            <a href="cart.html" title="Add to Cart" class="cart-button">Add to Cart</a>
+        </div>
+        <figcaption>
+            <a routerLink="/products/detail/{{ Index }}" title="{{ product.product_name }}" class="heading">{{ product.product_name }}</a>
+            <span>{{ product.price }}</span>
+        </figcaption>
+    </figure>
+</div>

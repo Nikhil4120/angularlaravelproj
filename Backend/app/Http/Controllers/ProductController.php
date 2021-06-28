@@ -68,7 +68,7 @@ class ProductController extends Controller
         if($image){
 
             $image_one = uniqid().'.'.$image->getClientOriginalExtension();
-            Image::make($image)->resize(500,300)->save('image/products/'.$image_one);
+            Image::make($image)->save('image/products/'.$image_one);
             $data['product_image'] = 'image/products/'.$image_one;
             DB::table('products')->insert($data);
             $notification = array(
@@ -108,7 +108,7 @@ class ProductController extends Controller
         if($image){
 
             $image_one = uniqid().'.'.$image->getClientOriginalExtension();
-            Image::make($image)->resize(500,300)->save('image/products/'.$image_one);
+            Image::make($image)->save('image/products/'.$image_one);
             $data['product_image'] = 'image/products/'.$image_one;
             DB::table('products')->where('id',$id)->update($data);
             $notification = array(

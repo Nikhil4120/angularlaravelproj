@@ -25,8 +25,23 @@
             ],
             "styles": [
               "src/styles.css"
+              
+
             ],
-            "scripts": []
+            "scripts": [
+              
+              "src/assets/js/jquery.min.js",
+              "src/assets/js/bootstrap.min.js",
+              "src/assets/js/modernizr.js",
+              "src/assets/js/owl.carousel.js",
+              "src/assets/js/placeholders.min.js",
+              "src/assets/js/fastclick.js",
+              "src/assets/js/html5shiv.min.js",
+              "src/assets/js/jquery.fancybox.js",
+              "src/assets/js/respond.min.js",
+              "src/assets/js/general.js"
+
+            ]
           },
           "configurations": {
             "production": {

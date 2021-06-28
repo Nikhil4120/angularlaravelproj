@@ -6,7 +6,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>All Categories</h1>
+            <h1>All SubCategories</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
