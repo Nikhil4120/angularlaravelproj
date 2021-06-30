@@ -14,6 +14,12 @@
                 </ol>
             </div>
         </div>
+        <div class="alert alert-success" *ngIf="usercreated">
+            <strong>User Created Successfully</strong>
+        </div>
+        <div *ngIf="isLoading" style="text-align: center;margin:auto">
+            <app-loading-spinner></app-loading-spinner>
+        </div>
         <section class="content register">
             <div class="container">
 
@@ -121,17 +127,17 @@
                                                         <label> <input type="checkbox" class="icheck" name="all" id="all" [(ngModel)]="checks">Select All</label>
                                                     </li>
                                                     <li class="custom-check">
-                                                        <label> <input type="checkbox" class="icheck" name="men" value="men"  [ngModel]="checks"> Option 1 </label>
+                                                        <label> <input type="checkbox" class="icheck" name="men" value="men"  [ngModel]="checks" (change)="checkboxchange($event,'men')"> Option 1 </label>
                                                     </li>
                                                     <li class="custom-check">
-                                                        <label> <input type="checkbox" class="icheck" value="women" name="women"  [ngModel]="checks">Option 2 </label>
+                                                        <label> <input type="checkbox" class="icheck" value="women" name="women"  [ngModel]="checks" (change)="checkboxchange($event,'women')">Option 2 </label>
                                                     </li>
                                                     <li class="custom-check">
-                                                        <label> <input type="checkbox" class="icheck" value="kids" name="kids" [ngModel]="checks"> Option 3</label>
+                                                        <label> <input type="checkbox" class="icheck" value="kids" name="kids" [ngModel]="checks" (change)="checkboxchange($event,'kids')"> Option 3</label>
                                                     </li>
                                                     <li class="custom-check">
-                                                        <label> <input type="checkbox" class="icheck" (change)="showtextbox($event)" name="other" value="other">Other</label>
-                                                        <input type="text" class="form-control" *ngIf ="isshown">
+                                                        <label> <input type="checkbox" class="icheck" (change)="showtextbox($event)" name="other" value="other" ngModel>Other</label>
+                                                        <input type="text" class="form-control" *ngIf ="isshown" required ngModel name="otheri">
                                                     </li>
 
                                                 </ul>

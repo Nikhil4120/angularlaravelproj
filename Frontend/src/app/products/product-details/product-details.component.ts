@@ -21,7 +21,7 @@ export class ProductDetailsComponent implements OnInit {
       this.id = +params['id'];
       this.ProductService.GetProduct().subscribe(data=>{
         
-        this.product = data[this.id];
+        this.product = data.filter(item=>item.id==this.id)[0];
       });
 
     });

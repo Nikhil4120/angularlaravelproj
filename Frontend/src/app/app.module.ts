@@ -12,6 +12,9 @@ import { RegisterComponent } from './register/register.component';
 import { AboutusComponent } from './aboutus/aboutus.component';
 import { ProductDetailsComponent } from './products/product-details/product-details.component';
 import { FormsModule } from '@angular/forms';
+import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
+import { LoginComponent } from './login/login.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +26,10 @@ import { FormsModule } from '@angular/forms';
     ProductItemComponent,
     RegisterComponent,
     AboutusComponent,
-    ProductDetailsComponent
+    ProductDetailsComponent,
+    LoadingSpinnerComponent,
+    LoginComponent,
+    UserProfileComponent
   ],
   imports: [
     BrowserModule,

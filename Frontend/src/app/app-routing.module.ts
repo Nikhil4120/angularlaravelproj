@@ -5,14 +5,18 @@ import { HomeComponent } from './home/home.component';
 import { ProductDetailsComponent } from './products/product-details/product-details.component';
 import { ProductListComponent } from './products/product-list/product-list.component';
 import { RegisterComponent } from './register/register.component';
+import { AfterloginService } from './services/afterlogin.service';
+import { BeforeloginService } from './services/beforelogin.service';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 
 const routes: Routes = [
   {path:'',component:HomeComponent},
-  {path:'register',component:RegisterComponent},
+  {path:'register',component:RegisterComponent,canActivate:[BeforeloginService]},
   {path:'about',component:AboutusComponent},
   {path:'products/detail/:id',component:ProductDetailsComponent},
   {path:'products/:id',component:ProductListComponent},
+  {path:'userprofile',component:UserProfileComponent,canActivate:[AfterloginService]}
   
 ];
 

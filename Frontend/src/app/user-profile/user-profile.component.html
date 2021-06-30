@@ -1,0 +1,238 @@
+<div class="title-block-outer">
+    <img src="../../assets/images/inner-banner.jpg" alt="Banner-image" class="img-responsive">
+    <div class="title-block-container">
+        <div class="container">
+            <h2>Update Profile</h2>
+        </div>
+    </div>
+</div>
+<div class="breadcrumb-panel">
+    <div class="container">
+        <ol class="breadcrumb">
+            <li><a href="index.html" title="Home">Home</a></li>
+            <li class="active">Update Profile</li>
+        </ol>
+    </div>
+</div>
+<section class="content">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 register profile">
+                <form class="form-block" #updateForm="ngForm" (ngSubmit)="onSubmit()">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="form-label">Username</label>
+                                <input type="text" class="form-control" value="test123" placeholder="Please enter your username" [(ngModel)]="formdata.username" name="username"/>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group gender-list">
+                                <label class="form-label">Gender</label>
+                                <div class="filter-option">
+                                    <div class="filter-option-inner">
+                                        <ul>
+                                            <li class="custom-check">
+                                                <label> <input type="radio" class="icheck" name="gender" value="Male" [(ngModel)]="formdata.gender"/>Male</label> 
+                                            </li>
+                                            <li class="custom-check">
+                                                <label><input type="radio" class="icheck" name="gender" value="Female" [(ngModel)]="formdata.gender"/>Female</label> 
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- <div class="col-sm-6">
+                            <div class="form-group validation-error">
+                                <label class="form-label">Password</label>
+                                <input type="text" class="form-control" placeholder="Please enter your Password" value="Incorrect Password" data-placeholder="Enter your Password" >
+                            </div>
+                        </div> -->
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" placeholder="Please enter valid email" [(ngModel)]="formdata.email" name="email">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="form-label">First Name</label>
+                                <input type="text" class="form-control" placeholder="Please enter your first name" [(ngModel)]="formdata.firstname" name="firstname">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="form-label">Mobile No.</label>
+                                <input type="text" class="form-control" value="123456789" placeholder="Please enter your mobile no." [(ngModel)]="formdata.mobileno" name="mobileno">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="form-label">Last Name</label>
+                                <input type="text" class="form-control" placeholder="Please enter your last name" [(ngModel)]="formdata.lastname" name="lastname">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="form-label">Phone</label>
+                                <input type="text" class="form-control" placeholder="Please enter your phone" [(ngModel)]="formdata.phoneno" name="phoneno">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="form-label">Interests</label>
+                                <div class="filter-option">
+                                    <div class="filter-option-inner">
+                                      <ul>
+                                        <li class="custom-check">
+                                            <label><input type="checkbox" class="icheck">Select All</label> 
+                                        </li>
+                                        <li class="custom-check">
+                                            <label><input type="checkbox" class="icheck" name="men" [(ngModel)]="formdata.menchecked"> Option 1</label> 
+                                        </li>
+                                        <li class="custom-check">
+                                          <label><input type="checkbox" class="icheck" name="women" [(ngModel)]="formdata.womenchecked"/>Option 2</label> 
+                                      </li>
+                                      <li class="custom-check">
+                                          <label><input type="checkbox" class="icheck" name="kids" [(ngModel)]="formdata.kids">Option 3</label> 
+                                      </li>
+                                      <li class="custom-check">
+                                          <label><input type="checkbox" class="icheck" name="other" [(ngModel)]="formdata.other">Other</label>
+                                          <input type="text" class="form-control" [(ngModel)]="formdata.otherintrest" name="otheri" />
+                                      </li>
+                                  </ul>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="row">
+                  <div class="col-sm-6">
+                      <div class="shipping-address-block">
+                          <div class="form-group">
+                              <a class="btn-tertiary" data-toggle="collapse" data-target=".shipping-form">Edit Shipping Address</a> 
+                          </div>
+
+                          <div class="shipping-form collapse">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Street</label>
+                                        <input type="text" class="form-control" placeholder="Please enter your Street" name="s_street" ngModel>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label class="form-label">City</label>
+                                        <select class="form-control" name="s_city" ngModel>
+                                            <option value="">---Select City---</option>
+                                            <option *ngFor="let city of cityfilter" value="{{ city.id }}">{{ city.city_name }}</option>
+                                            
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label class="form-label">Country</label>
+                                        <select class="form-control" (change)="filterstate($event)" name="s_country" ngModel>
+                                            <option value="">---Select Country----</option>
+                                            <option *ngFor="let country of allcountries" value="{{ country.id }}">{{ country.country_name }}</option>
+                                            
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label class="form-label">State</label>
+                                        <select class="form-control" (change)="filtercity($event)" name="s_state" ngModel>
+                                            <option value="">---Select State---</option>
+                                            <option *ngFor="let state of statefilter" value="{{ state.id }}">{{ state.state_name }}</option>
+                                            
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="billing-address-block">
+                      <div class="form-group">
+                          <a class="btn-tertiary" data-toggle="collapse" data-target=".billing-form">Edit Billing Address</a>
+                          <label class="billing-label"><input type="checkbox" class="icheck" (change)="addresschange($event)">Same as Shipping Address</label> 
+                      </div>
+                      <div class="billing-form collapse">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label class="form-label">Street</label>
+                                    <input type="text" class="form-control" placeholder="Please enter your Street" name="b_street" [(ngModel)]="billing.street">
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label class="form-label">City</label>
+                                    <select class="form-control" name="b_city" [(ngModel)]="billing.city">
+                                        <option value="" selected>---Select City---</option>
+                                        <option *ngFor="let city of cityfilter" value="{{ city.id }}">{{ city.city_name }}</option>
+                                        
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label class="form-label">Country</label>
+                                    <select class="form-control" (change)="filterstate($event)" name="b_country" [(ngModel)]="billing.country">
+                                        <option value="">---Select Country----</option>
+                                        <option *ngFor="let country of allcountries" value="{{ country.id }}">{{ country.country_name }}</option>
+                                        
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label class="form-label">State</label>
+                                    <select class="form-control" (change)="filtercity($event)" name="b_state" [(ngModel)]="billing.state">
+                                        <option value="">---Select State---</option>
+                                        <option *ngFor="let state of statefilter" value="{{ state.id }}">{{ state.state_name }}</option>
+                                        
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-group ">    
+          <div class=" row">    
+
+              <div class=" col-sm-12 text-right">
+                <div class="form-group clearfix submit-outer">
+                    <button type="submit" class="btn-secondary">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+</div>
+
+</div>
+</div>
+</section>

@@ -2,11 +2,11 @@
     <figure class="effect-goliath">
         <div class="thumb-outer">
             <a href="#" title="{{ product.product_name }}" class="thumb-image"><img
-                    src="http://localhost:8000/{{ product.product_image}}" alt="thumb"></a>
+                    src="http://localhost:8000/{{ product.product_image}}" alt="thumb" style="height:300px;width:500px"></a>
             <a href="cart.html" title="Add to Cart" class="cart-button">Add to Cart</a>
         </div>
         <figcaption>
-            <a routerLink="/products/detail/{{ Index }}" title="{{ product.product_name }}" class="heading">{{ product.product_name }}</a>
+            <a routerLink="/products/detail/{{ product.id }}" title="{{ product.product_name }}" class="heading">{{ product.product_name }}</a>
             <span>{{ product.price }}</span>
         </figcaption>
     </figure>
