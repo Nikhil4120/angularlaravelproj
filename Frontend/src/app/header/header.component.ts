@@ -23,6 +23,15 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.AuthService.authstatus.subscribe(value=>{
       this.loggedIn = value;
+      if(this.loggedIn){
+        const token = localStorage.getItem('token');
+        this.AuthService.getuser(token).subscribe(data=>{
+          
+          this.username = data['user'].username;
+        }
+          
+        )
+      }
     });
     this.CategoryService.getCategories().subscribe(data=>{
       this.category = data;
@@ -32,15 +41,7 @@ export class HeaderComponent implements OnInit {
       this.subcategory = data;
       
     })
-    if(this.loggedIn){
-      const token = localStorage.getItem('token');
-      this.AuthService.getuser(token).subscribe(data=>{
-        
-        this.username = data['user'].username;
-      }
-        
-      )
-    }
+    
   }
   logout(){
     this.tokenservice.remove();

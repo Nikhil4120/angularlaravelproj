@@ -14,6 +14,16 @@
         </ol>
     </div>
 </div>
+<div style="text-align:center;
+position: fixed;
+top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+z-index: 9999;
+" *ngIf="isloading">
+    <app-loading-spinner></app-loading-spinner>
+</div>
 <section class="content">
     <div class="container">
         <div class="row">
@@ -23,7 +33,7 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="form-label">Username</label>
-                                <input type="text" class="form-control" value="test123" placeholder="Please enter your username" [(ngModel)]="formdata.username" name="username"/>
+                                <input type="text" class="form-control" value="test123" placeholder="Please enter your username" [(ngModel)]="formdata.username" name="username" required/>
                             </div>
                         </div>
 
@@ -34,10 +44,10 @@
                                     <div class="filter-option-inner">
                                         <ul>
                                             <li class="custom-check">
-                                                <label> <input type="radio" class="icheck" name="gender" value="Male" [(ngModel)]="formdata.gender"/>Male</label> 
+                                                <label> <input type="radio" class="icheck" name="gender" value="Male" [(ngModel)]="formdata.gender" required/>Male</label> 
                                             </li>
                                             <li class="custom-check">
-                                                <label><input type="radio" class="icheck" name="gender" value="Female" [(ngModel)]="formdata.gender"/>Female</label> 
+                                                <label><input type="radio" class="icheck" name="gender" value="Female" [(ngModel)]="formdata.gender" required/>Female</label> 
                                             </li>
                                         </ul>
                                     </div>
@@ -56,7 +66,7 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="form-label">Email</label>
-                                <input type="email" class="form-control" placeholder="Please enter valid email" [(ngModel)]="formdata.email" name="email">
+                                <input type="email" class="form-control" placeholder="Please enter valid email" [(ngModel)]="formdata.email" name="email" required>
                             </div>
                         </div>
                     </div>
@@ -65,13 +75,13 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="form-label">First Name</label>
-                                <input type="text" class="form-control" placeholder="Please enter your first name" [(ngModel)]="formdata.firstname" name="firstname">
+                                <input type="text" class="form-control" placeholder="Please enter your first name" [(ngModel)]="formdata.firstname" name="firstname" required>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="form-label">Mobile No.</label>
-                                <input type="text" class="form-control" value="123456789" placeholder="Please enter your mobile no." [(ngModel)]="formdata.mobileno" name="mobileno">
+                                <input type="text" class="form-control" value="123456789" placeholder="Please enter your mobile no." [(ngModel)]="formdata.mobileno" name="mobileno" required>
                             </div>
                         </div>
                     </div>
@@ -80,13 +90,13 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="form-label">Last Name</label>
-                                <input type="text" class="form-control" placeholder="Please enter your last name" [(ngModel)]="formdata.lastname" name="lastname">
+                                <input type="text" class="form-control" placeholder="Please enter your last name" [(ngModel)]="formdata.lastname" name="lastname" required>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="form-label">Phone</label>
-                                <input type="text" class="form-control" placeholder="Please enter your phone" [(ngModel)]="formdata.phoneno" name="phoneno">
+                                <input type="text" class="form-control" placeholder="Please enter your phone" [(ngModel)]="formdata.phoneno" name="phoneno" required>
                             </div>
                         </div>
                     </div>
@@ -99,20 +109,20 @@
                                     <div class="filter-option-inner">
                                       <ul>
                                         <li class="custom-check">
-                                            <label><input type="checkbox" class="icheck">Select All</label> 
+                                            <label><input type="checkbox" class="icheck"(change)="selectall($event)" ngModel name="all">Select All</label> 
                                         </li>
                                         <li class="custom-check">
-                                            <label><input type="checkbox" class="icheck" name="men" [(ngModel)]="formdata.menchecked"> Option 1</label> 
+                                            <label><input type="checkbox" class="icheck" name="men" [(ngModel)]="formdata.menchecked" (change)="checkboxchange($event,'men')"> Option 1</label> 
                                         </li>
                                         <li class="custom-check">
-                                          <label><input type="checkbox" class="icheck" name="women" [(ngModel)]="formdata.womenchecked"/>Option 2</label> 
+                                          <label><input type="checkbox" class="icheck" name="women" [(ngModel)]="formdata.womenchecked" (change)="checkboxchange($event,'women')"/>Option 2</label> 
                                       </li>
                                       <li class="custom-check">
-                                          <label><input type="checkbox" class="icheck" name="kids" [(ngModel)]="formdata.kids">Option 3</label> 
+                                          <label><input type="checkbox" class="icheck" name="kids" [(ngModel)]="formdata.kids" (change)="checkboxchange($event,'kids')">Option 3</label> 
                                       </li>
                                       <li class="custom-check">
-                                          <label><input type="checkbox" class="icheck" name="other" [(ngModel)]="formdata.other">Other</label>
-                                          <input type="text" class="form-control" [(ngModel)]="formdata.otherintrest" name="otheri" />
+                                          <label><input type="checkbox" class="icheck" name="other" [(ngModel)]="formdata.other" (change)="showtextbox($event)">Other</label>
+                                          <input type="text" class="form-control" [(ngModel)]="formdata.otherintrest" name="otheri" *ngIf ="isshown" required/>
                                       </li>
                                   </ul>
                               </div>
@@ -133,13 +143,13 @@
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Street</label>
-                                        <input type="text" class="form-control" placeholder="Please enter your Street" name="s_street" ngModel>
+                                        <input type="text" class="form-control" placeholder="Please enter your Street" name="s_street" ngModel required>
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">City</label>
-                                        <select class="form-control" name="s_city" ngModel>
+                                        <select class="form-control" name="s_city" ngModel required>
                                             <option value="">---Select City---</option>
                                             <option *ngFor="let city of cityfilter" value="{{ city.id }}">{{ city.city_name }}</option>
                                             
@@ -149,7 +159,7 @@
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Country</label>
-                                        <select class="form-control" (change)="filterstate($event)" name="s_country" ngModel>
+                                        <select class="form-control" (change)="filterstate($event)" name="s_country" ngModel required>
                                             <option value="">---Select Country----</option>
                                             <option *ngFor="let country of allcountries" value="{{ country.id }}">{{ country.country_name }}</option>
                                             
@@ -159,7 +169,7 @@
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">State</label>
-                                        <select class="form-control" (change)="filtercity($event)" name="s_state" ngModel>
+                                        <select class="form-control" (change)="filtercity($event)" name="s_state" ngModel required>
                                             <option value="">---Select State---</option>
                                             <option *ngFor="let state of statefilter" value="{{ state.id }}">{{ state.state_name }}</option>
                                             
@@ -181,13 +191,13 @@
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label class="form-label">Street</label>
-                                    <input type="text" class="form-control" placeholder="Please enter your Street" name="b_street" [(ngModel)]="billing.street">
+                                    <input type="text" class="form-control" placeholder="Please enter your Street" name="b_street" [(ngModel)]="billing.street" required>
                                 </div>
                             </div>
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label class="form-label">City</label>
-                                    <select class="form-control" name="b_city" [(ngModel)]="billing.city">
+                                    <select class="form-control" name="b_city" [(ngModel)]="billing.city" required>
                                         <option value="" selected>---Select City---</option>
                                         <option *ngFor="let city of cityfilter" value="{{ city.id }}">{{ city.city_name }}</option>
                                         
@@ -197,7 +207,7 @@
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label class="form-label">Country</label>
-                                    <select class="form-control" (change)="filterstate($event)" name="b_country" [(ngModel)]="billing.country">
+                                    <select class="form-control" (change)="filterstate($event)" name="b_country" [(ngModel)]="billing.country" required>
                                         <option value="">---Select Country----</option>
                                         <option *ngFor="let country of allcountries" value="{{ country.id }}">{{ country.country_name }}</option>
                                         
@@ -207,7 +217,7 @@
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label class="form-label">State</label>
-                                    <select class="form-control" (change)="filtercity($event)" name="b_state" [(ngModel)]="billing.state">
+                                    <select class="form-control" (change)="filtercity($event)" name="b_state" [(ngModel)]="billing.state" required>
                                         <option value="">---Select State---</option>
                                         <option *ngFor="let state of statefilter" value="{{ state.id }}">{{ state.state_name }}</option>
                                         
@@ -219,13 +229,13 @@
                 </div>
             </div>
         </div>
-
+        <input type="hidden" [(ngModel)]="formdata.id" name="id">
         <div class="bottom-group ">    
           <div class=" row">    
 
               <div class=" col-sm-12 text-right">
                 <div class="form-group clearfix submit-outer">
-                    <button type="submit" class="btn-secondary">Update</button>
+                    <button type="submit" class="btn-secondary" [disabled]="!updateForm.valid">Update</button>
                 </div>
             </div>
         </div>

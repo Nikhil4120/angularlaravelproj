@@ -94,6 +94,39 @@ class ApiController extends Controller implements JWTSubject
         $user = auth()->guard('api')->authenticate($request->token);
         return response()->json(['user' => $user]);
     }
+
+    public function updateuser(Request $request){
+        $data =array();
+        $shippinginformation = array();
+        $id = $request->data['id'];
+        $data['firstname'] = $request->data['firstname'];
+        $data['lastname'] = $request->data['lastname'];
+        $data['username'] = $request->data['username'];
+        $data['email'] = $request->data['email'];
+
+        $data['password'] = $request->data['password'];
+        $data['mobileno'] = $request->data['mobileno'];
+        $data['phoneno'] = $request->data['phoneno'];
+        $data['intrest'] = implode(",",$request->intrest);
+        $data['status'] = 1;
+        $data['gender'] = $request->data['gender'];
+
+        $shippinginformation['street'] = $request->data['s_street'];
+        $shippinginformation['city'] = $request->data['s_city'];
+        $shippinginformation['state'] = $request->data['s_state'];
+        $shippinginformation['country'] = $request->data['s_country'];
+        $shippinginformation['user_id'] = $id;
+        $shippinginformation['status'] = 1;
+
+
+        DB::table('frontusers')->where('id',$id)->update($data);
+        $shippinginfo = DB::table('shippinginformation')->where('user_id',$id);
+        if($shippinginfo){
+
+        }
+
+
+    }
     public function GetCategory(){
         return DB::table('categories')->select('id','category_name','category_description')->where('status',1)->get();
     }
@@ -132,4 +165,6 @@ class ApiController extends Controller implements JWTSubject
         $cities = DB::table('cities')->select('id','city_name','state_id')->where('status',1)->get();
         return $cities;
     }
+
+
 }

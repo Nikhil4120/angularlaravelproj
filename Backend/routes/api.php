@@ -21,6 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('register', [ApiController::class, 'register']);
 Route::post('login', [ApiController::class, 'authenticate']);
 Route::get('getuser',[ApiController::class,'getuser']);
+Route::put('updateuser',[ApiController::class,'updateuser']);
 
 Route::get('/category',[ApiController::class,'GetCategory'])->name('api.category');
 Route::get('/subcategory',[ApiController::class,'GetSubCategory'])->name('api.subcategory');
