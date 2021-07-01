@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+
 import { Color } from 'src/app/models/color.model';
 import { Product } from 'src/app/models/product.model';
 import { Size } from 'src/app/models/size.model';
@@ -10,6 +11,7 @@ import { ProductService } from 'src/app/services/product.service';
 import { SizeService } from 'src/app/services/size.service';
 import { SubcategoryService } from 'src/app/services/subcategory.service';
 
+
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
@@ -17,29 +19,45 @@ import { SubcategoryService } from 'src/app/services/subcategory.service';
 })
 export class ProductListComponent implements OnInit {
 
-
+  isloading= false;
   id:number;
+  checkedsubcat;
+  checkedsize;
   Category:string = "";
   product:Product[] = [];
   filterproduct:Product[] = [];
   size:Size[];
   color:Color[];
-  subcategory:Subcategory[];
+  subcategory:Subcategory[]=[];
   selected:string[]=[];
   price:number = 0;  
+  countsubcategory = [];
+  countsize = [];
+  countcolor = [];
+  
   constructor(private CategoryService:CategoryService,private route:ActivatedRoute,private router:Router,private ProductService:ProductService,private SizeService:SizeService,private SubCategoryService:SubcategoryService,private ColorService:ColorService) { }
 
   ngOnInit(): void {
     this.route.params.subscribe((params:Params)=>{
       this.id = +params['id'];
+      this.selected = [];
+      this.countsubcategory = [];
+      this.countsize = [];
+      this.countcolor = [];
+      this.isloading = true;      
+      window.scroll(0,0);
       this.CategoryService.getCategories().subscribe(data=>{
+        
+
         console.log(data[this.id])
         this.Category = data[this.id].category_name;
         this.getSubCategory(data[this.id].id);
         this.getproduct();
+        
       });
       this.SizeService.getSizes().subscribe(data=>{
         this.size = data;
+        
       });
       this.ColorService.getcolor().subscribe(data=>{
         this.color = data; 
@@ -56,75 +74,146 @@ export class ProductListComponent implements OnInit {
     this.ProductService.GetProduct().subscribe(data=>{
       this.product = data.filter(item=>item.category_name==this.Category);
       this.filterproduct = this.product;
+      this.isloading = false;
+      
     });
+      
+      this.countsizes();
+      this.countcolors();
   }
   getSubCategory(categoryid:number){
     this.SubCategoryService.getSubcategories().subscribe(data=>{
       this.subcategory = data.filter(item=>item.category_id==categoryid);
+      this.countsubcategories();  
     });
+
+    
+
+    
+
   }
   sorting(e){
-   console.log(e.target.value); 
+  //  console.log(e.target.value); 
    if(e.target.value == "name"){
-    this.product.sort((a,b)=>(a.product_name<b.product_name)?-1:1);
+    
     this.filterproduct.sort((a,b)=>(a.product_name<b.product_name)?-1:1);
    }
    else{
-    this.product.sort((a,b)=>(a.price<b.price)?-1:1);
+    
     this.filterproduct.sort((a,b)=>(a.price<b.price)?-1:1);
    }
     
   }
 
-  filterbysize(e,name){
-    if(this.selected.length == 0){
+  mainFunctionForFilter(){
+
+    //category size  product=[1,2,3,4,5,6,7,8,9,10]
+    ////a=[1,0,1]   product1=[2,3,4,6,7,8,9]
+      // if everry element of a is zero than prd1=prd
+    // for (let index = 0; index < this.size.length; index++) {
+    //   console.log(this.size[index].size_name);
       
-      this.filterproduct=[];
+    //   const len = (this.product.filter(m=>m.size_name == this.size[index].size_name)).length;
+    //   this.countsize.push(len);
       
-    }
-    if(e.target.checked){
-      // this.filterproduct = this.filterproduct.filter(m=>m.size_name==name);
-      
-      this.filterproduct.push(...this.product.filter(m=>m.size_name==name));
-      this.selected.push(name);
+    // }
+
+    //category subcategory product=[2,3,4,6,7,8,9]=prd1
+    //b=[0,0,0]        prd2=[2,3,9]
+    //if every b is zerothan prd2=prd1
+
+    //prd3 
+    console.log(this.checkedsubcat);
+    var len = this.checkedsubcat.filter(m=>m!=0)
+    var temp = [];
+    if(len==0){
+      temp = this.product;
     }
     else{
-      this.filterproduct = this.filterproduct.filter(m=>m.size_name!=name);
-      this.selected.splice(this.selected.indexOf(name),1);
-      console.log(this.selected);
+      for (let index = 0; index < this.subcategory.length; index++) {
+        const element = this.checkedsubcat[index];
+        if(element!=0){
+          const prod = this.product.filter(m=>m.subcategory_name==this.subcategory[index].subcategory_name);
+          temp.push(...prod);
+
+        }
+        
+      }
+
     }
-    if(this.selected.length == 0){
+    len = this.checkedsize.filter(m=>m!=0);
+    var temp1 = [];
+    if(len==0){
+      temp1 = temp;
+    }
+    else{
+      for (let index = 0; index < this.size.length; index++) {
+        const element = this.checkedsize[index];
+        if(element!=0){
+          const prod = temp.filter(m=>m.size_name == this.size[index].size_name);
+          temp1.push(...prod);
+        }
+        
+      }
+    }
+    this.filterproduct = temp1;
+
+
+
+    
+  }
+  filterbysize(e,name,i){
+    // if(this.selected.length == 0){
+      
+    //   this.filterproduct=[];
+      
+    // }
+    if(e.target.checked){
+      // this.filterproduct = this.filterproduct.filter(m=>m.size_name==name);
+      this.checkedsize[i]=1;
+      // this.filterproduct.push(...this.product.filter(m=>m.size_name==name));
+      // this.selected.push(name);
+      this.mainFunctionForFilter();
+    }
+    else{
+      this.checkedsize[i]=0;
+      this.mainFunctionForFilter();
+      // this.filterproduct = this.filterproduct.filter(m=>m.size_name!=name);
+      // this.selected.splice(this.selected.indexOf(name),1);
+      // console.log(this.selected);
+    }
+    // if(this.selected.length == 0){
       
       
-      this.filterproduct = this.product;
-    }
+    //   this.filterproduct = this.product;
+    // }
 
     
     
   }
-  filterbysubcat(e,name){
-    if(this.selected.length == 0){
-      this.filterproduct = [];
-    }
+  filterbysubcat(e,name,i){
+    // if(this.selected.length == 0){
+    //   this.filterproduct = [];
+    // }
     if(e.target.checked){
-      if(this.selected.length == 0){
-        this.filterproduct.push(...this.product.filter(m=>m.subcategory_name==name));
-      }
-      else{
-        
-        this.filterproduct = this.filterproduct.filter(m=>m.subcategory_name==name);
-      }
+     
+        // this.filterproduct.push(...this.product.filter(m=>m.subcategory_name==name));
+        this.checkedsubcat[i] = 1;
+        this.mainFunctionForFilter(); 
       
-      this.selected.push(name);
+      // this.selected.push(name);
     }
     else{
-      this.filterproduct = this.filterproduct.filter(m=>m.subcategory_name!=name);
-      this.selected.splice(this.selected.indexOf(name),1);
+      
+      this.checkedsubcat[i] = 0;
+      this.mainFunctionForFilter();
+      // this.filterproduct = this.filterproduct.filter(m=>m.subcategory_name!=name);
+      // this.selected.splice(this.selected.indexOf(name),1);
     }
 
-    if(this.selected.length == 0){
-      this.filterproduct = this.product;
-    }
+    // if(this.selected.length == 0){
+    //   this.filterproduct = this.product;
+    // }
   }
   filterbyprice(e,price){
     if(this.selected.length == 0){
@@ -149,4 +238,50 @@ export class ProductListComponent implements OnInit {
     this.filterproduct = this.product;
   }
 
+  countsubcategories(){
+    this.checkedsubcat = this.subcategory.map(()=>{
+      return 0;
+    });
+    console.log(this.product);
+    for (let index = 0; index < this.subcategory.length; index++) {
+      console.log(this.product);
+      
+      const len = (this.product.filter(m=>m.subcategory_name == this.subcategory[index].subcategory_name)).length;
+      this.countsubcategory.push(len);
+      
+    }
+    
+    
+  }
+  countsizes(){
+    // for (let index = 0; index < this.size.length; index++) {
+    //   // console.log(this.size[index].size_name);
+      
+    //   const len = (this.product.filter(m=>m.size_name == this.size[index].size_name)).length;
+    //   this.countsize.push(len);
+      
+    // }
+    
+    this.checkedsize = this.size.map(()=>{
+      return 0;
+    });
+    console.log(this.checkedsize);
+  }
+  countcolors(){
+    // for (let index = 0; index < this.color.length; index++) {
+      
+    //   console.log(this.color[index].color_name);
+    //   const len = (this.product.filter(m=>m.color_name == this.color[index].color_name)).length;
+    //   this.countcolor.push(len);
+      
+    // }
+    // console.log(this.color);
+
+    // this.countcolor = this.color.map((value,index)=>{
+    //   console.log(value.color_name);
+    //   const len = this.product.filter(m=>value.color_name == m.color_name).length;
+    //   return len;
+    // });
+    // console.log(this.countcolor);
+  }
 }

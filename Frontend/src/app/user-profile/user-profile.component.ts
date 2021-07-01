@@ -107,7 +107,7 @@ export class UserProfileComponent implements OnInit {
       console.log(data);
       this.isloading = false;
     })
-    
+    this.updateform.reset();
   }
   filterstate(e){
     this.statefilter = this.allstates.filter(m=>m.country_id == e.target.value);

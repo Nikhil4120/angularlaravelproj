@@ -59,9 +59,11 @@ class ProductController extends Controller
         $data['category_id'] = $request->category_id;
         $data['subcategory_id'] = $request->subcategory_id;
         $data['color_id'] = $request->color_id;
-        $data['size_id'] = $request->size_id;
+        $data['size_id'] = $request->size_id[0];
         $data['sku_id'] = $request->sku_id;
         $data['price'] = $request->price;
+        $data['istrending'] = $request->istrending;
+        $data['quantity'] = $request->quantity;
         $data['status'] = 1;
         $data['created_at'] = Carbon::now();
         $image = $request->product_image;

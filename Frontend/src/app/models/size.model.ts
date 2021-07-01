@@ -1,7 +1,7 @@
 export class Size{
     
     
-    constructor(id:number,size_name:string){
+    constructor(public id:number,public size_name:string){
         
     }
 

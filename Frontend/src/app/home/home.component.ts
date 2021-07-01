@@ -10,13 +10,16 @@ import { ProductService } from '../services/product.service';
 export class HomeComponent implements OnInit {
 
   product:Product[] = [];
+  filterproduct = [];
+  i = 8;
   constructor(private ProductService:ProductService ) { }
 
 
   ngOnInit(): void {
     this.ProductService.GetProduct().subscribe(data=>{
-      this.product = data.slice(0,9);
-      console.log(this.product);
+      this.product = data;
+      this.filterproduct = this.product.filter(m=>m.istrending == 1).slice(0,this.i);
+      
     });
    
     

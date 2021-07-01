@@ -7,6 +7,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\Request;
 use DB;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Support\Facades\Hash;
+use Mail;
 
 class ApiController extends Controller implements JWTSubject
 {
@@ -29,14 +31,18 @@ class ApiController extends Controller implements JWTSubject
         $data['username'] = $request->data['username'];
         $data['email'] = $request->data['email'];
 
-        $data['password'] = $request->data['password'];
+        $data['password'] = Hash::make($request->data['password']);
         $data['mobileno'] = $request->data['mobileno'];
         $data['phoneno'] = $request->data['phoneno'];
         $data['intrest'] = implode(",",$request->intrest);
         $data['status'] = 1;
         $data['gender'] = $request->data['gender'];
         DB::table('frontusers')->insert($data);
-
+        $user['to'] = $data['email'];
+            Mail::send('backend.mail.regmail',$data,function($messages) use($user){
+                $messages->to($user['to']);
+                $messages->subject("Registration");
+            });
         //User created, return success response
         return response()->json([
             'success' => true,
@@ -98,13 +104,14 @@ class ApiController extends Controller implements JWTSubject
     public function updateuser(Request $request){
         $data =array();
         $shippinginformation = array();
+        $billinginformation = array();
         $id = $request->data['id'];
         $data['firstname'] = $request->data['firstname'];
         $data['lastname'] = $request->data['lastname'];
         $data['username'] = $request->data['username'];
         $data['email'] = $request->data['email'];
 
-        $data['password'] = $request->data['password'];
+        
         $data['mobileno'] = $request->data['mobileno'];
         $data['phoneno'] = $request->data['phoneno'];
         $data['intrest'] = implode(",",$request->intrest);
@@ -118,12 +125,25 @@ class ApiController extends Controller implements JWTSubject
         $shippinginformation['user_id'] = $id;
         $shippinginformation['status'] = 1;
 
+        $billinginformation['street'] = $request->data['s_street'];
+        $billinginformation['city'] = $request->data['s_city'];
+        $billinginformation['state'] = $request->data['s_state'];
+        $billinginformation['country'] = $request->data['s_country'];
+        $billinginformation['user_id'] = $id;
+        $billinginformation['status'] = 1;
 
         DB::table('frontusers')->where('id',$id)->update($data);
-        $shippinginfo = DB::table('shippinginformation')->where('user_id',$id);
-        if($shippinginfo){
-
-        }
+        
+        
+        
+            DB::table('shippinginformations')->insert($shippinginformation);
+            DB::table('billinginformations')->insert($billinginformation);
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'User profile updated successfully'
+            
+        ], Response::HTTP_OK);
 
 
     }
@@ -139,7 +159,7 @@ class ApiController extends Controller implements JWTSubject
         ->join('subcategories','subcategories.id','products.subcategory_id')
         ->join('colors','colors.id','products.color_id')
         ->join('sizes','sizes.id','products.size_id')
-        ->select('products.id','products.product_name','products.product_description','products.product_image','products.sku_id','products.price','categories.category_name','subcategories.subcategory_name','colors.color_name','sizes.size_name')
+        ->select('products.id','products.product_name','products.product_description','products.product_image','products.sku_id','products.price','categories.category_name','subcategories.subcategory_name','colors.color_name','sizes.size_name','products.istrending')
         ->where('products.status',1)
         ->orderBy('products.id','desc')
         ->get();

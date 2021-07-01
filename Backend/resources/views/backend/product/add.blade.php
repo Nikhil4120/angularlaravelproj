@@ -102,7 +102,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Size</label>
-                                        <select class="form-control" name="size_id">
+                                        <select class="form-control" name="size_id[]" multiple>
                                         <option selected disabled>---Select Size---</option>
                                         @foreach ($size as $row )
                                           <option value="{{ $row->id}}">{{ $row->size_name}}</option>    
@@ -142,7 +142,27 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Quantity</label>
+                                        <input type="number" class="form-control" id="quantity" name="quantity"
+                                    placeholder="quantity" min="0">
+                                   
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    
+                                </div>
+                            </div>
+                            <div class="form-group">
 
+                                    <div class="custom-control custom-checkbox">
+                                        <input class="custom-control-input" type="checkbox" id="customCheckbox1" value="1" name="istrending">
+                                        <label for="customCheckbox1" class="custom-control-label">istrending</label>
+                                    </div>
+                                    
+                                    </div>
                         </div>
                         <!-- /.card-body -->
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -14,6 +14,8 @@ export class LoginComponent implements OnInit {
 
   isloading = false;
   error = "";
+  
+  
   constructor(private AuthService:AuthService,private tokenservice:TokenService,private router:Router) { }
 
   ngOnInit(): void {
@@ -30,7 +32,8 @@ export class LoginComponent implements OnInit {
     form.reset();
     this.tokenservice.handle(data.token);
     this.AuthService.changeAuthStatus(true);
-    this.router.navigate(['/userprofile']);
+    this.router.navigate(['/']);
+    
 
   },error=>{
     console.log(error.error.message);
