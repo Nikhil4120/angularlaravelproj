@@ -26,7 +26,7 @@
 					<div class="col-sm-5">
 						<ul class="sync1">
 							<li>
-								<a class="fancybox" href="http://localhost:8000/{{ product.product_image }}" data-fancybox-group="gallery" title=""><img src="http://localhost:8000/{{ product.product_image }}" alt=""  style="height:457px"/></a>
+								<a class="fancybox" href="http://localhost:8000/{{ product.product_image}}" data-fancybox-group="gallery" title=""><img src="http://localhost:8000/{{ product.product_image}}" alt="" /></a>
 							</li>
 							<li>
 								<a class="fancybox" href="../../assets/images/new-thumb-02-big.jpg" data-fancybox-group="gallery" title=""><img src="../../assets/images/new-thumb-02.jpg" alt="" /></a>
@@ -79,17 +79,16 @@
 							<div class="form-group">
 								<select>
 									<option>-- Please Select --</option>
-									<option>Medium/Large </option>
-									<option>Small/Medium </option>
+									<option *ngFor="let item of size">{{ item }}</option>
+									
 								</select>
 							</div>
 						</div>
 						<div class="add-to-cart-btn clearfix">
 							<label>Qty:</label>
 							<select>
-								<option>1</option>
-								<option>2</option>
-								<option>3</option>
+								<option *ngFor="let item of quantity;let i=index">{{i+1}}</option>
+								
 							</select>
 							<button type="button" onclick="location.href='cart.html'" title="Add to Cart" class="button btn-cart"><span><span>Add to Cart</span></span>
 							</button>

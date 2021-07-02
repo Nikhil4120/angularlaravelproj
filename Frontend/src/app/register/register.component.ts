@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
@@ -18,7 +19,7 @@ export class RegisterComponent implements OnInit {
   checked = [];
   isLoading = false;
   @ViewChild('authForm',{static:false}) regform:NgForm;
-  constructor(private AuthService:AuthService) { }
+  constructor(private AuthService:AuthService,private router:Router) { }
 
   ngOnInit(): void {
   }
@@ -52,6 +53,7 @@ export class RegisterComponent implements OnInit {
         this.isLoading=false;
         this.usercreated = true;
         this.regform.reset();    
+        this.router.navigate(['userprofile'])
       })
     }
     else{

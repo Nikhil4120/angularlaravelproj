@@ -48,6 +48,9 @@ export class LoginComponent implements OnInit {
 
   }
 
+  modalclose(){
+    this.modal.nativeElement.click();
+  }
   
 
 }

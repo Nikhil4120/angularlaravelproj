@@ -10,7 +10,7 @@ import { ColorService } from 'src/app/services/color.service';
 import { ProductService } from 'src/app/services/product.service';
 import { SizeService } from 'src/app/services/size.service';
 import { SubcategoryService } from 'src/app/services/subcategory.service';
-
+import { Options } from 'ng5-slider';
 
 @Component({
   selector: 'app-product-list',
@@ -19,10 +19,17 @@ import { SubcategoryService } from 'src/app/services/subcategory.service';
 })
 export class ProductListComponent implements OnInit {
 
+  value:number = 0;
+  highValue:number=2000;
+  options:Options ={
+    floor:0,
+    ceil:2000
+  }
   isloading= false;
   id:number;
   checkedsubcat;
   checkedsize;
+  checkedcolor = "";
   Category:string = "";
   product:Product[] = [];
   filterproduct:Product[] = [];
@@ -38,6 +45,7 @@ export class ProductListComponent implements OnInit {
   constructor(private CategoryService:CategoryService,private route:ActivatedRoute,private router:Router,private ProductService:ProductService,private SizeService:SizeService,private SubCategoryService:SubcategoryService,private ColorService:ColorService) { }
 
   ngOnInit(): void {
+    
     this.route.params.subscribe((params:Params)=>{
       this.filterproduct = [];
       this.id = +params['id'];
@@ -110,28 +118,16 @@ export class ProductListComponent implements OnInit {
 
   mainFunctionForFilter(){
 
-    //category size  product=[1,2,3,4,5,6,7,8,9,10]
-    ////a=[1,0,1]   product1=[2,3,4,6,7,8,9]
-      // if everry element of a is zero than prd1=prd
-    // for (let index = 0; index < this.size.length; index++) {
-    //   console.log(this.size[index].size_name);
-      
-    //   const len = (this.product.filter(m=>m.size_name == this.size[index].size_name)).length;
-    //   this.countsize.push(len);
-      
-    // }
-
-    //category subcategory product=[2,3,4,6,7,8,9]=prd1
-    //b=[0,0,0]        prd2=[2,3,9]
-    //if every b is zerothan prd2=prd1
-
-    //prd3 
-    console.log(this.checkedsubcat);
-    var len = this.checkedsubcat.filter(m=>m!=0)
+    
+    
+    var len = this.checkedsubcat.filter(m=>m!=0).length;
+    
     var temp = [];
-    if(len==0){
+    if(len == 0){
+      
       temp = this.product;
     }
+    
     else{
       for (let index = 0; index < this.subcategory.length; index++) {
         const element = this.checkedsubcat[index];
@@ -145,9 +141,12 @@ export class ProductListComponent implements OnInit {
       }
 
     }
-    len = this.checkedsize.filter(m=>m!=0);
+   
+    len = this.checkedsize.filter(m=>m!=0).length;
+    
     var temp1 = [];
     if(len==0){
+      
       temp1 = temp;
     }
     else{
@@ -175,86 +174,83 @@ export class ProductListComponent implements OnInit {
         
       }
     }
-    this.filterproduct = temp1;
+    
+     len = this.checkedcolor;
+     console.log(len);
+     var temp2=[];
+     if(len == ""){
+        temp2 = temp1;
+     }
+     else{
+       temp2 = temp1.filter(m=>m.color_name == len);
+     }
+     
+     temp2 = temp2.filter(m=>m.price>=this.value && m.price<=this.highValue);
+     
+
+    this.filterproduct = temp2;
 
 
 
     
   }
   filterbysize(e,name,i){
-    // if(this.selected.length == 0){
-      
-    //   this.filterproduct=[];
-      
-    // }
+    
     if(e.target.checked){
-      // this.filterproduct = this.filterproduct.filter(m=>m.size_name==name);
+      
       this.checkedsize[i]=1;
-      // this.filterproduct.push(...this.product.filter(m=>m.size_name==name));
-      // this.selected.push(name);
+      
       this.mainFunctionForFilter();
     }
     else{
       this.checkedsize[i]=0;
       this.mainFunctionForFilter();
-      // this.filterproduct = this.filterproduct.filter(m=>m.size_name!=name);
-      // this.selected.splice(this.selected.indexOf(name),1);
-      // console.log(this.selected);
+      
     }
-    // if(this.selected.length == 0){
-      
-      
-    //   this.filterproduct = this.product;
-    // }
+    
 
     
     
   }
   filterbysubcat(e,name,i){
-    // if(this.selected.length == 0){
-    //   this.filterproduct = [];
-    // }
+    
     if(e.target.checked){
      
-        // this.filterproduct.push(...this.product.filter(m=>m.subcategory_name==name));
+        
         this.checkedsubcat[i] = 1;
         this.mainFunctionForFilter(); 
       
-      // this.selected.push(name);
+      
     }
     else{
       
       this.checkedsubcat[i] = 0;
       this.mainFunctionForFilter();
-      // this.filterproduct = this.filterproduct.filter(m=>m.subcategory_name!=name);
-      // this.selected.splice(this.selected.indexOf(name),1);
+      
     }
 
-    // if(this.selected.length == 0){
-    //   this.filterproduct = this.product;
-    // }
-  }
-  filterbyprice(e,price){
-    if(this.selected.length == 0){
-      this.filterproduct = this.product.filter(m=>m.price<=+price);
-    }
-    else{
-      this.filterproduct = this.filterproduct.filter(m=>m.price<=+price);
-    }
     
   }
+  filterbyprice(e){
+    
+    this.mainFunctionForFilter();
+  }
   filterbycolor(e,name){
-    if(this.selected.length == 0){
-      this.filterproduct = this.product.filter(m=>m.color_name == name);
-    }
-    else{
-      this.filterproduct = this.filterproduct.filter(m=>m.color_name == name);
-    }
+    // if(this.selected.length == 0){
+    //   this.filterproduct = this.product.filter(m=>m.color_name == name);
+    // }
+    // else{
+    //   this.filterproduct = this.filterproduct.filter(m=>m.color_name == name);
+    // }
+    this.checkedcolor = name;
+    this.mainFunctionForFilter();
     
   }
 
   resetcolor(){
-    this.filterproduct = this.product;
+    // this.filterproduct = this.product;
+    this.checkedcolor = ""
+    this.mainFunctionForFilter();
   }
 
   countsubcategories(){
@@ -270,7 +266,7 @@ export class ProductListComponent implements OnInit {
       this.subcategory[index].count = len;
       
     }
-    console.log(this.subcategory);
+    
     
   }
   countsizes(){
@@ -281,9 +277,9 @@ export class ProductListComponent implements OnInit {
       (this.size[index])['count'] = 0;
       return 0;
     });
-    console.log(this.size);
+    
     for (let index = 0; index < this.size.length; index++) {
-      // console.log(this.size[index].size_name);
+      
       
       const len = (this.product.filter((m,i)=>{
        const temp =  this.product[i].size_id.split(",");
@@ -301,17 +297,11 @@ export class ProductListComponent implements OnInit {
       
       
     }
-    console.log(this.size);
+    
   }
   countcolors(){
-    // for (let index = 0; index < this.color.length; index++) {
-      
-    //   console.log(this.color[index].color_name);
-    //   const len = (this.product.filter(m=>m.color_name == this.color[index].color_name)).length;
-    //   this.countcolor.push(len);
-      
-    // }
-    console.log(this.color);
+    
+    
 
     this.countcolor = this.color.map((value,index)=>{
       (this.color[index])['count']= 0;

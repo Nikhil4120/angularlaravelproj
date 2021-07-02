@@ -15,6 +15,8 @@ import { FormsModule } from '@angular/forms';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 import { LoginComponent } from './login/login.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { FooterComponent } from './footer/footer.component';
+import { Ng5SliderModule } from 'ng5-slider';
 
 @NgModule({
   declarations: [
@@ -29,13 +31,15 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     ProductDetailsComponent,
     LoadingSpinnerComponent,
     LoginComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    Ng5SliderModule
   ],
   providers: [],
   bootstrap: [AppComponent]

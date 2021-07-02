@@ -29,7 +29,7 @@
                             
                             <div class="form-group clearfix login-options">
                                 <button type="submit" class="btn-secondary" [disabled]="!loginForm.valid">Login</button>
-                                <p>Not a Member? <a routerLink="register"  title="Register">Register</a></p>
+                                <p>Not a Member? <a routerLink="register"  title="Register" (click)="modalclose()" style="cursor:pointer">Register</a></p>
                             </div>
                         </form>
                     </div>

@@ -13,15 +13,23 @@ export class ProductDetailsComponent implements OnInit {
 
   id:number;
   product:any;
+  size:[];
+  quantity;
   
   constructor(private ProductService:ProductService,private route:ActivatedRoute) { }
 
   ngOnInit(): void {
+    
+
     this.route.params.subscribe((params:Params)=>{
       this.id = +params['id'];
       this.ProductService.GetProduct().subscribe(data=>{
         
         this.product = data.filter(item=>item.id==this.id)[0];
+        this.size = this.product.size_id.split(",");
+        this.quantity = new Array(this.product.quantity);
+
+
       });
 
     });

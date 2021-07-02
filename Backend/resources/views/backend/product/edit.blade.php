@@ -103,7 +103,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Size</label>
-                                        <select class="form-control" name="size_id" multiple>
+                                        <select class="form-control" name="size_id[]" multiple>
                                         <option disabled>---Select Size---</option>
                                         @php
                                             $size_id = explode(",",$products->size_id);

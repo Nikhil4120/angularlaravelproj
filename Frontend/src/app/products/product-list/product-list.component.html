@@ -12,8 +12,8 @@
     <div class="container">
         <ol class="breadcrumb">
             <li><a routerLink="/" title="Home">Home</a></li>
-            <li><a href="product.html" title="Men">{{ Category }}</a></li>
-            <li class="active">T-shirts</li>
+            <li class="active"><a title="Men">{{ Category }}</a></li>
+            
         </ol>
     </div>
 </div>
@@ -54,15 +54,16 @@
                     <div class="filter-option">
                         <div class="title" data-toggle="collapse" href="#collapse3" aria-expanded="false">Price</div>
                         <div class="filter-option-inner collapse in" id="collapse3">
-                            <div class="info">31 items</div>
-                            <div class="slider-blue">
+                            <div class="info">{{ filterproduct.length }} items</div>
+                            <!-- <div class="slider-blue">
                                 <div class="slider slider-horizontal" id=""><div class="slider-track"><div class="slider-track-low" style="left: 0px; width: 7.5%;"></div><div class="slider-selection" style="left: 7.5%; width: 36.25%;"></div><div class="slider-track-high" style="right: 0px; width: 56.25%;"></div></div><div class="tooltip tooltip-main bs-tooltip-top" role="presentation" style="left: 25.625%;"><div class="arrow"></div><div class="tooltip-inner">-170 : -25</div></div><div class="tooltip tooltip-min bs-tooltip-top" role="presentation" style="left: 7.5%; display: none;"><div class="arrow"></div><div class="tooltip-inner">-170</div></div><div class="tooltip tooltip-max bs-tooltip-top" role="presentation" style="left: 43.75%; display: none;"><div class="arrow"></div><div class="tooltip-inner">-25</div></div><div class="slider-handle min-slider-handle round" role="slider" aria-valuemin="-200" aria-valuemax="200" aria-valuenow="-170" tabindex="0" style="left: 7.5%;"></div><div class="slider-handle max-slider-handle round" role="slider" aria-valuemin="-200" aria-valuemax="200" aria-valuenow="-25" tabindex="0" style="left: 43.75%;"></div></div><input type="text" value="-170,-25" class="slider form-control" data-slider-min="-200" data-slider-max="200" data-slider-step="5" data-slider-value="[-100,100]" data-slider-orientation="horizontal" data-slider-selection="before" data-slider-tooltip="show" data-value="-170,-25" style="display: none;">
-                              </div>
-                            <!-- <div class="slider"><img src="../../assets/images/price.jpg" alt=""></div>
-                            <input type="range" min="0" max="2000" [(ngModel)]="price" (change)="filterbyprice($event,price)"> -->
-                            <span>{{price}}</span>
-                            <div class="price-range clearfix"><span class="min"> Rs. 174</span><span class="max"> Rs.
-                                    8,999</span></div>
+                              </div> -->
+                            <!-- <div class="slider"><img src="../../assets/images/price.jpg" alt=""></div> -->
+                            <!-- <input type="range" min="0" max="2000" [(ngModel)]="price" (change)="filterbyprice($event,price)">
+                            <span>{{price}}</span> -->
+                            <ng5-slider [(value)]="value" [(highValue)]="highValue" [options]="options" (valueChange)="filterbyprice($event)"></ng5-slider>
+                            <!-- <div class="price-range clearfix"><span class="min"> Rs. 174</span><span class="max"> Rs.
+                                    8,999</span></div> -->
                         </div>
                     </div>
                     <div class="filter-option">
@@ -87,7 +88,7 @@
                 </div>
             </div>
             <div class="col-sm-9">
-                <h3>Men T-shirts</h3>
+                <h3>{{ Category }}</h3>
                 <div class="toolbar clearfix">
 
                     <div class="pager_right">

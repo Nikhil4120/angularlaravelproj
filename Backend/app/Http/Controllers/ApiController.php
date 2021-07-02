@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use DB;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+
 use Mail;
 
 class ApiController extends Controller implements JWTSubject
@@ -159,7 +161,7 @@ class ApiController extends Controller implements JWTSubject
         ->join('subcategories','subcategories.id','products.subcategory_id')
         ->join('colors','colors.id','products.color_id')
         
-        ->select('products.id','products.product_name','products.product_description','products.product_image','products.sku_id','products.price','categories.category_name','subcategories.subcategory_name','colors.color_name','products.istrending','products.size_id')
+        ->select('products.id','products.product_name','products.product_description','products.product_image','products.sku_id','products.price','categories.category_name','subcategories.subcategory_name','colors.color_name','products.istrending','products.size_id','products.quantity')
         ->where('products.status',1)
         ->orderBy('products.id','desc')
         ->get();
@@ -184,6 +186,27 @@ class ApiController extends Controller implements JWTSubject
     public function GetCity(){
         $cities = DB::table('cities')->select('id','city_name','state_id')->where('status',1)->get();
         return $cities;
+    }
+
+    public function AddSubscriber(Request $request){
+        $validator = Validator::make($request->only('email'), [
+            
+            'email' => 'required|email|unique:newsletterusers',
+            
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['success' => false,'message' => $validator->messages()], 200);
+        }
+        $data = Array();
+        $data['email'] = $request->email;
+        DB::table('newsletterusers')->insert($data);
+        return response()->json([
+            'success' => true,
+            'message' => 'Thanks For Subscription'
+            
+        ], Response::HTTP_OK);        
+        
+
     }
 
 

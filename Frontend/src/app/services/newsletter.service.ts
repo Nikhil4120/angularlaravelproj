@@ -1,16 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Color } from '../models/color.model';
 import { environment } from 'src/environments/environment';
-
 @Injectable({
   providedIn: 'root'
 })
-export class ColorService {
+export class NewsletterService {
 
   constructor(private http:HttpClient) { }
 
-  getcolor(){
-    return this.http.get<Color[]>(environment.localapi+'/color');
+  NewsletterSubscribe(email){
+    return this.http.post<any>(environment.localapi+'/newsletter',{
+      email:email
+    });
   }
 }

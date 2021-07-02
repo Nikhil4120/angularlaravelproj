@@ -10,6 +10,7 @@ use App\Http\controllers\ProductController;
 use App\Http\controllers\CountryController;
 use App\Http\controllers\StateController;
 use App\Http\controllers\CityController;
+use App\Http\controllers\newsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -114,3 +115,6 @@ Route::get('/active/category/{id}',[CategoryController::class,'ActiveCategory'])
  Route::get('/deactive/city/{id}',[CityController::class,'DeactiveCity'])->name('city.deactive');
  Route::get('/view/city/{id}',[CityController::class,'ViewCity'])->name('city.view');
  
+
+ Route::get('/add/news',[newsController::class,'AddNews'])->name('add.news');
+ Route::post('/store/news',[newsController::class,'StoreNews'])->name('store.news');

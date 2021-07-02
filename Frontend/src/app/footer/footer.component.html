@@ -1,0 +1,25 @@
+<footer class="footer">
+        <div class="container">
+            <div class="clearfix">
+                <div class="footer-content">
+                    <form #newsletter="ngForm" (ngSubmit)="onSubmit(newsletter)">
+                        <div class="form-group">
+                            <label>Subscribe for Newsletter</label>
+                            <p class="text-success thankyou-msg" *ngIf="success!=''">{{ success }}</p>
+                            <p class="text-danger" *ngIf="error!=''">{{ error }}</p>
+                            <input type="email" class="form-control" placeholder="Enter your email address" name="email" ngModel required email>
+                        </div>
+                        <button type="submit" class="sign-up" [disabled]="!newsletter.valid">sign up</button>
+                    </form>
+                    <ul class="footer-links">
+                        <li><a routerLink="/" title="Home">Home</a></li>
+                        <li><a href="about-us.html" title="About us">About us</a></li>
+                        <li><a href="register.html" title="Register">Register</a></li>
+                        <li><a href="contact.html" title="Contact us">Contact us</a></li>
+                    </ul>
+                    <p class="copyright">&copy; 2017 eShopper online store. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <a href="#" title="Back to Top" class="back-to-top"><img src="../../assets/images/up-arrow-white.svg" alt="Arrow"></a>

@@ -32,3 +32,5 @@ Route::get('/color',[ApiController::class,'GetColor'])->name('api.color');
 Route::get('/country',[ApiController::class,'GetCountry']);
 Route::get('/state',[ApiController::class,'GetState']);
 Route::get('/city',[ApiController::class,'GetCity']);
+
+Route::post('/newsletter',[ApiController::class,'AddSubscriber']);
