@@ -8,7 +8,7 @@ import { RegisterComponent } from './register/register.component';
 import { AfterloginService } from './services/afterlogin.service';
 import { BeforeloginService } from './services/beforelogin.service';
 import { UserProfileComponent } from './user-profile/user-profile.component';
-
+import { CartComponent } from './cart/cart.component';
 
 const routes: Routes = [
   {path:'',component:HomeComponent},
@@ -16,7 +16,8 @@ const routes: Routes = [
   {path:'about',component:AboutusComponent},
   {path:'products/detail/:id',component:ProductDetailsComponent},
   {path:'products/:id',component:ProductListComponent},
-  {path:'userprofile',component:UserProfileComponent,canActivate:[AfterloginService]}
+  {path:'userprofile',component:UserProfileComponent,canActivate:[AfterloginService]},
+   {path:'cart',component:CartComponent}
   
 ];
 

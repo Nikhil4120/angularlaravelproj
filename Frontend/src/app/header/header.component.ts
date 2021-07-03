@@ -18,6 +18,8 @@ export class HeaderComponent implements OnInit {
   username:string;
   category:Category[] = [];
   subcategory:Subcategory[] = [];
+  cartitems = [];
+  issubcategory = [];
   constructor(private CategoryService:CategoryService,private SubcategoryService:SubcategoryService,private AuthService:AuthService,private router:Router,private tokenservice:TokenService) { }
 
   ngOnInit(): void {
@@ -29,8 +31,10 @@ export class HeaderComponent implements OnInit {
           
           this.username = data['user'].username;
         }
+        
           
         )
+        this.cartitem();
       }
     });
     this.CategoryService.getCategories().subscribe(data=>{
@@ -39,13 +43,35 @@ export class HeaderComponent implements OnInit {
 
     this.SubcategoryService.getSubcategories().subscribe(data=>{
       this.subcategory = data;
+      this.issubcategories();
       
-    })
+    });
+    
+    
     
   }
+
+  issubcategories(){
+    for (let index = 0; index < this.category.length; index++) {
+      const element = this.category[index].id;
+      const len = this.subcategory.filter(m=>m.category_id == element).length;
+      this.issubcategory.push(len);
+      
+    }
+    console.log(this.issubcategory);
+  }
+
+  cartitem(){
+     if(JSON.parse(localStorage.getItem('cart'))){
+       this.cartitem = JSON.parse(localStorage.getItem('cart'));
+     }
+  }
+
   logout(){
     this.tokenservice.remove();
     this.AuthService.changeAuthStatus(false);
     this.router.navigate(['/']);
   }
+
+
 }

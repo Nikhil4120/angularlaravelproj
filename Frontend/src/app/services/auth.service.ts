@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { User } from '../models/user.model';
 import { TokenService } from './token.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -17,10 +18,10 @@ export class AuthService {
   constructor(private http:HttpClient,private tokenservice:TokenService) { }
   
   signup(data:any,intrest:any){
-    return this.http.post('http://localhost:8000/api/register',{data,intrest:intrest});
+    return this.http.post(environment.localapi+'/register',{data,intrest:intrest});
   }
   login(data:any){
-    return this.http.post('http://localhost:8000/api/login',data);
+    return this.http.post(environment.localapi+'/login',data);
   }
 
   getuser(token:any){

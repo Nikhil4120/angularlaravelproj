@@ -21,6 +21,7 @@
     "@angular/router": "~9.1.13",
     "bootstrap": "^3.4.1",
     "ng5-slider": "^1.2.6",
+    "ngx-owl-carousel-o": "^6.0.0",
     "ngx-slider": "0.0.5",
     "ngx-spinner": "^9.0.1",
     "rxjs": "~6.5.4",

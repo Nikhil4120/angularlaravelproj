@@ -22,9 +22,11 @@ class ApiController extends Controller implements JWTSubject
         return [];
     }
 
+    
     public function register(Request $request)
     {
     	//Validate data
+       
         
         
         $data =array();
@@ -39,6 +41,14 @@ class ApiController extends Controller implements JWTSubject
         $data['intrest'] = implode(",",$request->intrest);
         $data['status'] = 1;
         $data['gender'] = $request->data['gender'];
+
+        $emailexist = DB::table('frontusers')->where('email',$data['email'])->get();
+        if(count($emailexist) != 0){
+            return response()->json(['success' => false,'message' => "Email Already Exist",'data' => $data], 400);
+        }
+
+        
+
         DB::table('frontusers')->insert($data);
         $user['to'] = $data['email'];
             Mail::send('backend.mail.regmail',$data,function($messages) use($user){
@@ -100,7 +110,9 @@ class ApiController extends Controller implements JWTSubject
 
     public function getuser(Request $request){
         $user = auth()->guard('api')->authenticate($request->token);
-        return response()->json(['user' => $user]);
+        $shippinginformation = DB::table('shippinginformations')->where('user_id',$user->id)->first();
+        $billinginformation = DB::table('billinginformations')->where('user_id',$user->id)->first();
+        return response()->json(['user' => $user,'shippinginformation'=>$shippinginformation,'billinginformation'=>$billinginformation]);
     }
 
     public function updateuser(Request $request){

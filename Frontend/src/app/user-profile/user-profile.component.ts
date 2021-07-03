@@ -33,6 +33,12 @@ export class UserProfileComponent implements OnInit {
     other:null,
     otherintrest:null
   };
+  shipping = {
+    street:null,
+    country:"",
+    state:"",
+    city:"",
+  };
   billing = {
     street:null,
     country:"",
@@ -60,21 +66,35 @@ export class UserProfileComponent implements OnInit {
       this.formdata.mobileno = data['user'].mobileno;
       this.formdata.phoneno = data['user'].phoneno;
       this.formdata.gender = data['user'].gender;
+      this.shipping.street = data['shippinginformation'].street;
+      this.shipping.city = data['shippinginformation'].city;
+      this.shipping.state = data['shippinginformation'].state;
+      this.shipping.country = data['shippinginformation'].country;
+      this.billing.street = data['billinginformation'].street;
+      this.billing.city = data['billinginformation'].city;
+      this.billing.state = data['billinginformation'].state;
+      this.billing.country = data['billinginformation'].country;
+
       const intrest = (data['user'].intrest).split(",");
+      console.log(intrest);
+      
       if(intrest.includes("men")){
         this.checked.push("men");
         this.formdata.menchecked = true;
+        
       }
       if(intrest.includes("women")){
         this.checked.push("women");
         this.formdata.womenchecked = true;
+        
       }
       if(intrest.includes("kids")){
         this.checked.push("kids");
         this.formdata.kids = true;
+        
       }
-      if(intrest.filter(m=>m!="men" && m!="women"&& m!="kids" )){
-
+      if(intrest.filter(m=>m!="men" && m!="women"&& m!="kids" ).length != 0 ){
+        console.log(intrest.filter(m=>m!="men" && m!="women"&& m!="kids" ));
         this.formdata.other = true;
         this.isshown = true;
         this.formdata.otherintrest = intrest.filter(m=>m!="men" && m!="women"&& m!="kids")[0];
@@ -107,7 +127,7 @@ export class UserProfileComponent implements OnInit {
       console.log(data);
       this.isloading = false;
     })
-    this.updateform.reset();
+    
   }
   filterstate(e){
     this.statefilter = this.allstates.filter(m=>m.country_id == e.target.value);
@@ -138,12 +158,12 @@ export class UserProfileComponent implements OnInit {
   checkboxchange(e,name:string){
     if(e.target.checked){
       this.checked.push(name);
-      console.log(this.checked);
+      
 
     }
     else{
       this.checked.splice(this.checked.indexOf(name),1);
-      console.log(this.checked);
+      
     }
 
   }

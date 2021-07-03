@@ -1,5 +1,5 @@
 <div class="banner">
-    <div id="sync1" class="owl-carousel" #slider>
+    <!-- <div id="sync1" class="owl-carousel" #slider>
         <div class="item">
             <img src="../../assets/images/banner.jpg" alt="banner">
         </div>
@@ -9,7 +9,12 @@
         <div class="item">
             <img src="../../assets/images/banner2.jpg" alt="banner">
         </div>
-    </div>
+    </div> -->
+    <owl-carousel-o [options]="customOptions">
+        <ng-template carouselSlide><img src="../../assets/images/banner.jpg" alt="banner"></ng-template>
+        <ng-template carouselSlide><img src="../../assets/images/banner1.jpg" alt="banner"></ng-template>
+        <ng-template carouselSlide><img src="../../assets/images/banner2.jpg" alt="banner"></ng-template>
+    </owl-carousel-o>
 </div>
 <section class="services-section">
     <div class="container">
@@ -54,111 +59,37 @@
                 </div>
                 <div class="grid-content">
                     <div class="grid row">
-                        <app-product-item *ngFor="let item of filterproduct;let i=index" [product]="item" [Index]="i"></app-product-item>
-                        
-                        
+                        <app-product-item *ngFor="let item of filterproduct;let i=index" [product]="item" [Index]="i">
+                        </app-product-item>
+
+
                         <div class="col-sm-12 col-xs-12">
                             <span class="button-outer text-center">
-                              <a (click)="moreproduct()" title="More Products" class="btn-tertiary" style="cursor:pointer" *ngIf="filterproduct.length!=product.length">More Products</a>
-                          </span>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-  </div>
-  <div class="inner-banner">
-    <div class="container">
-        <div class="banner-inner-text">
-            <div class="banner-inner-width">
-                <div class="text01">
-                    <span>Get the</span> latest
-                </div>
-                <div class="text01">
-                    <span>womens</span> fashion
-                </div>
-                <a href="product.html" title="Get Exclusive Collection For Women" class="btn-secondary">Get Exclusive Collection For Women</a>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="container">
-    <h2>Testimonial</h2>
-    <div class="slider-outer">
-        <div class="testimonial-slider owl-carousel">
-            <div class="item">
-                <div class="row">
-                    <div class="col-sm-3 col-xs-4">
-                        <div class="media">
-                            <div class="media-left">
-                                <img src="images/testimonial_3.jpg" alt="Testimonial">
-                            </div>
-                            <div class="media-body">
-                                <h5>John Clay</h5>
-                                <p>Cyclist</p>
-                            </div>
+                                <a (click)="moreproduct()" title="More Products" class="btn-tertiary"
+                                    style="cursor:pointer" *ngIf="filterproduct.length!=product.length">More
+                                    Products</a>
+                            </span>
                         </div>
-                    </div>
-                    <div class="col-sm-9 col-xs-8">
-                        <div class="description">"lorem ipsum suffered alteration in aome from, by injected humor , or randomized words which don't look even slightly believable.There are many varation of passenger randomized words which don't look even slightly believable"</div>
-                    </div>
-                </div>
-            </div>
-            <div class="item">
-                <div class="row">
-                    <div class="col-sm-3 col-xs-4">
-                        <div class="media">
-                            <div class="media-left">
-                                <img src="images/testimonial_3.jpg" alt="Testimonial">
-                            </div>
-                            <div class="media-body">
-                                <h5>John Clay</h5>
-                                <p>Cyclist</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-9 col-xs-8">
-                        <div class="description">"lorem ipsum suffered alteration in aome from, by injected humor , or randomized words which don't look even slightly believable.There are many varation of passenger randomized words which don't look even slightly believable"</div>
-                    </div>
-                </div>
-            </div>
-            <div class="item">
-                <div class="row">
-                    <div class="col-sm-3 col-xs-4">
-                        <div class="media">
-                            <div class="media-left">
-                                <img src="images/testimonial_3.jpg" alt="Testimonial">
-                            </div>
-                            <div class="media-body">
-                                <h5>John Clay</h5>
-                                <p>Cyclist</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-9 col-xs-8">
-                        <div class="description">"lorem ipsum suffered alteration in aome from, by injected humor , or randomized words which don't look even slightly believable.There are many varation of passenger randomized words which don't look even slightly believable"</div>
-                    </div>
-                </div>
-            </div>
-            <div class="item">
-                <div class="row">
-                    <div class="col-sm-3 col-xs-4">
-                        <div class="media">
-                            <div class="media-left">
-                                <img src="images/testimonial_3.jpg" alt="Testimonial">
-                            </div>
-                            <div class="media-body">
-                                <h5>John Clay</h5>
-                                <p>Cyclist</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-9 col-xs-8">
-                        <div class="description">"lorem ipsum suffered alteration in aome from, by injected humor , or randomized words which don't look even slightly believable.There are many varation of passenger randomized words which don't look even slightly believable"</div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+    <div class="inner-banner">
+        <div class="container">
+            <div class="banner-inner-text">
+                <div class="banner-inner-width">
+                    <div class="text01">
+                        <span>Get the</span> latest
+                    </div>
+                    <div class="text01">
+                        <span>womens</span> fashion
+                    </div>
+                    <a href="product.html" title="Get Exclusive Collection For Women" class="btn-secondary">Get
+                        Exclusive Collection For Women</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <app-testimonial></app-testimonial>
 </section>

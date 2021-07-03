@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import {BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
@@ -17,7 +18,9 @@ import { LoginComponent } from './login/login.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { FooterComponent } from './footer/footer.component';
 import { Ng5SliderModule } from 'ng5-slider';
-
+import { CartComponent } from './cart/cart.component';
+import { CarouselModule } from 'ngx-owl-carousel-o';
+import { TestimonialComponent } from './testimonial/testimonial.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,14 +35,18 @@ import { Ng5SliderModule } from 'ng5-slider';
     LoadingSpinnerComponent,
     LoginComponent,
     UserProfileComponent,
-    FooterComponent
+    FooterComponent,
+    CartComponent,
+    TestimonialComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
     FormsModule,
-    Ng5SliderModule
+    Ng5SliderModule,
+    CarouselModule
   ],
   providers: [],
   bootstrap: [AppComponent]

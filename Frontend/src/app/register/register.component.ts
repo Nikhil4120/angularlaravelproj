@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from '../services/auth.service';
+import { TokenService } from '../services/token.service';
 
 
 @Component({
@@ -11,7 +12,7 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-
+  backenderror = "";  
   checks = false;
   isshown = false;
   error = "";
@@ -19,7 +20,7 @@ export class RegisterComponent implements OnInit {
   checked = [];
   isLoading = false;
   @ViewChild('authForm',{static:false}) regform:NgForm;
-  constructor(private AuthService:AuthService,private router:Router) { }
+  constructor(private AuthService:AuthService,private router:Router,private tokenservice:TokenService) { }
 
   ngOnInit(): void {
   }
@@ -52,8 +53,21 @@ export class RegisterComponent implements OnInit {
       authobs.subscribe(data=>{
         this.isLoading=false;
         this.usercreated = true;
-        this.regform.reset();    
-        this.router.navigate(['userprofile'])
+        this.AuthService.login({email:form.value.email,password:form.value.password}).subscribe(data=>{
+          this.regform.reset();    
+          
+          this.tokenservice.handle(data.token);
+          this.AuthService.changeAuthStatus(true);
+          this.router.navigate(['/']);
+        },error=>{
+          console.log(error.error.message);
+        })
+        
+        // this.router.navigate(['/userprofile']); 
+      },error=>{
+        this.isLoading=false;
+        this.backenderror = error;
+        console.log(this.backenderror);
       })
     }
     else{

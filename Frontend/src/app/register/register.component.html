@@ -9,13 +9,16 @@
         <div class="breadcrumb-panel">
             <div class="container">
                 <ol class="breadcrumb">
-                    <li><a href="index.html" title="Home">Home</a></li>
+                    <li><a routerLink="/" title="Home">Home</a></li>
                     <li class="active">Register</li>
                 </ol>
             </div>
         </div>
         <div class="alert alert-success" *ngIf="usercreated">
             <strong>User Created Successfully</strong>
+        </div>
+        <div class="alert alert-danger" *ngIf="backenderror!=''">
+            <strong>Email Already Exist</strong>
         </div>
         <div *ngIf="isLoading" style="text-align: center;margin:auto">
             <app-loading-spinner></app-loading-spinner>
@@ -49,7 +52,7 @@
                                                     <li class="custom-check">
                                                         <label> <input type="radio" class="icheck" value="male" name="gender" ngModel required #gender="ngModel">
                                                             Male</label>
-                                                    </li>
+                                                    </li>&nbsp;
                                                     <li class="custom-check">
                                                         <label> <input type="radio" class="icheck" value="female" name="gender" ngModel required #gender="ngModel">
                                                             Female</label>
@@ -64,18 +67,19 @@
                             <div class="row">
 
                                 <div class="col-sm-6">
-                                    <div class="form-group validation-error">
+                                    <div class="form-group">
                                         <label class="form-label">Password</label>
-                                        <input type="text" class="form-control" placeholder="Please enter your Password"
-                                            value="Incorrect Password" data-placeholder="Enter your Password" name="password" ngModel required #password="ngModel">
-                                            <span class="error" *ngIf="password.invalid && password.touched">Password field is required</span>
+                                        <input type="password" class="form-control" placeholder="Please enter your Password"
+                                             data-placeholder="Enter your Password" name="password" ngModel required minlength="8" #password="ngModel">
+                                            <span class="error" *ngIf="password.invalid && password.touched">Password is invalid</span>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label class="form-label">Email</label>
-                                        <input type="email" class="form-control" placeholder="Please enter valid email" name="email" ngModel required #email="ngModel">
-                                        <span class="error" *ngIf="email.invalid && email.touched">Email field is required</span>
+                                        <input type="email" class="form-control" placeholder="Please enter valid email" name="email" ngModel required email #email="ngModel">
+                                        <span class="error" *ngIf="email.invalid && email.touched">Email is invalid</span>
+                                        <span class="error" *ngIf="backenderror!=''">Email Already Exist</span>
                                     </div>
                                 </div>
                             </div>
@@ -93,7 +97,8 @@
                                     <div class="form-group">
                                         <label class="form-label">Mobile No.</label>
                                         <input type="text" class="form-control"
-                                            placeholder="Please enter yor mobile no." name="mobileno" ngModel required>
+                                            placeholder="Please enter your mobile no." name="mobileno" minlength="8" maxlength="12" pattern="[0-9]{8,12}" ngModel required #mobileno="ngModel">
+                                        <span class="error" *ngIf="mobileno.invalid && mobileno.touched">Mobile no. is between 8 to 12 letter and it must be number</span>
                                     </div>
                                 </div>
                             </div>
@@ -103,13 +108,14 @@
                                     <div class="form-group">
                                         <label class="form-label">Last Name</label>
                                         <input type="text" class="form-control"
-                                            placeholder="Please enter yor last name" name="lastname" ngModel required>
+                                            placeholder="Please enter your last name" name="lastname" ngModel required>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label class="form-label">Phone</label>
-                                        <input type="text" class="form-control" placeholder="Please enter yor phone" name="phoneno" ngModel required>
+                                        <input type="text" class="form-control" placeholder="Please enter your phone" name="phoneno" minlength="6" maxlength="10" pattern="[0-9]{6,10}" ngModel required #phoneno="ngModel">
+                                        <span class="error" *ngIf="phoneno.invalid && phoneno.touched">Phone no. is between 6 to 10 letter and it must be number</span>
                                     </div>
                                 </div>
 
@@ -164,7 +170,7 @@
                                     <div class=" reg-submit col-sm-6 text-right">
 
                                         <div class="form-group clearfix submit-outer">
-                                            <button type="submit" class="btn-secondary" [disabled]="!authForm.valid">Submit</button>
+                                            <button type="submit" class="btn-secondary" [disabled]="!authForm.valid">Submit</button>&nbsp;
                                             <button type="button" class="btn-tertiary" (click)="onclear()">Clear</button>
                                         </div>
 

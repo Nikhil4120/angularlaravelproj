@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-
 import { Color } from 'src/app/models/color.model';
 import { Product } from 'src/app/models/product.model';
 import { Size } from 'src/app/models/size.model';
@@ -56,8 +55,6 @@ export class ProductListComponent implements OnInit {
       this.isloading = true;      
       window.scroll(0,0);
       this.CategoryService.getCategories().subscribe(data=>{
-        
-
         console.log(data[this.id])
         this.Category = data[this.id].category_name;
         this.getSubCategory(data[this.id].id);
@@ -71,10 +68,6 @@ export class ProductListComponent implements OnInit {
       this.ColorService.getcolor().subscribe(data=>{
         this.color = data; 
       });
-      
-
-      
-
     });
     
   }
@@ -88,43 +81,28 @@ export class ProductListComponent implements OnInit {
       this.countcolors();
       this.countsubcategories();  
     });
-      
-     
   }
   getSubCategory(categoryid:number){
     this.SubCategoryService.getSubcategories().subscribe(data=>{
-      
       this.subcategory = data.filter(item=>item.category_id==categoryid);
       this.countsubcategories();  
     });
-
-    
-
-    
-
   }
   sorting(e){
-  //  console.log(e.target.value); 
+  
    if(e.target.value == "name"){
-    
     this.filterproduct.sort((a,b)=>(a.product_name<b.product_name)?-1:1);
    }
    else{
-    
     this.filterproduct.sort((a,b)=>(a.price<b.price)?-1:1);
    }
     
   }
 
   mainFunctionForFilter(){
-
-    
-    
     var len = this.checkedsubcat.filter(m=>m!=0).length;
-    
     var temp = [];
     if(len == 0){
-      
       temp = this.product;
     }
     
@@ -153,8 +131,7 @@ export class ProductListComponent implements OnInit {
       for (let index = 0; index < this.size.length; index++) {
         const element = this.checkedsize[index];
         if(element!=0){
-
-          const prod = temp.filter((m,i)=>{
+            const prod = temp.filter((m,i)=>{
             const t = m.size_id.split(",");
             if(t.includes(this.size[index].size_name)){
               if(!temp1.includes(m)){
@@ -162,16 +139,14 @@ export class ProductListComponent implements OnInit {
               }
               else{
                 return false;
-              }
-              
+              }     
             }
             else{
               return false;
             }
             });
           temp1.push(...prod);
-        }
-        
+        }     
       }
     }
     
@@ -184,71 +159,40 @@ export class ProductListComponent implements OnInit {
      else{
        temp2 = temp1.filter(m=>m.color_name == len);
      }
-     
      temp2 = temp2.filter(m=>m.price>=this.value && m.price<=this.highValue);
-     
-
     this.filterproduct = temp2;
-
-
-
-    
   }
   filterbysize(e,name,i){
-    
     if(e.target.checked){
-      
       this.checkedsize[i]=1;
-      
       this.mainFunctionForFilter();
     }
     else{
       this.checkedsize[i]=0;
-      this.mainFunctionForFilter();
-      
+      this.mainFunctionForFilter(); 
     }
-    
-
-    
-    
   }
   filterbysubcat(e,name,i){
     
     if(e.target.checked){
-     
-        
         this.checkedsubcat[i] = 1;
         this.mainFunctionForFilter(); 
-      
-      
     }
     else{
-      
       this.checkedsubcat[i] = 0;
-      this.mainFunctionForFilter();
-      
+      this.mainFunctionForFilter(); 
     }
-
-    
   }
   filterbyprice(e){
-    
     this.mainFunctionForFilter();
   }
   filterbycolor(e,name){
-    // if(this.selected.length == 0){
-    //   this.filterproduct = this.product.filter(m=>m.color_name == name);
-    // }
-    // else{
-    //   this.filterproduct = this.filterproduct.filter(m=>m.color_name == name);
-    // }
     this.checkedcolor = name;
     this.mainFunctionForFilter();
     
   }
-
   resetcolor(){
-    // this.filterproduct = this.product;
+    
     this.checkedcolor = ""
     this.mainFunctionForFilter();
   }
@@ -260,49 +204,31 @@ export class ProductListComponent implements OnInit {
     });
     
     for (let index = 0; index < this.subcategory.length; index++) {
-      
-      
       const len = (this.product.filter(m=>m.subcategory_name == this.subcategory[index].subcategory_name)).length;
-      this.subcategory[index].count = len;
-      
+      this.subcategory[index].count = len; 
     }
-    
-    
   }
-  countsizes(){
-    
-    
-    
+  countsizes(){  
     this.checkedsize = this.size.map((value,index)=>{
       (this.size[index])['count'] = 0;
       return 0;
     });
-    
+  
     for (let index = 0; index < this.size.length; index++) {
-      
-      
       const len = (this.product.filter((m,i)=>{
        const temp =  this.product[i].size_id.split(",");
        if(temp.includes(this.size[index].size_name)){
-        
         return true;
        }
        else{
          return false;
        }
-
         })).length;
-
       this.size[index].count = len;
-      
-      
     }
     
   }
   countcolors(){
-    
-    
-
     this.countcolor = this.color.map((value,index)=>{
       (this.color[index])['count']= 0;
       const len = this.product.filter(m=>value.color_name == m.color_name).length;
