@@ -12,6 +12,9 @@ use App\Http\controllers\StateController;
 use App\Http\controllers\CityController;
 use App\Http\controllers\newsController;
 use App\Http\controllers\frontuserController;
+use App\Http\controllers\SliderController;
+use App\Http\controllers\TestimonialController;
+use App\Http\controllers\TaxAmountController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -123,3 +126,17 @@ Route::get('/active/category/{id}',[CategoryController::class,'ActiveCategory'])
  Route::get('/users',[frontuserController::class,'Index'])->name('all.users');
  Route::get('/view/user/{id}',[frontuserController::class,'ViewUser'])->name('user.view');
  
+ Route::get('/slider',[SliderController::class,'Index'])->name('all.slider');
+ Route::get('/add/slider',[SliderController::class,'AddSlider'])->name('add.slider');
+ Route::post('/store/slider',[SliderController::class,'StoreSlider'])->name('store.slider');
+ Route::get('/edit/slider/{id}',[SliderController::class,'EditSlider'])->name('edit.slider');
+ Route::post('/update/slider/{id}',[SliderController::class,'UpdateSlider'])->name('update.slider');
+
+ Route::get('/testimonial',[TestimonialController::class,'Index'])->name('all.testimonial');
+ Route::get('/add/testimonial',[TestimonialController::class,'Addtestimonial'])->name('add.testimonial');
+ Route::post('/store/testimonial',[TestimonialController::class,'Storetestimonial'])->name('store.testimonial');
+
+ Route::get('/tax',[TaxAmountController::class,'Index'])->name('all.tax');
+ Route::get('/add/tax',[TaxAmountController::class,'Addtax'])->name('add.tax');
+ Route::get('/get/state/{id}',[TaxAmountController::class,'GetState']);
+ Route::post('/store/tax',[TaxAmountController::class,'Storetax'])->name('store.tax');

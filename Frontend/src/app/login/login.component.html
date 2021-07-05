@@ -1,39 +1,43 @@
 <div class="popup-outer">
-        <div class="modal fade" id="Login-popup" role="dialog" aria-hidden="true" >
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" #modal>
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <h2>eShopper Login</h2>
+    <div class="modal fade" id="Login-popup" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" #modal>
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h2>eShopper Login</h2>
+                </div>
+                <div class="modal-body">
+                    <div *ngIf="isloading" style="text-align: center">
+                        <app-loading-spinner></app-loading-spinner>
                     </div>
-                    <div class="modal-body">
-                        <div *ngIf="isloading" style="text-align: center">
-                            <app-loading-spinner></app-loading-spinner>
-                        </div>
-                        <div class="alert alert-danger" *ngIf="error">
-                            {{ error }}
-                        </div>
-                        <form  class="loginform" #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
-                            <div class="form-group">
-                                <label class="form-label">Email</label>
-                                <input type="email" class="form-control" placeholder="Enter your Email" #email="ngModel" name="email" ngModel required>
-                                <span class="error" *ngIf="email.invalid && email.touched">Email field is required</span>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Password</label>
-                                <input type="password" class="form-control" placeholder="Enter your Password" #password="ngModel" name="password" ngModel required>
-                                <span class="error" *ngIf="password.invalid && password.touched">Password field is required</span>
-                            </div>
-                            
-                            <div class="form-group clearfix login-options">
-                                <button type="submit" class="btn-secondary" [disabled]="!loginForm.valid">Login</button>
-                                <p>Not a Member? <a routerLink="register"  title="Register" (click)="modalclose()" style="cursor:pointer">Register</a></p>
-                            </div>
-                        </form>
+                    <div class="alert alert-danger" *ngIf="error">
+                        {{ error }}
                     </div>
+                    <form class="loginform" #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" placeholder="Enter your Email" #email="ngModel"
+                                name="email" ngModel required>
+                            <span class="error" *ngIf="email.invalid && email.touched">Email field is required</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Password</label>
+                            <input type="password" class="form-control" placeholder="Enter your Password"
+                                #password="ngModel" name="password" ngModel required>
+                            <span class="error" *ngIf="password.invalid && password.touched">Password field is
+                                required</span>
+                        </div>
+
+                        <div class="form-group clearfix login-options">
+                            <button type="submit" class="btn-secondary" [disabled]="!loginForm.valid">Login</button>
+                            <p>Not a Member? <a routerLink="register" title="Register" (click)="modalclose()"
+                                    style="cursor:pointer">Register</a></p>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+</div>

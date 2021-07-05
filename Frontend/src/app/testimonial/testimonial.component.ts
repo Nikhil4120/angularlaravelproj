@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OwlOptions } from 'ngx-owl-carousel-o';
+import { TestimonialService } from '../services/testimonial.service';
 @Component({
   selector: 'app-testimonial',
   templateUrl: './testimonial.component.html',
@@ -32,9 +33,14 @@ export class TestimonialComponent implements OnInit {
     nav: true
   }
 
-  constructor() { }
+  testimonials = [];
+
+  constructor(private testimonialservice:TestimonialService) { }
 
   ngOnInit(): void {
+    this.testimonialservice.Gettestimonial().subscribe(data=>{
+      this.testimonials = data.data.splice(0,4);
+    });
   }
 
 }

@@ -84,5 +84,10 @@ export class CartService {
     
   }
 
+  UpdateCart(products){
+    this.cartItems = products;
+    localStorage.setItem('cart',JSON.stringify(this.cartItems));
+    this.AddtoCartSubject.next(this.cartItems);
+  }
   
 }

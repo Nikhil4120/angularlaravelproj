@@ -229,6 +229,69 @@
             </ul>
             
           </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-copy"></i>
+              <p>
+                Sliders
+                <i class="fas fa-angle-left right"></i>
+                
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('all.slider') }}" class="nav-link {{ Route::is('all.slider') ? 'active' : ''}}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>All Slider</p>
+                </a>
+              </li>
+              
+              
+            </ul>
+            
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-copy"></i>
+              <p>
+                Testimonials
+                <i class="fas fa-angle-left right"></i>
+                
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('all.testimonial') }}" class="nav-link {{ Route::is('all.testimonial') ? 'active' : ''}}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>All Testimonial</p>
+                </a>
+              </li>
+              
+              
+            </ul>
+            
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-copy"></i>
+              <p>
+                Tax Amount
+                <i class="fas fa-angle-left right"></i>
+                
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('all.tax') }}" class="nav-link {{ Route::is('all.tax') ? 'active' : ''}}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>All Tax</p>
+                </a>
+              </li>
+              
+              
+            </ul>
+            
+          </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

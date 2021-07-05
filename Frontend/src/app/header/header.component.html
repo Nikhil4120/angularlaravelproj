@@ -26,7 +26,7 @@
                                         <a routerLink="products/{{i}}" class="menu-link"
                                             title="{{ item.category_name }}">{{ item.category_name }}</a>
                                         <ul class="sub-menu" *ngIf="issubcategory[i]!=0">
-                                            <li *ngFor="let subitem of subcategory"><a href="product-detail.html"
+                                            <li *ngFor="let subitem of subcategory"><a
                                                     *ngIf="item.id == subitem.category_id">{{ subitem.subcategory_name
                                                     }}</a></li>
 
@@ -45,13 +45,13 @@
                                 <span><em>Welcome</em>, {{ username }}</span>
                             </li>
                             <li class="login-link" *ngIf="!loggedIn"><a href="#" title="Login" data-toggle="modal"
-                                    data-target="#Login-popup" >Login</a></li>
+                                    data-target="#Login-popup">Login</a></li>
 
-                            <li class="login-link" *ngIf="loggedIn"><a href="#" title="Login" 
+                            <li class="login-link" *ngIf="loggedIn"><a href="#" title="Login"
                                     (click)="logout()">Logout</a></li>
-                                    <li *ngIf="loggedIn">
-                                        <a routerLink="/userprofile" title="My Profile">Profile</a>
-                                    </li>
+                            <li *ngIf="loggedIn">
+                                <a routerLink="/userprofile" title="My Profile">Profile</a>
+                            </li>
                             <li class="cart-outer" *ngIf="loggedIn">
                                 <a style="cursor: pointer;" title="Add to Cart" class="add-to-cart"></a>
                                 <div class="cart-wrap">
@@ -59,16 +59,19 @@
                                     <ul>
                                         <li *ngFor="let item of cartitems">
                                             <a class="cart-product" title="consectetur adipiscing elit"
-                                                href="product-detail.html"><img alt=""
+                                                routerLink="/products/detail/{{ item.id }}"><img alt=""
                                                     src="http://localhost:8000/{{ item.product_image}}"></a>
 
                                             <div class="cart-details">
-                                                <a class="btn-remove" title="Remove item" style="cursor:pointer" (click)="removeitem(item.id,item.size)"><img
+                                                <a class="btn-remove" title="Remove item" style="cursor:pointer"
+                                                    (click)="removeitem(item.id,item.size)"><img
                                                         src="../../assets/images/cross.svg" alt=""></a>
-                                                <a class="btn-edit" title="Edit item" href="cart.html">
+                                                <a class="btn-edit" title="Edit item"
+                                                    routerLink="/products/detail/{{ item.id }}"
+                                                    [queryParams]="{size:item.size}">
                                                     <img src="../../assets/images/edit.svg" alt="">
                                                 </a>
-                                                <p class="product-name"><a href="product-detail.html">{{ item.product_name}}</a></p>
+                                                <p class="product-name"><a routerLink="">{{ item.product_name}}</a></p>
                                                 <p class="price"> &#8377;{{ item.price }}</p>
                                                 <p class="qty-wrapper">
                                                     <span>Qty : </span>
@@ -84,7 +87,7 @@
                                                 </div>
                                             </div>
                                         </li>
-                                        
+
                                     </ul>
                                     <div class="summary">
                                         <p class="subtotal">

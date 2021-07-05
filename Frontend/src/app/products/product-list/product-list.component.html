@@ -1,6 +1,5 @@
+<div class="loader" *ngIf="isloading"></div>
 
-  <div class="loader" *ngIf="isloading"></div>
-  
 
 <div class="title-block-outer">
     <img src="../../assets/images/inner-banner.jpg" alt="Banner-image" class="img-responsive">
@@ -13,7 +12,7 @@
         <ol class="breadcrumb">
             <li><a routerLink="/" title="Home">Home</a></li>
             <li class="active"><a title="Men">{{ Category }}</a></li>
-            
+
         </ol>
     </div>
 </div>
@@ -31,10 +30,12 @@
                             <ul>
                                 <li class="custom-check" *ngFor="let item of subcategory;let i=index">
                                     <label>
-                                        <input type="checkbox" class="icheck" value="{{ item.id }}" (change)="filterbysubcat($event,item.subcategory_name,i)"> {{ item.subcategory_name }} <span>({{item.count}})</span>
+                                        <input type="checkbox" class="icheck" value="{{ item.id }}"
+                                            (change)="filterbysubcat($event,item.subcategory_name,i)"> {{
+                                        item.subcategory_name }} <span>({{item.count}})</span>
                                     </label>
                                 </li>
-                                
+
                             </ul>
                         </div>
                     </div>
@@ -43,10 +44,11 @@
                         <div class="filter-option-inner collapse in" id="collapse2">
                             <ul class="colour_family_list clearfix">
                                 <li *ngFor="let item of color;let i=index">
-                                    <a title="Magenta" (click)="filterbycolor($event,item.color_name)"> <span [style.background-color]="item.color_code"></span> {{ item.color_name }}
+                                    <a title="Magenta" (click)="filterbycolor($event,item.color_name)"> <span
+                                            [style.background-color]="item.color_code"></span> {{ item.color_name }}
                                         <i>({{ item.count }})</i></a>
                                 </li>
-                                
+
                                 <li><a (click)="resetcolor()" title="Reset" class="reset-link">Reset</a></li>
                             </ul>
                         </div>
@@ -61,7 +63,8 @@
                             <!-- <div class="slider"><img src="../../assets/images/price.jpg" alt=""></div> -->
                             <!-- <input type="range" min="0" max="2000" [(ngModel)]="price" (change)="filterbyprice($event,price)">
                             <span>{{price}}</span> -->
-                            <ng5-slider [(value)]="value" [(highValue)]="highValue" [options]="options" (valueChange)="filterbyprice($event)"></ng5-slider>
+                            <ng5-slider [(value)]="value" [(highValue)]="highValue" [options]="options"
+                                (valueChange)="filterbyprice($event)"></ng5-slider>
                             <!-- <div class="price-range clearfix"><span class="min"> Rs. 174</span><span class="max"> Rs.
                                     8,999</span></div> -->
                         </div>
@@ -73,11 +76,12 @@
 
                                 <li class="custom-check" *ngFor="let item of size;let i=index">
                                     <label>
-                                        <input type="checkbox" class="icheck" value="{{ item.id }}" (change)="filterbysize($event,item.size_name,i)"> {{ item.size_name
+                                        <input type="checkbox" class="icheck" value="{{ item.id }}"
+                                            (change)="filterbysize($event,item.size_name,i)"> {{ item.size_name
                                         }} <span>({{ item.count}})</span>
                                     </label>
                                 </li>
-                                
+
                             </ul>
                         </div>
                     </div>
@@ -106,18 +110,21 @@
                 </div>
                 <div class="grid-content">
                     <div class="grid row">
-                        
-                        
-                        
+
+
+
                         <app-product-item *ngFor="let item of filterproduct;let i=index" [product]="item" [Index]="i">
                         </app-product-item>
-                        <div *ngIf="filterproduct.length == 0 && !isloading"><h1>No products Availiable</h1></div>
+                        <div *ngIf="filterproduct.length == 0 && !isloading">
+                            <h1>No products Availiable</h1>
+                        </div>
                     </div>
                 </div>
 
                 <div class="col-sm-12 col-xs-12" *ngIf="!isloading">
                     <span class="button-outer text-center">
-                        <a class="btn-tertiary" style="cursor: pointer;" title="More Products" *ngIf="filterproduct.length != product.length && filterproduct.length!=0">More Products</a>
+                        <a class="btn-tertiary" style="cursor: pointer;" title="More Products"
+                            *ngIf="filterproduct.length != product.length && filterproduct.length!=0">More Products</a>
                     </span>
                 </div>
             </div>

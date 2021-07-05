@@ -1,152 +1,166 @@
 <section class="inner-content">
-            <div class="title-block-outer">
-                <img src="../../assets/images/inner-banner.jpg" alt="Banner-image" class="img-responsive">
-                <div class="title-block-container">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <h2>Shopping Cart</h2>
+    <div class="title-block-outer">
+        <img src="../../assets/images/inner-banner.jpg" alt="Banner-image" class="img-responsive">
+        <div class="title-block-container">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h2>Shopping Cart</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="breadcrumb-panel">
+        <div class="container">
+            <ol class="breadcrumb">
+                <li><a routerLink="/" title="Home">Home</a></li>
+                <li class="active">Shopping Cart</li>
+            </ol>
+        </div>
+    </div>
+    <div class="content">
+        <div class="container shopping-wrap">
+            <div class="alert alert-dismissible alert-success" role="alert" *ngFor="let item of alertitems">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <i> <img src="../../assets/images/success.svg" alt="success"></i> <span> {{ item.product_name }} </span>
+                was added to your shopping cart
+            </div>
+            <h1 *ngIf="cartitems.length==0">No cart items availiable</h1>
+            <div class="table-responsive" *ngIf="cartitems.length!=0">
+                <table class="table shopping-table">
+                    <thead>
+                        <tr>
+                            <th class="theading-1">&nbsp;</th>
+                            <th>Product Name</th>
+                            <th>&nbsp;</th>
+                            <th>Unit Price</th>
+                            <th>Qty</th>
+                            <th>Subtotal</th>
+                            <th>&nbsp;</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of cartitems">
+                            <td class="product-image-outer">
+                                <a routerLink="/products/detail/{{ item.id }}" title="{{ item.product_name}}"><img
+                                        src="http://localhost:8000/{{ item.product_image}}" alt="{{ item.product_name}}"
+                                        style="height: 100px;width:50px"></a>
+                            </td>
+                            <td>
+                                <h2 class="product-name">
+                                    <a routerLink="/products/detail/{{ item.id }}">{{ item.product_name}}</a>
+                                </h2>
+                                <ul>
+                                    <li><strong>Color</strong></li>
+                                    <li>{{ item.color_name }} </li>
+                                    <li><strong>size</strong></li>
+                                    <li>{{ item.size}} </li>
+                                </ul>
+                            </td>
+                            <td>
+                                <a href="#" title="Edit item" class="edit-link"> <img
+                                        src="../../assets/images/edit-dark.svg" alt="edit"></a>
+                            </td>
+                            <td>
+                                <span class="orange-text">&#8377;{{ item.price }}</span>
+                            </td>
+                            <td>
+                                <input type="number" title="Qty" class="form-control qty" #quantity
+                                    ngModel="{{item.product_quantity}}" min="1" style="width:60px"
+                                    (change)="quantitychange($event,item.id,item.size)">
+                            </td>
+                            <td>
+                                <span class="orange-text">&#8377;{{ quantity.value * item.price}}</span>
+                            </td>
+                            <td>
+                                <a style="cursor: pointer;" title="Remove item" class="remove-link"
+                                    (click)="removeitem(item.id,item.size)"><img
+                                        src="../../assets/images/cross-dark.svg" alt="delete"></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="2">
+                                <a routerLink="/" title="Continue Shopping" class="btn-tertiary">Continue Shopping</a>
+                            </td>
+                            <td colspan="5" class="btn-right">
+                                <a title="Clear Shopping Cart" class="btn-tertiary" (click)="clearall()"
+                                    style="cursor:pointer">Clear Shopping Cart</a>
+                                <a title="Update Shopping Cart" class="btn-tertiary" (click)="updatecart()"
+                                    style="cursor:pointer">Update Shopping Cart</a>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="row" *ngIf="cartitems.length!=0">
+                <div class="col-sm-5">
+                    <div class="shipping-block">
+                        <h4>Estimate Shipping and Tax</h4>
+                        <p>Enter your destination to get a shipping estimate.</p>
+                        <form>
+                            <div class="form-group">
+                                <label class="form-label">country</label>
+                                <select class="default-select form-control" (change)="filterstate($event)" name="country" [(ngModel)]="country">
+                                    <option value="" disabled selected>----Select Country-----</option>
+                                    <option *ngFor="let item of allcountry" value="{{ item.id }}">{{ item.country_name }}</option>
+                                    
+                                </select>
                             </div>
-                        </div>
+                            <div class="form-group">
+                                <label class="form-label">State</label>
+                                <select class="default-select form-control" (change)="filtertax()" name="state" [(ngModel)]="state">
+                                    <option value="" selected>----Select State-----</option>
+                                    <option *ngFor="let item of statefilter" value="{{ item.id }}">{{ item.state_name }}</option>
+                                    
+                                </select>
+                            </div>
+                            
+                            <h3>Estimated Tax:</h3>{{ taxamount }}
+                        </form>
                     </div>
                 </div>
-            </div>
-            <div class="breadcrumb-panel">
-                <div class="container">
-                    <ol class="breadcrumb">
-                        <li><a routerLink="/" title="Home">Home</a></li>
-                        <li class="active">Shopping Cart</li>
-                    </ol>
-                </div>
-            </div>
-            <div class="content">
-                <div class="container shopping-wrap">
-                    <div class="alert alert-dismissible alert-success" role="alert" *ngFor="let item of cartitems">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <i> <img src="../../assets/images/success.svg" alt="success"></i> <span> {{ item.product_name }} </span> was added to your shopping cart
-                    </div>
-                    <h1 *ngIf="cartitems.length==0">No cart items availiable</h1>
-                    <div class="table-responsive" *ngIf="cartitems.length!=0">
-                        <table class="table shopping-table">
-                            <thead>
-                                <tr>
-                                    <th class="theading-1">&nbsp;</th>
-                                    <th>Product Name</th>
-                                    <th>&nbsp;</th>
-                                    <th>Unit Price</th>
-                                    <th>Qty</th>
-                                    <th>Subtotal</th>
-                                    <th>&nbsp;</th>
-                                </tr>
-                            </thead>
+                <div class="col-sm-4 col-sm-offset-3">
+                    <div class="table-responsive">
+                        <table class="table summary-table">
                             <tbody>
-                                <tr *ngFor="let item of cartitems">
-                                    <td class="product-image-outer">
-                                        <a routerLink="/products/detail/{{ item.id }}" title="{{ item.product_name}}"><img src="../../assets/images/cart-img01.jpg" alt="{{ item.product_name}}"></a>
-                                    </td>
-                                    <td>
-                                        <h2 class="product-name">
-                                            <a href="product-detail.html">{{ item.product_name}}</a>
-                                        </h2>
-                                        <ul>
-                                            <li><strong>Color</strong></li>
-                                            <li>{{ item.color_name }} </li>
-                                            <li><strong>size</strong></li>
-                                            <li>{{ item.size}} </li>
-                                        </ul>
-                                    </td>
-                                    <td>
-                                        <a href="#" title="Edit item" class="edit-link"> <img src="../../assets/images/edit-dark.svg" alt="edit"></a>
-                                    </td>
-                                    <td>
-                                        <span class="orange-text">${{ item.price }}</span>
-                                    </td>
-                                    <td>
-                                        <input type="text"  title="Qty" class="form-control qty" #quantity ngModel="{{item.product_quantity}}">
-                                    </td>
-                                    <td>
-                                        <span class="orange-text">${{ quantity.value  *  item.price}}</span>
-                                    </td>
-                                    <td>
-                                        <a style="cursor: pointer;" title="Remove item" class="remove-link" (click)="removeitem(item.id,item.size)"><img src="../../assets/images/cross-dark.svg" alt="delete"></a>
+                                <tr>
+                                    <td>Subtotal</td>
+                                    <td>&#8377;{{ total }}</td>
+                                </tr>
+                                
+                                <tr>
+                                    <td>Tax</td>
+                                    <td>&#8377;{{ taxamount }}</td>
+                                </tr>
+                                <tr>
+                                    <td class="summary-total"><strong>Total</strong></td>
+                                    <td class="summary-price"><strong>&#8377;{{ total + taxamount }}</strong></td>
+                                </tr>
+
+                                <tr>
+                                    <td colspan="2">
+                                        <a href="#" title="Update Shopping Cart" class="btn-secondary">Checkout
+                                            </a>
                                     </td>
                                 </tr>
                             </tbody>
                             <tfoot>
                                 <tr>
                                     <td colspan="2">
-                                        <a routerLink="/" title="Continue Shopping" class="btn-tertiary">Continue Shopping</a>
-                                    </td>
-                                    <td colspan="5" class="btn-right" >
-                                        <a title="Clear Shopping Cart" class="btn-tertiary" (click)="clearall()" style="cursor:pointer">Clear Shopping Cart</a>
-                                        <a href="#" title="Update Shopping Cart" class="btn-tertiary">Update Shopping Cart</a>
+                                        <a href="profile.html" title="Checkout with Multiple Addresses">
+                                            Checkout with Multiple Addresses
+                                        </a>
                                     </td>
                                 </tr>
                             </tfoot>
                         </table>
                     </div>
-                    <div class="row" *ngIf="cartitems.length!=0">
-                        <div class="col-sm-5">
-                            <div class="shipping-block">
-                                <h4>Estimate Shipping and Tax</h4>
-                                <p>Enter your destination to get a shipping estimate.</p>
-                                <form>
-                                    <div class="form-group">
-                                        <label class="form-label">country</label>
-                                        <select class="default-select form-control">
-                                            <option>India</option>
-                                            <option>United States</option>
-                                            <option>Australia</option>
-                                            <option>China</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">State/Province</label>
-                                        <input type="text" class="form-control" placeholder="State/Province">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="form-label">Zip/Postal Code</label>
-                                        <input type="text" class="form-control" placeholder="Zip/Postal Code">
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="col-sm-4 col-sm-offset-3">
-                            <div class="table-responsive">
-                                <table class="table summary-table">
-                                    <tbody>
-                                        <tr>
-                                            <td>Subtotal</td>
-                                            <td>$222.00</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="summary-total"><strong>Tax</strong></td>
-                                            <td class="summary-price"><strong>$222.00</strong></td>
-                                        </tr>
-                                        <tr>
-                                            <td class="summary-total"><strong>Total</strong></td>
-                                            <td class="summary-price"><strong>$222.00</strong></td>
-                                        </tr>
-                                        
-                                        <tr>
-                                            <td colspan="2">
-                                                <a href="#" title="Update Shopping Cart" class="btn-secondary">Checkout</a>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <td colspan="2">
-                                                <a href="profile.html" title="Checkout with Multiple Addresses">
-                                                    Checkout with Multiple Addresses
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    </tfoot>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </div>
+</section>

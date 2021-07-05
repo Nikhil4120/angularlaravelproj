@@ -261,4 +261,41 @@ class ApiController extends Controller implements JWTSubject
     }
 
 
+    public function AddWishList(Request $request){
+        $data = array();
+        $data['user_id'] = $request->user_id;
+        $data['product_id'] = $request->product_id;
+        $data['created_at'] = Carbon::now();
+        DB::table('wishlists')->insert($data);
+        return response()->json(['success' => true,'message' => "Item Added to wishlist"], 200);
+    }
+
+    public function WishList(){
+        $wishlist = DB::table('wishlists')->get();
+        return response()->json(['success' => true,'data' => $wishlist], 200);
+    }
+    public function RemoveWishList(Request $request){
+        $user_id = $request->user_id;
+        $product_id = $request->product_id;
+        $wishlist = DB::table('wishlists')->where('user_id',$user_id)->where('product_id',$product_id)->delete();
+        return response()->json(['success' => true,'data' => "Items Removed"], 200);
+    }
+
+    public function Testimonial(){
+        $testimonial = DB::table('testimonials')->orderBy('id','desc')->get();
+        return response()->json(['success' => true,'data' => $testimonial], 200);
+    }
+
+    public function Slider(){
+        $slider = DB::table('sliders')->orderBy('id','desc')->get();
+        return response()->json(['success' => true,'data' => $slider], 200);
+    }
+
+    public function TaxAmount(){
+
+        $taxamounts = DB::table('taxamounts')->get();
+        return response()->json($taxamounts);
+
+    }
+
 }

@@ -1,187 +1,221 @@
 <div class="loader" *ngIf="isLoading"></div>
 <div class="title-block-outer">
-            <img src="../../assets/images/inner-banner.jpg" alt="Banner-image" class="img-responsive">
-            <div class="title-block-container">
-                <div class="container">
-                    <h2>Register</h2>
-                </div>
-            </div>
+    <img src="../../assets/images/inner-banner.jpg" alt="Banner-image" class="img-responsive">
+    <div class="title-block-container">
+        <div class="container">
+            <h2>Register</h2>
         </div>
-        <div class="breadcrumb-panel">
-            <div class="container">
-                <ol class="breadcrumb">
-                    <li><a routerLink="/" title="Home">Home</a></li>
-                    <li class="active">Register</li>
-                </ol>
-            </div>
-        </div>
-        
-        
-        
-        <section class="content register">
-            <div class="container">
+    </div>
+</div>
+<div class="breadcrumb-panel">
+    <div class="container">
+        <ol class="breadcrumb">
+            <li><a routerLink="/" title="Home">Home</a></li>
+            <li class="active">Register</li>
+        </ol>
+    </div>
+</div>
+<section class="content register">
+    <div class="container">
 
-                <h2>New Customers</h2>
-                <p>
-                    By creating an account with our store, you will be able to move through the checkout process faster,
-                    store multiple shipping addresses, view and track your orders in your account and more.
-                </p>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <form class="form-block" #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label class="form-label">Username</label>
-                                        <input type="text" class="form-control" placeholder="Please enter your username" name="username" ngModel required #username="ngModel">
-                                        <span class="error" *ngIf="username.invalid && username.touched">Username field is required</span>
-                                    </div>
-                                </div>
-
-                                <div class="col-sm-6">
-                                    <div class="form-group gender-list">
-                                        <label class="form-label">Gender</label>
-                                        <div class="filter-option">
-                                            <div class="filter-option-inner">
-                                                <ul>
-                                                    <li class="custom-check">
-                                                        <label> <input type="radio" class="icheck" value="male" name="gender" ngModel required #gender="ngModel">
-                                                            Male</label>
-                                                    </li>&nbsp;
-                                                    <li class="custom-check">
-                                                        <label> <input type="radio" class="icheck" value="female" name="gender" ngModel required #gender="ngModel">
-                                                            Female</label>
-                                                    </li>
-                                                </ul>
-                                                
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+        <h2>New Customers</h2>
+        <p>
+            By creating an account with our store, you will be able to move through the checkout process faster,
+            store multiple shipping addresses, view and track your orders in your account and more.
+        </p>
+        <div class="row">
+            <div class="col-sm-12">
+                <form class="form-block" #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="form-label">Username</label>
+                                <input type="text" class="form-control" placeholder="Please enter your username"
+                                    name="username" ngModel required #username="ngModel">
+                                <span class="error" *ngIf="username.invalid && username.touched">Username field is
+                                    required</span>
                             </div>
-                            <div class="row">
+                        </div>
 
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label class="form-label">Password</label>
-                                        <input type="password" class="form-control" placeholder="Please enter your Password"
-                                             data-placeholder="Enter your Password" name="password" ngModel required minlength="8" #password="ngModel">
-                                             <span class="error" *ngIf="password.invalid && password.touched && password.value == '' ">Password is Required</span>
-                                            <span class="error" *ngIf="password.invalid && password.touched && password.value != ''">Password must be atleast 8 characters</span>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label class="form-label">Email</label>
-                                        <input type="email" class="form-control" [ngClass]="{'backenderror':backenderror!=''}" placeholder="Please enter valid email" name="email" ngModel required email #email="ngModel" (blur)="emailcheck($event)">
-                                        <span class="error" *ngIf="email.invalid && email.touched && email.value==''">Email is Required</span>
-                                        <span class="error" *ngIf="email.invalid && email.touched && email.value!=''">Email is invalid</span>
-                                        <span class="error" *ngIf="backenderror!=''">Email Already Exist</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label class="form-label">First Name</label>
-                                        <input type="text" class="form-control"
-                                            placeholder="Please enter your first name" name="firstname" ngModel required #firstname="ngModel">
-                                         <span class="error" *ngIf="firstname.invalid && firstname.touched">FirstName is required</span>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label class="form-label">Mobile No.</label>
-                                        <input type="text" class="form-control"
-                                            placeholder="Please enter your mobile no." name="mobileno" minlength="8" maxlength="12" pattern="[0-9]{8,12}" ngModel required #mobileno="ngModel">
-                                        <span class="error" *ngIf="mobileno.invalid && mobileno.touched && mobileno.value==''">Mobile no. is Required</span>
-                                        <span class="error" *ngIf="mobileno.invalid && mobileno.touched && mobileno.value!=''">Please enter a valid Mobileno.</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label class="form-label">Last Name</label>
-                                        <input type="text" class="form-control"
-                                            placeholder="Please enter your last name" name="lastname" ngModel required>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label class="form-label">Phone</label>
-                                        <input type="text" class="form-control" placeholder="Please enter your phone" name="phoneno" minlength="6" maxlength="10" pattern="[0-9]{6,10}" ngModel required #phoneno="ngModel">
-                                        <span class="error" *ngIf="phoneno.invalid && phoneno.touched && phoneno.value==''">Phone no. is Required</span>
-                                        <span class="error" *ngIf="phoneno.invalid && phoneno.touched && phoneno.value!=''">Please enter a valid phoneno.</span>
-                                    </div>
-                                </div>
-
-
-                            </div>
-
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label class="form-label">Interests</label>
-                                        <div class="filter-option">
-                                            <div class="filter-option-inner">
-                                                <ul>
-                                                    <li class="custom-check">
-                                                        <label> <input type="checkbox" class="icheck" name="all" id="all" [(ngModel)]="checks">Select All</label>
-                                                    </li>
-                                                    <li class="custom-check">
-                                                        <label> <input type="checkbox" class="icheck" name="men" value="men"  [ngModel]="checks" (change)="checkboxchange($event,'men')"> Option 1 </label>
-                                                    </li>
-                                                    <li class="custom-check">
-                                                        <label> <input type="checkbox" class="icheck" value="women" name="women"  [ngModel]="checks" (change)="checkboxchange($event,'women')">Option 2 </label>
-                                                    </li>
-                                                    <li class="custom-check">
-                                                        <label> <input type="checkbox" class="icheck" value="kids" name="kids" [ngModel]="checks" (change)="checkboxchange($event,'kids')"> Option 3</label>
-                                                    </li>
-                                                    <li class="custom-check">
-                                                        <label> <input type="checkbox" class="icheck" (change)="showtextbox($event)" name="other" value="other" ngModel>Other</label>
-                                                        <input type="text" class="form-control" *ngIf ="isshown" required ngModel name="otheri">
-                                                    </li>
-
-                                                </ul>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-
-
-
-                            <div class="bottom-group ">
-                                <div class=" row">
-                                    <div class="term-condition col-sm-6">
-                                        <div class="checkbox">
-                                            <label class="chklbl"><input type="checkbox" value="agree" name="agree" ngModel>&nbsp;&nbsp;I Agree
-                                                with <a href="#">Terms &amp; Conditions.</a></label>
-                                        </div>
-                                        <span class="error">{{ error }}</span>
-                                    </div>
-
-                                    <div class="reg-submit col-sm-6 text-right">
-
-                                        <div class="form-group clearfix submit-outer">
-                                            <button type="submit" class="btn-secondary" [disabled]="!authForm.valid || backenderror!='' ">Submit</button>&nbsp;
-                                            <button type="button" class="btn-tertiary" (click)="onclear()">Clear</button>
-                                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group gender-list">
+                                <label class="form-label">Gender</label>
+                                <div class="filter-option">
+                                    <div class="filter-option-inner">
+                                        <ul>
+                                            <li class="custom-check">
+                                                <label> <input type="radio" class="icheck" value="male" name="gender"
+                                                        ngModel required #gender="ngModel">
+                                                    Male</label>
+                                            </li>&nbsp;
+                                            <li class="custom-check">
+                                                <label> <input type="radio" class="icheck" value="female" name="gender"
+                                                        ngModel required #gender="ngModel">
+                                                    Female</label>
+                                            </li>
+                                        </ul>
 
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                    <div class="row">
 
-                        </form>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="form-label">Password</label>
+                                <input type="password" class="form-control" placeholder="Please enter your Password"
+                                    data-placeholder="Enter your Password" name="password" ngModel required
+                                    minlength="8" #password="ngModel">
+                                <span class="error"
+                                    *ngIf="password.invalid && password.touched && password.value == '' ">Password is
+                                    Required</span>
+                                <span class="error"
+                                    *ngIf="password.invalid && password.touched && password.value != ''">Password must
+                                    be atleast 8 characters</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" [ngClass]="{'backenderror':backenderror!=''}"
+                                    placeholder="Please enter valid email" name="email" ngModel required email
+                                    #email="ngModel" (blur)="emailcheck($event)">
+                                <span class="error" *ngIf="email.invalid && email.touched && email.value==''">Email is
+                                    Required</span>
+                                <span class="error" *ngIf="email.invalid && email.touched && email.value!=''">Email is
+                                    invalid</span>
+                                <span class="error" *ngIf="backenderror!=''">Email Already Exist</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="form-label">First Name</label>
+                                <input type="text" class="form-control" placeholder="Please enter your first name"
+                                    name="firstname" ngModel required #firstname="ngModel">
+                                <span class="error" *ngIf="firstname.invalid && firstname.touched">FirstName is
+                                    required</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="form-label">Mobile No.</label>
+                                <input type="text" class="form-control" placeholder="Please enter your mobile no."
+                                    name="mobileno" minlength="8" maxlength="12" pattern="[0-9]{8,12}" ngModel required
+                                    #mobileno="ngModel">
+                                <span class="error"
+                                    *ngIf="mobileno.invalid && mobileno.touched && mobileno.value==''">Mobile no. is
+                                    Required</span>
+                                <span class="error"
+                                    *ngIf="mobileno.invalid && mobileno.touched && mobileno.value!=''">Please enter a
+                                    valid Mobileno.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="form-label">Last Name</label>
+                                <input type="text" class="form-control" placeholder="Please enter your last name"
+                                    name="lastname" ngModel required>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="form-label">Phone</label>
+                                <input type="text" class="form-control" placeholder="Please enter your phone"
+                                    name="phoneno" minlength="6" maxlength="10" pattern="[0-9]{6,10}" ngModel required
+                                    #phoneno="ngModel">
+                                <span class="error"
+                                    *ngIf="phoneno.invalid && phoneno.touched && phoneno.value==''">Phone no. is
+                                    Required</span>
+                                <span class="error"
+                                    *ngIf="phoneno.invalid && phoneno.touched && phoneno.value!=''">Please enter a valid
+                                    phoneno.</span>
+                            </div>
+                        </div>
+
 
                     </div>
 
-                </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="form-label">Interests</label>
+                                <div class="filter-option">
+                                    <div class="filter-option-inner">
+                                        <ul>
+                                            <li class="custom-check">
+                                                <label> <input type="checkbox" class="icheck" name="all" id="all"
+                                                        [(ngModel)]="checks">Select All</label>
+                                            </li>
+                                            <li class="custom-check">
+                                                <label> <input type="checkbox" class="icheck" name="men" value="men"
+                                                        [ngModel]="checks" (change)="checkboxchange($event,'men')">
+                                                    Option 1 </label>
+                                            </li>
+                                            <li class="custom-check">
+                                                <label> <input type="checkbox" class="icheck" value="women" name="women"
+                                                        [ngModel]="checks"
+                                                        (change)="checkboxchange($event,'women')">Option 2 </label>
+                                            </li>
+                                            <li class="custom-check">
+                                                <label> <input type="checkbox" class="icheck" value="kids" name="kids"
+                                                        [ngModel]="checks" (change)="checkboxchange($event,'kids')">
+                                                    Option 3</label>
+                                            </li>
+                                            <li class="custom-check">
+                                                <label> <input type="checkbox" class="icheck"
+                                                        (change)="showtextbox($event)" name="other" value="other"
+                                                        ngModel>Other</label>
+                                                <input type="text" class="form-control" *ngIf="isshown" required ngModel
+                                                    name="otheri">
+                                            </li>
+
+                                        </ul>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="bottom-group ">
+                        <div class=" row">
+                            <div class="term-condition col-sm-6">
+                                <div class="checkbox">
+                                    <label class="chklbl"><input type="checkbox" value="agree" name="agree"
+                                            ngModel>&nbsp;&nbsp;I Agree
+                                        with <a href="#">Terms &amp; Conditions.</a></label>
+                                </div>
+                                <span class="error">{{ error }}</span>
+                            </div>
+
+                            <div class="reg-submit col-sm-6 text-right">
+
+                                <div class="form-group clearfix submit-outer">
+                                    <button type="submit" class="btn-secondary"
+                                        [disabled]="!authForm.valid || backenderror!='' ">Submit</button>&nbsp;
+                                    <button type="button" class="btn-tertiary" (click)="onclear()">Clear</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+
             </div>
-        </section>
+
+        </div>
+    </div>
+</section>

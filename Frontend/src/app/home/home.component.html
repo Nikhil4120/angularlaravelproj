@@ -1,19 +1,9 @@
 <div class="banner">
-    <!-- <div id="sync1" class="owl-carousel" #slider>
-        <div class="item">
-            <img src="../../assets/images/banner.jpg" alt="banner">
-        </div>
-        <div class="item">
-            <img src="../../assets/images/banner1.jpg" alt="banner">
-        </div>
-        <div class="item">
-            <img src="../../assets/images/banner2.jpg" alt="banner">
-        </div>
-    </div> -->
+
     <owl-carousel-o [options]="customOptions">
-        <ng-template carouselSlide><img src="../../assets/images/banner.jpg" alt="banner"></ng-template>
-        <ng-template carouselSlide><img src="../../assets/images/banner1.jpg" alt="banner"></ng-template>
-        <ng-template carouselSlide><img src="../../assets/images/banner2.jpg" alt="banner"></ng-template>
+        <ng-template carouselSlide *ngFor="let item of sliders"><img src="http://localhost:8000/{{ item.image }}"
+                alt="banner"></ng-template>
+
     </owl-carousel-o>
 </div>
 <section class="services-section">

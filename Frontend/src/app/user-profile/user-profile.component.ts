@@ -32,7 +32,8 @@ export class UserProfileComponent implements OnInit {
     womenchecked:null,
     kids:null,
     other:null,
-    otherintrest:null
+    otherintrest:null,
+    all:null
   };
   shipping = {
     street:null,
@@ -56,6 +57,7 @@ export class UserProfileComponent implements OnInit {
   constructor(private tokenservice:TokenService,private authservice:AuthService,private cityservice:CityService,private Countryservice:CountryService,private stateservice:StateService,private userprofileservice:UserprofileService,private toastr:ToastrService) { }
 
   ngOnInit(): void {
+    this.isloading = true;
     const token = localStorage.getItem('token');
     this.Countryservice.getcountry().subscribe(data=>{
       this.allcountries = data;
@@ -110,6 +112,9 @@ export class UserProfileComponent implements OnInit {
         this.formdata.kids = true;
         
       }
+      if(this.formdata.menchecked && this.formdata.womenchecked && this.formdata.kids ){
+        this.formdata.all = true;       
+      }
       if(intrest.filter(m=>m!="men" && m!="women"&& m!="kids" ).length != 0 ){
         console.log(intrest.filter(m=>m!="men" && m!="women"&& m!="kids" ));
         this.formdata.other = true;
@@ -118,7 +123,7 @@ export class UserProfileComponent implements OnInit {
       }
 
       
-
+      this.isloading = false;
     })
     
     

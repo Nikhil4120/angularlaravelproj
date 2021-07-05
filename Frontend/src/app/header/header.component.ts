@@ -7,7 +7,7 @@ import { CartService } from '../services/cart.service';
 import { CategoryService } from '../services/category.service';
 import { SubcategoryService } from '../services/subcategory.service';
 import { TokenService } from '../services/token.service';
-
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -23,7 +23,7 @@ export class HeaderComponent implements OnInit {
   cartitems = [];
   issubcategory = [];
   total = 0;
-  constructor(private CategoryService:CategoryService,private SubcategoryService:SubcategoryService,private AuthService:AuthService,private router:Router,private tokenservice:TokenService,private cartService:CartService) { }
+  constructor(private CategoryService:CategoryService,private SubcategoryService:SubcategoryService,private AuthService:AuthService,private router:Router,private tokenservice:TokenService,private cartService:CartService,private toastr:ToastrService) { }
 
   ngOnInit(): void {
     this.AuthService.authstatus.subscribe(value=>{
@@ -32,6 +32,11 @@ export class HeaderComponent implements OnInit {
         const token = localStorage.getItem('token');
         this.AuthService.getuser(token).subscribe(data=>{
           this.username = data['user'].username;
+        },
+        error=>{
+          this.toastr.error("Your token has been expired you need to relogin");
+          this.logout();
+
         } 
         ) 
       }

@@ -38,3 +38,11 @@ Route::post('/emailcheck',[ApiController::class,'EmailCheck']);
 Route::post('/useremailcheck',[ApiController::class,'UserEmailCheck']);
 
 Route::post('/contact',[ApiController::class,'Contactus']);
+Route::post('/addwishlist',[ApiController::class,'AddWishList']);
+Route::get('/wishlist',[ApiController::class,'WishList']);
+Route::post('/removelist',[ApiController::class,'RemoveWishList']);
+
+Route::get('/testimonial',[ApiController::class,'Testimonial']);
+Route::get('/slider',[ApiController::class,'Slider']);
+
+Route::get('/taxamount',[ApiController::class,'Taxamount']);
