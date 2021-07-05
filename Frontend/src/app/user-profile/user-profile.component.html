@@ -9,7 +9,7 @@
 <div class="breadcrumb-panel">
     <div class="container">
         <ol class="breadcrumb">
-            <li><a href="index.html" title="Home">Home</a></li>
+            <li><a routerLink="/" title="Home">Home</a></li>
             <li class="active">Update Profile</li>
         </ol>
     </div>
@@ -47,8 +47,9 @@ z-index: 9999;
                                             <li class="custom-check">
                                                 <label> <input type="radio" class="icheck" name="gender" value="Male" [(ngModel)]="formdata.gender" required/>Male</label> 
                                             </li>
+
                                             <li class="custom-check">
-                                                <label><input type="radio" class="icheck" name="gender" value="Female" [(ngModel)]="formdata.gender" required/>Female</label> 
+                                                &nbsp;&nbsp;<label><input type="radio" class="icheck" name="gender" value="Female" [(ngModel)]="formdata.gender" required/>Female</label> 
                                             </li>
                                         </ul>
                                     </div>
@@ -62,9 +63,10 @@ z-index: 9999;
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label class="form-label">Email</label>
-                                <input type="email" class="form-control" placeholder="Please enter valid email" [(ngModel)]="formdata.email" name="email" required email #email="ngModel">
-                                <span class="error" *ngIf="email.invalid && email.touched">Email is invalid</span>
-                                
+                                <input type="email" class="form-control" placeholder="Please enter valid email" [ngClass]="{'backenderror':backenderror!=''}" [(ngModel)]="formdata.email" name="email" required email #email="ngModel" (blur)="emailexist($event)">
+                                <span class="error" *ngIf="email.invalid && email.touched && email.value==''">Email is required</span>
+                                <span class="error" *ngIf="email.invalid && email.touched && email.value!=''">Email is invalid</span>
+                                <span class="error" *ngIf="backenderror!=''">Email Already Exist</span>
                             </div>
                         </div>
                     </div>
@@ -81,7 +83,8 @@ z-index: 9999;
                             <div class="form-group">
                                 <label class="form-label">Mobile No.</label>
                                 <input type="text" class="form-control" placeholder="Please enter your mobile no." minlength="8" maxlength="12" pattern="[0-9]{8,12}" [(ngModel)]="formdata.mobileno" name="mobileno" required #mobileno="ngModel">
-                                <span class="error" *ngIf="mobileno.invalid && mobileno.touched">Mobile no. is between 8 to 12 letter and it must be number</span>
+                                <span class="error" *ngIf="mobileno.invalid && mobileno.touched && mobileno.value==''">Mobile no. is Required</span>
+                                <span class="error" *ngIf="mobileno.invalid && mobileno.touched && mobileno.value!=''">Please enter a valid Mobileno.</span>
                             </div>
                         </div>
                     </div>
@@ -99,7 +102,8 @@ z-index: 9999;
                             <div class="form-group">
                                 <label class="form-label">Phone</label>
                                 <input type="text" class="form-control" placeholder="Please enter your phone" [(ngModel)]="formdata.phoneno" name="phoneno" required minlength="6" maxlength="10" pattern="[0-9]{6,10}" #phoneno="ngModel">
-                                <span class="error" *ngIf="phoneno.invalid && phoneno.touched">Phone no. is between 6 to 10 letter and it must be number</span>
+                                <span class="error" *ngIf="phoneno.invalid && phoneno.touched && phoneno.value==''">Phone no. is Required</span>
+                                <span class="error" *ngIf="phoneno.invalid && phoneno.touched&& phoneno.value!=''">Please enter a valid phoneno.</span>
                             </div>
                         </div>
                     </div>
@@ -149,16 +153,7 @@ z-index: 9999;
                                         <input type="text" class="form-control" placeholder="Please enter your Street" name="s_street" [(ngModel)]="shipping.street" required>
                                     </div>
                                 </div>
-                                <div class="col-sm-12">
-                                    <div class="form-group">
-                                        <label class="form-label">City</label>
-                                        <select class="form-control" name="s_city" [(ngModel)]="shipping.city" required>
-                                            <option value="">---Select City---</option>
-                                            <option *ngFor="let city of cityfilter" value="{{ city.id }}">{{ city.city_name }}</option>
-                                            
-                                        </select>
-                                    </div>
-                                </div>
+                                
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Country</label>
@@ -175,6 +170,16 @@ z-index: 9999;
                                         <select class="form-control" (change)="filtercity($event)" name="s_state" [(ngModel)]="shipping.state" required>
                                             <option value="">---Select State---</option>
                                             <option *ngFor="let state of statefilter" value="{{ state.id }}">{{ state.state_name }}</option>
+                                            
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label class="form-label">City</label>
+                                        <select class="form-control" name="s_city" [(ngModel)]="shipping.city" required>
+                                            <option value="">---Select City---</option>
+                                            <option *ngFor="let city of cityfilter" value="{{ city.id }}">{{ city.city_name }}</option>
                                             
                                         </select>
                                     </div>
@@ -197,16 +202,7 @@ z-index: 9999;
                                     <input type="text" class="form-control" placeholder="Please enter your Street" name="b_street" [(ngModel)]="billing.street" required>
                                 </div>
                             </div>
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <label class="form-label">City</label>
-                                    <select class="form-control" name="b_city" [(ngModel)]="billing.city" required>
-                                        <option value="" selected>---Select City---</option>
-                                        <option *ngFor="let city of cityfilter" value="{{ city.id }}">{{ city.city_name }}</option>
-                                        
-                                    </select>
-                                </div>
-                            </div>
+                            
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <label class="form-label">Country</label>
@@ -227,6 +223,16 @@ z-index: 9999;
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label class="form-label">City</label>
+                                    <select class="form-control" name="b_city" [(ngModel)]="billing.city" required>
+                                        <option value="" selected>---Select City---</option>
+                                        <option *ngFor="let city of cityfilter" value="{{ city.id }}">{{ city.city_name }}</option>
+                                        
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -238,7 +244,7 @@ z-index: 9999;
 
               <div class=" col-sm-12 text-right">
                 <div class="form-group clearfix submit-outer">
-                    <button type="submit" class="btn-secondary" [disabled]="!updateForm.valid">Update</button>
+                    <button type="submit" class="btn-secondary" [disabled]="!updateForm.valid || backenderror!='' ">Update</button>
                 </div>
             </div>
         </div>

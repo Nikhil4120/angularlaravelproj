@@ -1,3 +1,4 @@
+<div class="loader" *ngIf="isLoading"></div>
 <div class="title-block-outer">
             <img src="../../assets/images/inner-banner.jpg" alt="Banner-image" class="img-responsive">
             <div class="title-block-container">
@@ -14,15 +15,9 @@
                 </ol>
             </div>
         </div>
-        <div class="alert alert-success" *ngIf="usercreated">
-            <strong>User Created Successfully</strong>
-        </div>
-        <div class="alert alert-danger" *ngIf="backenderror!=''">
-            <strong>Email Already Exist</strong>
-        </div>
-        <div *ngIf="isLoading" style="text-align: center;margin:auto">
-            <app-loading-spinner></app-loading-spinner>
-        </div>
+        
+        
+        
         <section class="content register">
             <div class="container">
 
@@ -38,7 +33,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label class="form-label">Username</label>
-                                        <input type="text" class="form-control" placeholder="Please enter yor username" name="username" ngModel required #username="ngModel">
+                                        <input type="text" class="form-control" placeholder="Please enter your username" name="username" ngModel required #username="ngModel">
                                         <span class="error" *ngIf="username.invalid && username.touched">Username field is required</span>
                                     </div>
                                 </div>
@@ -71,14 +66,16 @@
                                         <label class="form-label">Password</label>
                                         <input type="password" class="form-control" placeholder="Please enter your Password"
                                              data-placeholder="Enter your Password" name="password" ngModel required minlength="8" #password="ngModel">
-                                            <span class="error" *ngIf="password.invalid && password.touched">Password is invalid</span>
+                                             <span class="error" *ngIf="password.invalid && password.touched && password.value == '' ">Password is Required</span>
+                                            <span class="error" *ngIf="password.invalid && password.touched && password.value != ''">Password must be atleast 8 characters</span>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label class="form-label">Email</label>
-                                        <input type="email" class="form-control" placeholder="Please enter valid email" name="email" ngModel required email #email="ngModel">
-                                        <span class="error" *ngIf="email.invalid && email.touched">Email is invalid</span>
+                                        <input type="email" class="form-control" [ngClass]="{'backenderror':backenderror!=''}" placeholder="Please enter valid email" name="email" ngModel required email #email="ngModel" (blur)="emailcheck($event)">
+                                        <span class="error" *ngIf="email.invalid && email.touched && email.value==''">Email is Required</span>
+                                        <span class="error" *ngIf="email.invalid && email.touched && email.value!=''">Email is invalid</span>
                                         <span class="error" *ngIf="backenderror!=''">Email Already Exist</span>
                                     </div>
                                 </div>
@@ -90,7 +87,8 @@
                                     <div class="form-group">
                                         <label class="form-label">First Name</label>
                                         <input type="text" class="form-control"
-                                            placeholder="Please enter yor first name" name="firstname" ngModel required>
+                                            placeholder="Please enter your first name" name="firstname" ngModel required #firstname="ngModel">
+                                         <span class="error" *ngIf="firstname.invalid && firstname.touched">FirstName is required</span>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
@@ -98,7 +96,8 @@
                                         <label class="form-label">Mobile No.</label>
                                         <input type="text" class="form-control"
                                             placeholder="Please enter your mobile no." name="mobileno" minlength="8" maxlength="12" pattern="[0-9]{8,12}" ngModel required #mobileno="ngModel">
-                                        <span class="error" *ngIf="mobileno.invalid && mobileno.touched">Mobile no. is between 8 to 12 letter and it must be number</span>
+                                        <span class="error" *ngIf="mobileno.invalid && mobileno.touched && mobileno.value==''">Mobile no. is Required</span>
+                                        <span class="error" *ngIf="mobileno.invalid && mobileno.touched && mobileno.value!=''">Please enter a valid Mobileno.</span>
                                     </div>
                                 </div>
                             </div>
@@ -115,7 +114,8 @@
                                     <div class="form-group">
                                         <label class="form-label">Phone</label>
                                         <input type="text" class="form-control" placeholder="Please enter your phone" name="phoneno" minlength="6" maxlength="10" pattern="[0-9]{6,10}" ngModel required #phoneno="ngModel">
-                                        <span class="error" *ngIf="phoneno.invalid && phoneno.touched">Phone no. is between 6 to 10 letter and it must be number</span>
+                                        <span class="error" *ngIf="phoneno.invalid && phoneno.touched && phoneno.value==''">Phone no. is Required</span>
+                                        <span class="error" *ngIf="phoneno.invalid && phoneno.touched && phoneno.value!=''">Please enter a valid phoneno.</span>
                                     </div>
                                 </div>
 
@@ -167,10 +167,10 @@
                                         <span class="error">{{ error }}</span>
                                     </div>
 
-                                    <div class=" reg-submit col-sm-6 text-right">
+                                    <div class="reg-submit col-sm-6 text-right">
 
                                         <div class="form-group clearfix submit-outer">
-                                            <button type="submit" class="btn-secondary" [disabled]="!authForm.valid">Submit</button>&nbsp;
+                                            <button type="submit" class="btn-secondary" [disabled]="!authForm.valid || backenderror!='' ">Submit</button>&nbsp;
                                             <button type="button" class="btn-tertiary" (click)="onclear()">Clear</button>
                                         </div>
 

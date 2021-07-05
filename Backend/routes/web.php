@@ -11,6 +11,7 @@ use App\Http\controllers\CountryController;
 use App\Http\controllers\StateController;
 use App\Http\controllers\CityController;
 use App\Http\controllers\newsController;
+use App\Http\controllers\frontuserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -118,3 +119,7 @@ Route::get('/active/category/{id}',[CategoryController::class,'ActiveCategory'])
 
  Route::get('/add/news',[newsController::class,'AddNews'])->name('add.news');
  Route::post('/store/news',[newsController::class,'StoreNews'])->name('store.news');
+
+ Route::get('/users',[frontuserController::class,'Index'])->name('all.users');
+ Route::get('/view/user/{id}',[frontuserController::class,'ViewUser'])->name('user.view');
+ 

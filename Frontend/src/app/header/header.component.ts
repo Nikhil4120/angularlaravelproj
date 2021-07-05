@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Category } from '../models/category.model';
 import { Subcategory } from '../models/subcategory.model';
 import { AuthService } from '../services/auth.service';
+import { CartService } from '../services/cart.service';
 import { CategoryService } from '../services/category.service';
 import { SubcategoryService } from '../services/subcategory.service';
 import { TokenService } from '../services/token.service';
@@ -15,12 +16,14 @@ import { TokenService } from '../services/token.service';
 export class HeaderComponent implements OnInit {
 
   public loggedIn:boolean;
+ 
   username:string;
   category:Category[] = [];
   subcategory:Subcategory[] = [];
   cartitems = [];
   issubcategory = [];
-  constructor(private CategoryService:CategoryService,private SubcategoryService:SubcategoryService,private AuthService:AuthService,private router:Router,private tokenservice:TokenService) { }
+  total = 0;
+  constructor(private CategoryService:CategoryService,private SubcategoryService:SubcategoryService,private AuthService:AuthService,private router:Router,private tokenservice:TokenService,private cartService:CartService) { }
 
   ngOnInit(): void {
     this.AuthService.authstatus.subscribe(value=>{
@@ -28,27 +31,23 @@ export class HeaderComponent implements OnInit {
       if(this.loggedIn){
         const token = localStorage.getItem('token');
         this.AuthService.getuser(token).subscribe(data=>{
-          
           this.username = data['user'].username;
-        }
-        
-          
-        )
-        this.cartitem();
+        } 
+        ) 
       }
     });
     this.CategoryService.getCategories().subscribe(data=>{
       this.category = data;
     });
-
     this.SubcategoryService.getSubcategories().subscribe(data=>{
       this.subcategory = data;
       this.issubcategories();
-      
     });
-    
-    
-    
+    this.cartService.getCartProducts().subscribe(data=>{
+      this.cartitems = data;
+      this.grandtotal();
+    })
+    this.cartitem();
   }
 
   issubcategories(){
@@ -60,15 +59,34 @@ export class HeaderComponent implements OnInit {
     }
     console.log(this.issubcategory);
   }
-
+  
   cartitem(){
-     if(JSON.parse(localStorage.getItem('cart'))){
-       this.cartitem = JSON.parse(localStorage.getItem('cart'));
+     if(localStorage.getItem('cart')){
+       this.cartitems = JSON.parse(localStorage.getItem('cart'));
+       this.grandtotal();
      }
+
+  }
+
+  grandtotal(){
+    this.total = 0;
+    if(localStorage.getItem('cart')){
+      let products = JSON.parse(localStorage.getItem('cart'));
+      
+      for (let index = 0; index < products.length; index++) {
+        this.total += (products[index].price*products[index].product_quantity);
+        
+      }
+    }
+  }
+
+  removeitem(id,size){
+   this.cartService.removeitem(id,size);
   }
 
   logout(){
     this.tokenservice.remove();
+    localStorage.removeItem('cart');
     this.AuthService.changeAuthStatus(false);
     this.router.navigate(['/']);
   }

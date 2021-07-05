@@ -34,3 +34,7 @@ Route::get('/state',[ApiController::class,'GetState']);
 Route::get('/city',[ApiController::class,'GetCity']);
 
 Route::post('/newsletter',[ApiController::class,'AddSubscriber']);
+Route::post('/emailcheck',[ApiController::class,'EmailCheck']);
+Route::post('/useremailcheck',[ApiController::class,'UserEmailCheck']);
+
+Route::post('/contact',[ApiController::class,'Contactus']);

@@ -23,13 +23,13 @@ export class TestimonialComponent implements OnInit {
         items: 2
       },
       740: {
-        items: 3
+        items: 1
       },
       940: {
         items: 1
       }
     },
-    // nav: true
+    nav: true
   }
 
   constructor() { }

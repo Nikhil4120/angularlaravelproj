@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 use Mail;
-
+use Illuminate\Support\Carbon;
 class ApiController extends Controller implements JWTSubject
 {
     //
@@ -67,19 +67,7 @@ class ApiController extends Controller implements JWTSubject
     {
         $credentials = $request->only('email', 'password');
         
-        //valid credential
-        // $validator = Validator::make($credentials, [
-        //     'email' => 'required|email',
-        //     'password' => 'required|string|min:6|max:50'
-        // ]);
-
-        // //Send failed response if request is not valid
-        // if ($validator->fails()) {
-        //     return response()->json(['error' => $validator->messages()], 200);
-        // }
-
-        //Request is validated
-        //Crean token
+        
         try {
             if (! auth()->guard('api')->attempt($credentials)) {
                 return response()->json([
@@ -219,6 +207,57 @@ class ApiController extends Controller implements JWTSubject
         ], Response::HTTP_OK);        
         
 
+    }
+    public function EmailCheck(Request $request){
+        $validator = Validator::make($request->only('email'), [
+            
+            'email' => 'unique:frontusers',
+            
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['success' => false,'message' => $validator->messages()], 200);
+        }        
+        else{
+            return response()->json(['success' => true,'message' => ""], 200);
+        }
+    }
+
+    public function UserEmailCheck(Request $request){
+        $email = $request->email;
+        $id = $request->id;
+        $useremail = DB::table('frontusers')->where('id',$id)->first()->email;
+        $emailexist = DB::table('frontusers')->where('email',$email)->get();
+        if(count($emailexist)!=0){
+            if($emailexist[0]->email != $useremail){
+                return response()->json(['success' => false,'message' => "Email Already Exist"], 200);
+            }
+            else{
+                return response()->json(['success' => true,'message' => "hii"], 200);
+            }
+        }
+        else{
+            return response()->json(['success' => true,'message' => $email.''.count($emailexist)], 200);
+        }
+    }
+
+    public function Contactus(Request $request){
+
+        $data = array();
+        $data['name'] = $request->name;
+        $data['email'] = $request->email;
+        $data['subject'] = $request->subject;
+        $data['message'] = $request->message;
+        $data['status'] = 1;
+        $data['created_at'] = Carbon::now();
+
+        DB::table('contacts')->insert($data);
+        $data['comments'] = $request->message;
+        $user['to'] = "admin@gmail.com";
+        Mail::send('backend.mail.contactmail',$data,function($messages) use($user){
+            $messages->to($user['to']);
+            $messages->subject("Contactus");
+        });
+        return response()->json(['success' => true,'message' => "Mail Sent Successfully"], 200);
     }
 
 

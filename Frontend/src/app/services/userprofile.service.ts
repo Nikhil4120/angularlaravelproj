@@ -11,4 +11,11 @@ export class UserprofileService {
   updateuser(data,intrest){
     return this.http.put(environment.localapi+'/updateuser',{data,intrest:intrest});
   }
+
+  emailcheck(email,id){
+    return this.http.post<any>(environment.localapi+'/useremailcheck',{
+      email:email,
+      id:id
+    })
+  }
 }

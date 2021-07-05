@@ -7,7 +7,7 @@ import { CountryService } from '../services/country.service';
 import { StateService } from '../services/state.service';
 import { TokenService } from '../services/token.service';
 import { UserprofileService } from '../services/userprofile.service';
-
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
@@ -16,6 +16,7 @@ import { UserprofileService } from '../services/userprofile.service';
 export class UserProfileComponent implements OnInit {
 
   @ViewChild('updateForm',{static:false}) updateform:NgForm;
+  backenderror = "";
   intrest = ["men","women","kids"];
   isloading = false;
   formdata = {
@@ -52,12 +53,21 @@ export class UserProfileComponent implements OnInit {
   allcities = [];
   statefilter = [];
   cityfilter = [];
-  constructor(private tokenservice:TokenService,private authservice:AuthService,private cityservice:CityService,private Countryservice:CountryService,private stateservice:StateService,private userprofileservice:UserprofileService) { }
+  constructor(private tokenservice:TokenService,private authservice:AuthService,private cityservice:CityService,private Countryservice:CountryService,private stateservice:StateService,private userprofileservice:UserprofileService,private toastr:ToastrService) { }
 
   ngOnInit(): void {
     const token = localStorage.getItem('token');
+    this.Countryservice.getcountry().subscribe(data=>{
+      this.allcountries = data;
+    })
+    this.stateservice.getstate().subscribe(data=>{
+      this.allstates = data;
+    })
+    this.cityservice.getcity().subscribe(data=>{
+      this.allcities = data;
+    })
     this.authservice.getuser(token).subscribe(data=>{
-      console.log(data['user']);
+      
       this.formdata.id = data['user'].id;
       this.formdata.firstname = data['user'].firstname;
       this.formdata.lastname = data['user'].lastname;
@@ -66,18 +76,25 @@ export class UserProfileComponent implements OnInit {
       this.formdata.mobileno = data['user'].mobileno;
       this.formdata.phoneno = data['user'].phoneno;
       this.formdata.gender = data['user'].gender;
+      
+      
+      if(data['billinginformation']){
+        this.billing.country = data['billinginformation'].country;
+      this.statefilter = this.allstates.filter(m=>m.country_id == this.billing.country);
+      this.billing.state = data['billinginformation'].state;
+      this.cityfilter = this.allcities.filter(m=>m.state_id == this.billing.state);
+      this.billing.city = data['billinginformation'].city;
       this.shipping.street = data['shippinginformation'].street;
       this.shipping.city = data['shippinginformation'].city;
       this.shipping.state = data['shippinginformation'].state;
       this.shipping.country = data['shippinginformation'].country;
       this.billing.street = data['billinginformation'].street;
-      this.billing.city = data['billinginformation'].city;
-      this.billing.state = data['billinginformation'].state;
-      this.billing.country = data['billinginformation'].country;
-
-      const intrest = (data['user'].intrest).split(",");
-      console.log(intrest);
+      }
       
+      
+      const intrest = (data['user'].intrest).split(",");
+      
+     console.log(intrest);
       if(intrest.includes("men")){
         this.checked.push("men");
         this.formdata.menchecked = true;
@@ -104,15 +121,7 @@ export class UserProfileComponent implements OnInit {
 
     })
     
-    this.Countryservice.getcountry().subscribe(data=>{
-      this.allcountries = data;
-    })
-    this.stateservice.getstate().subscribe(data=>{
-      this.allstates = data;
-    })
-    this.cityservice.getcity().subscribe(data=>{
-      this.allcities = data;
-    })
+    
     
   }
   onSubmit(){
@@ -124,8 +133,9 @@ export class UserProfileComponent implements OnInit {
     let authobs:Observable<any>;
     authobs = this.userprofileservice.updateuser(this.updateform.value,this.checked);
     authobs.subscribe(data=>{
-      console.log(data);
+      this.toastr.success("userprofile updated successfully");
       this.isloading = false;
+      
     })
     
   }
@@ -193,6 +203,20 @@ export class UserProfileComponent implements OnInit {
       this.formdata.womenchecked = false;
       this.formdata.kids = false;
     }
+  }
+
+  emailexist(e){
+    this.userprofileservice.emailcheck(e.target.value,this.formdata.id).subscribe(data=>{
+      console.log(data);
+      if(!data['success']){
+        this.backenderror = data.message;
+      }
+      else{
+        this.backenderror = ""; 
+      }
+    },error=>{
+      console.log(error.error.message);
+    })
   }
 
 }

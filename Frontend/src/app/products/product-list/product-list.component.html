@@ -117,7 +117,7 @@
 
                 <div class="col-sm-12 col-xs-12" *ngIf="!isloading">
                     <span class="button-outer text-center">
-                        <a class="btn-tertiary" href="product.html" title="More Products">More Products</a>
+                        <a class="btn-tertiary" style="cursor: pointer;" title="More Products" *ngIf="filterproduct.length != product.length && filterproduct.length!=0">More Products</a>
                     </span>
                 </div>
             </div>

@@ -21,6 +21,8 @@ import { Ng5SliderModule } from 'ng5-slider';
 import { CartComponent } from './cart/cart.component';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { TestimonialComponent } from './testimonial/testimonial.component';
+import { ToastrModule } from 'ngx-toastr';
+import { ContactusComponent } from './contactus/contactus.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,7 +39,8 @@ import { TestimonialComponent } from './testimonial/testimonial.component';
     UserProfileComponent,
     FooterComponent,
     CartComponent,
-    TestimonialComponent
+    TestimonialComponent,
+    ContactusComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +49,8 @@ import { TestimonialComponent } from './testimonial/testimonial.component';
     AppRoutingModule,
     FormsModule,
     Ng5SliderModule,
-    CarouselModule
+    CarouselModule,
+    ToastrModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

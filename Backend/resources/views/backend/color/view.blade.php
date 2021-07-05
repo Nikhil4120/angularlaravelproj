@@ -1,6 +1,7 @@
 @extends('admin.admin_master')
 @section('admin')
     <div class="content-wrapper">
+    <a href="{{URL::previous()}}"><i class="fas fa-arrow-circle-left" style="font-size:40px;margin:10px"></i></a>
         <div class="card">
             <div class="card-body">
                 <div class="container">

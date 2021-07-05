@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { TokenService } from '../services/token.service';
-
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register',
@@ -20,7 +20,7 @@ export class RegisterComponent implements OnInit {
   checked = [];
   isLoading = false;
   @ViewChild('authForm',{static:false}) regform:NgForm;
-  constructor(private AuthService:AuthService,private router:Router,private tokenservice:TokenService) { }
+  constructor(private AuthService:AuthService,private router:Router,private tokenservice:TokenService,private toastr:ToastrService) { }
 
   ngOnInit(): void {
   }
@@ -53,10 +53,11 @@ export class RegisterComponent implements OnInit {
       authobs.subscribe(data=>{
         this.isLoading=false;
         this.usercreated = true;
+        this.toastr.success('User Created Successfully');
         this.AuthService.login({email:form.value.email,password:form.value.password}).subscribe(data=>{
           this.regform.reset();    
           
-          this.tokenservice.handle(data.token);
+          this.tokenservice.handle(data['token']);
           this.AuthService.changeAuthStatus(true);
           this.router.navigate(['/']);
         },error=>{
@@ -66,12 +67,12 @@ export class RegisterComponent implements OnInit {
         // this.router.navigate(['/userprofile']); 
       },error=>{
         this.isLoading=false;
-        this.backenderror = error;
-        console.log(this.backenderror);
+        this.toastr.error("Something went wrong"); 
+        
       })
     }
     else{
-      this.error = "please Agree with Terms and Condition";
+      this.error = "Please agree to terms and condition";
     }
   }
   
@@ -84,6 +85,20 @@ export class RegisterComponent implements OnInit {
     else{
       this.isshown = false;
     }
+  }
+  emailcheck(e){
+    this.AuthService.emailexist(e.target.value).subscribe(data=>{
+      if(!data.success){
+       this.backenderror = data.message.email; 
+      }
+      else{
+        this.backenderror = ""; 
+      }
+    },
+    error=>{
+      console.log(error.error.message);
+    }
+    )
   }
   onclear(){
     this.regform.reset();

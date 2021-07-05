@@ -14,30 +14,19 @@
             <div class="breadcrumb-panel">
                 <div class="container">
                     <ol class="breadcrumb">
-                        <li><a href="index.html" title="Home">Home</a></li>
+                        <li><a routerLink="/" title="Home">Home</a></li>
                         <li class="active">Shopping Cart</li>
                     </ol>
                 </div>
             </div>
             <div class="content">
                 <div class="container shopping-wrap">
-                    <div class="alert alert-dismissible alert-success" role="alert">
+                    <div class="alert alert-dismissible alert-success" role="alert" *ngFor="let item of cartitems">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <i> <img src="../../assets/images/success.svg" alt="success"></i> <span> U.S. Polo Assn. Full Sleeve Plain T-Shirts for Men </span> was added to your shopping cart
+                        <i> <img src="../../assets/images/success.svg" alt="success"></i> <span> {{ item.product_name }} </span> was added to your shopping cart
                     </div>
-                    <div class="alert alert-dismissible alert-info" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <i><img src="../../assets/images/info.svg" alt="success"></i> <span> U.S. Polo Assn. Full Sleeve Plain T-Shirts for Men </span> was added to your shopping cart
-                    </div>
-                    <div class="alert alert-dismissible alert-warning" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <i><img src="../../assets/images/warning.svg" alt="success"></i> <span> U.S. Polo Assn. Full Sleeve Plain T-Shirts for Men </span> was added to your shopping cart
-                    </div>
-                    <div class="alert alert-dismissible alert-danger" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <i><img src="../../assets/images/error.svg" alt="success"></i> <span> U.S. Polo Assn. Full Sleeve Plain T-Shirts for Men </span> was added to your shopping cart
-                    </div>
-                    <div class="table-responsive">
+                    <h1 *ngIf="cartitems.length==0">No cart items availiable</h1>
+                    <div class="table-responsive" *ngIf="cartitems.length!=0">
                         <table class="table shopping-table">
                             <thead>
                                 <tr>
@@ -51,52 +40,52 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                <tr *ngFor="let item of cartitems">
                                     <td class="product-image-outer">
-                                        <a href="#" title="U.S. Polo Assn. Full Sleeve Plain T-Shirts for Men"><img src="../../assets/images/cart-img01.jpg" alt="U.S. Polo Assn. Full Sleeve Plain T-Shirts for Men"></a>
+                                        <a routerLink="/products/detail/{{ item.id }}" title="{{ item.product_name}}"><img src="../../assets/images/cart-img01.jpg" alt="{{ item.product_name}}"></a>
                                     </td>
                                     <td>
                                         <h2 class="product-name">
-                                            <a href="product-detail.html">U.S. Polo Assn. Full Sleeve Plain T-Shirts for Men</a>
+                                            <a href="product-detail.html">{{ item.product_name}}</a>
                                         </h2>
                                         <ul>
                                             <li><strong>Color</strong></li>
-                                            <li>Blue </li>
+                                            <li>{{ item.color_name }} </li>
                                             <li><strong>size</strong></li>
-                                            <li>M </li>
+                                            <li>{{ item.size}} </li>
                                         </ul>
                                     </td>
                                     <td>
                                         <a href="#" title="Edit item" class="edit-link"> <img src="../../assets/images/edit-dark.svg" alt="edit"></a>
                                     </td>
                                     <td>
-                                        <span class="orange-text">$222.00</span>
+                                        <span class="orange-text">${{ item.price }}</span>
                                     </td>
                                     <td>
-                                        <input type="text" value="1" title="Qty" class="form-control qty">
+                                        <input type="text"  title="Qty" class="form-control qty" #quantity ngModel="{{item.product_quantity}}">
                                     </td>
                                     <td>
-                                        <span class="orange-text">$222.00</span>
+                                        <span class="orange-text">${{ quantity.value  *  item.price}}</span>
                                     </td>
                                     <td>
-                                        <a href="#" title="Remove item" class="remove-link"><img src="../../assets/images/cross-dark.svg" alt="delete"></a>
+                                        <a style="cursor: pointer;" title="Remove item" class="remove-link" (click)="removeitem(item.id,item.size)"><img src="../../assets/images/cross-dark.svg" alt="delete"></a>
                                     </td>
                                 </tr>
                             </tbody>
                             <tfoot>
                                 <tr>
                                     <td colspan="2">
-                                        <a href="#" title="Continue Shopping" class="btn-tertiary">Continue Shopping</a>
+                                        <a routerLink="/" title="Continue Shopping" class="btn-tertiary">Continue Shopping</a>
                                     </td>
-                                    <td colspan="5" class="btn-right">
-                                        <a href="#" title="Clear Shopping Cart" class="btn-tertiary">Clear Shopping Cart</a>
+                                    <td colspan="5" class="btn-right" >
+                                        <a title="Clear Shopping Cart" class="btn-tertiary" (click)="clearall()" style="cursor:pointer">Clear Shopping Cart</a>
                                         <a href="#" title="Update Shopping Cart" class="btn-tertiary">Update Shopping Cart</a>
                                     </td>
                                 </tr>
                             </tfoot>
                         </table>
                     </div>
-                    <div class="row">
+                    <div class="row" *ngIf="cartitems.length!=0">
                         <div class="col-sm-5">
                             <div class="shipping-block">
                                 <h4>Estimate Shipping and Tax</h4>
@@ -131,12 +120,17 @@
                                             <td>$222.00</td>
                                         </tr>
                                         <tr>
-                                            <td class="summary-total"><strong>Total</strong></td>
+                                            <td class="summary-total"><strong>Tax</strong></td>
                                             <td class="summary-price"><strong>$222.00</strong></td>
                                         </tr>
                                         <tr>
+                                            <td class="summary-total"><strong>Total</strong></td>
+                                            <td class="summary-price"><strong>$222.00</strong></td>
+                                        </tr>
+                                        
+                                        <tr>
                                             <td colspan="2">
-                                                <a href="#" title="Update Shopping Cart" class="btn-secondary">Update Shopping Cart</a>
+                                                <a href="#" title="Update Shopping Cart" class="btn-secondary">Checkout</a>
                                             </td>
                                         </tr>
                                     </tbody>

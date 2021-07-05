@@ -26,6 +26,12 @@ export class AuthService {
 
   getuser(token:any){
     
-    return this.http.get<User[]>("http://localhost:8000/api/getuser?token="+token);
+    return this.http.get<User[]>(environment.localapi+"/getuser?token="+token);
+  }
+
+  emailexist(email){
+    return this.http.post<any>(environment.localapi+'/emailcheck',{
+      email:email
+    })
   }
 }
