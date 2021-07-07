@@ -52,7 +52,7 @@
                             <li *ngIf="loggedIn">
                                 <a routerLink="/userprofile" title="My Profile">Profile</a>
                             </li>
-                            <li class="cart-outer" *ngIf="loggedIn">
+                            <li class="cart-outer">
                                 <a style="cursor: pointer;" title="Add to Cart" class="add-to-cart"></a>
                                 <div class="cart-wrap">
                                     <p>Recently added item(s)</p>
@@ -60,7 +60,7 @@
                                         <li *ngFor="let item of cartitems">
                                             <a class="cart-product" title="consectetur adipiscing elit"
                                                 routerLink="/products/detail/{{ item.id }}"><img alt=""
-                                                    src="http://localhost:8000/{{ item.product_image}}"></a>
+                                                    src="{{ envimage }}/{{ item.product_image}}"></a>
 
                                             <div class="cart-details">
                                                 <a class="btn-remove" title="Remove item" style="cursor:pointer"

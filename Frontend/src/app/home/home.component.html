@@ -1,7 +1,7 @@
 <div class="banner">
 
     <owl-carousel-o [options]="customOptions">
-        <ng-template carouselSlide *ngFor="let item of sliders"><img src="http://localhost:8000/{{ item.image }}"
+        <ng-template carouselSlide *ngFor="let item of sliders"><img src="{{ envimage }}/{{ item.image }}"
                 alt="banner"></ng-template>
 
     </owl-carousel-o>

@@ -23,6 +23,7 @@ import { CarouselModule } from 'ngx-owl-carousel-o';
 import { TestimonialComponent } from './testimonial/testimonial.component';
 import { ToastrModule } from 'ngx-toastr';
 import { ContactusComponent } from './contactus/contactus.component';
+import { CheckoutComponent } from './checkout/checkout.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,7 +41,8 @@ import { ContactusComponent } from './contactus/contactus.component';
     FooterComponent,
     CartComponent,
     TestimonialComponent,
-    ContactusComponent
+    ContactusComponent,
+    CheckoutComponent
   ],
   imports: [
     BrowserModule,

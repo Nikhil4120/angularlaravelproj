@@ -46,3 +46,5 @@ Route::get('/testimonial',[ApiController::class,'Testimonial']);
 Route::get('/slider',[ApiController::class,'Slider']);
 
 Route::get('/taxamount',[ApiController::class,'Taxamount']);
+Route::post('/orders',[ApiController::class,'Order']);
+Route::post('/checkout',[ApiController::class,'Charge']);

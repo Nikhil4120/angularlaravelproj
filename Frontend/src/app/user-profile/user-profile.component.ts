@@ -15,61 +15,61 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class UserProfileComponent implements OnInit {
 
-  @ViewChild('updateForm',{static:false}) updateform:NgForm;
+  @ViewChild('updateForm', { static: false }) updateform: NgForm;
   backenderror = "";
-  intrest = ["men","women","kids"];
+  intrest = ["men", "women", "kids"];
   isloading = false;
   formdata = {
-    id:null,
-    firstname:null,
-    lastname:null,
-    username:null,
-    email:null,
-    mobileno:null,
-    phoneno:null,
-    gender:null,
-    menchecked:null,
-    womenchecked:null,
-    kids:null,
-    other:null,
-    otherintrest:null,
-    all:null
+    id: null,
+    firstname: null,
+    lastname: null,
+    username: null,
+    email: null,
+    mobileno: null,
+    phoneno: null,
+    gender: null,
+    menchecked: null,
+    womenchecked: null,
+    kids: null,
+    other: null,
+    otherintrest: null,
+    all: null
   };
   shipping = {
-    street:null,
-    country:"",
-    state:"",
-    city:"",
+    street: null,
+    country: "",
+    state: "",
+    city: "",
   };
   billing = {
-    street:null,
-    country:"",
-    state:"",
-    city:"",
+    street: null,
+    country: "",
+    state: "",
+    city: "",
   }
-  isshown:boolean = false;
+  isshown: boolean = false;
   checked = [];
   allcountries = [];
   allstates = [];
   allcities = [];
   statefilter = [];
   cityfilter = [];
-  constructor(private tokenservice:TokenService,private authservice:AuthService,private cityservice:CityService,private Countryservice:CountryService,private stateservice:StateService,private userprofileservice:UserprofileService,private toastr:ToastrService) { }
+  constructor(private tokenservice: TokenService, private authservice: AuthService, private cityservice: CityService, private Countryservice: CountryService, private stateservice: StateService, private userprofileservice: UserprofileService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.isloading = true;
     const token = localStorage.getItem('token');
-    this.Countryservice.getcountry().subscribe(data=>{
+    this.Countryservice.getcountry().subscribe(data => {
       this.allcountries = data;
     })
-    this.stateservice.getstate().subscribe(data=>{
+    this.stateservice.getstate().subscribe(data => {
       this.allstates = data;
     })
-    this.cityservice.getcity().subscribe(data=>{
+    this.cityservice.getcity().subscribe(data => {
       this.allcities = data;
     })
-    this.authservice.getuser(token).subscribe(data=>{
-      
+    this.authservice.getuser(token).subscribe(data => {
+
       this.formdata.id = data['user'].id;
       this.formdata.firstname = data['user'].firstname;
       this.formdata.lastname = data['user'].lastname;
@@ -78,148 +78,149 @@ export class UserProfileComponent implements OnInit {
       this.formdata.mobileno = data['user'].mobileno;
       this.formdata.phoneno = data['user'].phoneno;
       this.formdata.gender = data['user'].gender;
-      
-      
-      if(data['billinginformation']){
+
+
+      if (data['billinginformation']) {
         this.billing.country = data['billinginformation'].country;
-      this.statefilter = this.allstates.filter(m=>m.country_id == this.billing.country);
-      this.billing.state = data['billinginformation'].state;
-      this.cityfilter = this.allcities.filter(m=>m.state_id == this.billing.state);
-      this.billing.city = data['billinginformation'].city;
-      this.shipping.street = data['shippinginformation'].street;
-      this.shipping.city = data['shippinginformation'].city;
-      this.shipping.state = data['shippinginformation'].state;
-      this.shipping.country = data['shippinginformation'].country;
-      this.billing.street = data['billinginformation'].street;
+        this.statefilter = this.allstates.filter(m => m.country_id == this.billing.country);
+        this.billing.state = data['billinginformation'].state;
+        this.cityfilter = this.allcities.filter(m => m.state_id == this.billing.state);
+        this.billing.city = data['billinginformation'].city;
+        this.shipping.street = data['shippinginformation'].street;
+        this.shipping.city = data['shippinginformation'].city;
+        this.shipping.state = data['shippinginformation'].state;
+        this.shipping.country = data['shippinginformation'].country;
+        this.billing.street = data['billinginformation'].street;
       }
-      
-      
+
+
       const intrest = (data['user'].intrest).split(",");
-      
-     console.log(intrest);
-      if(intrest.includes("men")){
+
+      console.log(intrest);
+      if (intrest.includes("men")) {
         this.checked.push("men");
         this.formdata.menchecked = true;
-        
+
       }
-      if(intrest.includes("women")){
+      if (intrest.includes("women")) {
         this.checked.push("women");
         this.formdata.womenchecked = true;
-        
+
       }
-      if(intrest.includes("kids")){
+      if (intrest.includes("kids")) {
         this.checked.push("kids");
         this.formdata.kids = true;
-        
+
       }
-      if(this.formdata.menchecked && this.formdata.womenchecked && this.formdata.kids ){
-        this.formdata.all = true;       
+      if (this.formdata.menchecked && this.formdata.womenchecked && this.formdata.kids) {
+        this.formdata.all = true;
       }
-      if(intrest.filter(m=>m!="men" && m!="women"&& m!="kids" ).length != 0 ){
-        console.log(intrest.filter(m=>m!="men" && m!="women"&& m!="kids" ));
+      if (intrest.filter(m => m != "men" && m != "women" && m != "kids").length != 0) {
+        console.log(intrest.filter(m => m != "men" && m != "women" && m != "kids"));
         this.formdata.other = true;
         this.isshown = true;
-        this.formdata.otherintrest = intrest.filter(m=>m!="men" && m!="women"&& m!="kids")[0];
+        this.formdata.otherintrest = intrest.filter(m => m != "men" && m != "women" && m != "kids")[0];
       }
 
-      
+
       this.isloading = false;
     })
-    
-    
-    
   }
-  onSubmit(){
+
+  onSubmit() {
     console.log(this.updateform.value);
     this.isloading = true;
-    if(this.updateform.value.other){
+    if (this.updateform.value.other) {
       this.checked.push(this.updateform.value.otheri);
     }
-    let authobs:Observable<any>;
-    authobs = this.userprofileservice.updateuser(this.updateform.value,this.checked);
-    authobs.subscribe(data=>{
+    let authobs: Observable<any>;
+    authobs = this.userprofileservice.updateuser(this.updateform.value, this.checked);
+    authobs.subscribe(data => {
       this.toastr.success("userprofile updated successfully");
       this.isloading = false;
-      
+
     })
-    
-  }
-  filterstate(e){
-    this.statefilter = this.allstates.filter(m=>m.country_id == e.target.value);
 
   }
-  filtercity(e){
-    this.cityfilter = this.allcities.filter(m=>m.state_id == e.target.value);
+
+  filterstate(e) {
+    this.statefilter = this.allstates.filter(m => m.country_id == e.target.value);
   }
-  addresschange(e){
-    if(e.target.checked){
+
+  filtercity(e) {
+    this.cityfilter = this.allcities.filter(m => m.state_id == e.target.value);
+  }
+
+  addresschange(e) {
+    if (e.target.checked) {
       this.billing.street = this.updateform.value.s_street;
       this.billing.country = this.updateform.value.s_country;
-      this.statefilter = this.allstates.filter(m=>m.country_id == this.billing.country);
+      this.statefilter = this.allstates.filter(m => m.country_id == this.billing.country);
       this.billing.state = this.updateform.value.s_state;
-      this.cityfilter = this.allcities.filter(m=>m.state_id == this.billing.state);
+      this.cityfilter = this.allcities.filter(m => m.state_id == this.billing.state);
       this.billing.city = this.updateform.value.s_city;
     }
-    else{
+    else {
       this.billing.street = "";
       this.billing.country = "";
-      
+
       this.billing.state = "";
-      
+
       this.billing.city = "";
     }
   }
 
-  checkboxchange(e,name:string){
-    if(e.target.checked){
+  checkboxchange(e, name: string) {
+    if (e.target.checked) {
       this.checked.push(name);
-      
+
 
     }
-    else{
-      this.checked.splice(this.checked.indexOf(name),1);
-      
+    else {
+      this.checked.splice(this.checked.indexOf(name), 1);
+
     }
 
   }
-  showtextbox(e){
-    
-    if(e.target.checked){
-      
+  
+  showtextbox(e) {
+
+    if (e.target.checked) {
+
       this.isshown = true;
     }
-    else{
+    else {
       this.isshown = false;
     }
   }
 
-  selectall(e){
-    if(e.target.checked){
+  selectall(e) {
+    if (e.target.checked) {
       this.checked = [];
       this.checked.push(...this.intrest);
       this.formdata.menchecked = true;
       this.formdata.womenchecked = true;
       this.formdata.kids = true;
     }
-    else{
+    else {
       this.checked = [];
-      
+
       this.formdata.menchecked = false;
       this.formdata.womenchecked = false;
       this.formdata.kids = false;
     }
   }
 
-  emailexist(e){
-    this.userprofileservice.emailcheck(e.target.value,this.formdata.id).subscribe(data=>{
+  emailexist(e) {
+    this.userprofileservice.emailcheck(e.target.value, this.formdata.id).subscribe(data => {
       console.log(data);
-      if(!data['success']){
+      if (!data['success']) {
         this.backenderror = data.message;
       }
-      else{
-        this.backenderror = ""; 
+      else {
+        this.backenderror = "";
       }
-    },error=>{
+    }, error => {
       console.log(error.error.message);
     })
   }

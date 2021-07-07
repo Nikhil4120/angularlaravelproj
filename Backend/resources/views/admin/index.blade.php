@@ -18,7 +18,12 @@
       </div><!-- /.container-fluid -->
     </div>
     <!-- /.content-header -->
-
+         @php
+            $products = DB::table('products')->where('status',1)->get();
+            $categories = DB::table('categories')->where('status',1)->get();
+            $subcategories = DB::table('subcategories')->where('status',1)->get();
+            $orders  = DB::table('orders')->where('status',1)->get();
+          @endphp
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
@@ -28,23 +33,19 @@
             <!-- small box -->
             <div class="small-box bg-info">
               <div class="inner">
-                <h3>0</h3>
+                <h3>{{ count($orders)}}</h3>
 
                 <p>New Orders</p>
               </div>
               <div class="icon">
                 <i class="ion ion-bag"></i>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="{{ route('all.order') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
 
-          @php
-            $products = DB::table('products')->where('status',1)->get();
-            $categories = DB::table('categories')->where('status',1)->get();
-            $subcategories = DB::table('subcategories')->where('status',1)->get();
-          @endphp
+          
           <div class="col-lg-3 col-6">
             <!-- small box -->
             <div class="small-box bg-success">

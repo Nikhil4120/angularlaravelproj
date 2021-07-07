@@ -12,6 +12,10 @@ use Illuminate\Support\Facades\Validator;
 
 use Mail;
 use Illuminate\Support\Carbon;
+use Stripe\Stripe;
+use Stripe\Customer;
+use Stripe\Charge;
+
 class ApiController extends Controller implements JWTSubject
 {
     //
@@ -296,6 +300,67 @@ class ApiController extends Controller implements JWTSubject
         $taxamounts = DB::table('taxamounts')->get();
         return response()->json($taxamounts);
 
+    }
+
+    public function Order(Request $request){
+
+        $userid = $request->userid;
+        $cartitems = $request->cartitems;
+        // foreach ($cartitems as $row) {
+
+        //     $data = array();
+        //     $data['product_id'] = $row['id'];
+        //     $data['user_id'] = $userid;
+        //     $data['quantity'] = $row['product_quantity'];
+        //     $data['total_amount'] = $row['price'] * $row['product_quantity'];
+        //     $data['delievery_status'] = 1;
+        //     $data['status'] = 1;
+        //     $data['created_at'] = Carbon::now();
+        //     $product = DB::table('products')->where('id',$row['id'])->first();
+        //     $product_quantity = $product->quantity - $row['product_quantity'];
+        //     $productupdate = array();
+        //     $productupdate['quantity'] = $product_quantity;
+        //     DB::table('products')->where('id',$row->id)->update($productupdate);
+
+        //     DB::table('orders')->insert($data);
+            
+        // }        
+        for ($i=0; $i < count($cartitems); $i++) { 
+            # code...
+            $data = array();
+            $data['product_id'] = ($cartitems[$i])['id'];
+            $data['user_id'] = $userid;
+            $data['quantity'] = ($cartitems[$i])['product_quantity'];
+            $data['total_amount'] = ($cartitems[$i])['price'] * ($cartitems[$i])['product_quantity'];
+            $data['delievery_status'] = 1;
+            $data['status'] = 1;
+            $data['created_at'] = Carbon::now();
+            $product = DB::table('products')->where('id',($cartitems[$i])['id'])->first();
+            $product_quantity = $product->quantity - ($cartitems[$i])['product_quantity'];
+            $productupdate = array();
+            $productupdate['quantity'] = $product_quantity;
+            DB::table('products')->where('id',($cartitems[$i])['id'])->update($productupdate);
+
+            DB::table('orders')->insert($data);
+        }
+
+        return response()->json(['success' => true,'data' => "your order hasbeen placed"], 200);
+        
+    }
+
+    public function charge(Request $request)
+    {
+        Stripe::setApiKey(env('STRIPE_SECRET'));
+
+        
+
+        $charge = Charge::create(array(
+            
+            'amount'   => $request->amount * 100,
+            'currency' => 'inr',
+            "source" => $request->token
+        ));
+        return response()->json("Payment Successfully");
     }
 
 }

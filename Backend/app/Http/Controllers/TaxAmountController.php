@@ -37,6 +37,36 @@ class TaxAmountController extends Controller
             'message' => 'TaxAmount Inserted Successfully',
             'alert-type' => 'success'
             );
-        return redirect()->route('dashboard')->with($notification);
+        return redirect()->route('all.tax')->with($notification);
     }
+
+    public function Edittax($id){
+        $countries = DB::table('countries')->get();
+        $tax = DB::table('taxamounts')->where('id',$id)->first();
+        return view('backend.taxamount.edit',compact('countries','tax'));
+    }
+
+    public function Updatetax(Request $request,$id){
+        $data = array();
+        $data['country_id'] = $request->country_id;
+        $data['state_id'] = $request->state_id;
+        $data['tax_amount'] = $request->tax_amount;
+        $data['status'] = 1;
+        $data['updated_at'] = Carbon::now();
+        DB::table('taxamounts')->where('id',$id)->update($data);
+        $notification = array(
+            'message' => 'TaxAmount Updated Successfully',
+            'alert-type' => 'success'
+            );
+        return redirect()->route('all.tax')->with($notification);
+    }
+
+    public function Viewtax($id){
+
+        $tax = DB::table('taxamounts')->join('countries','taxamounts.country_id','countries.id')->join('states','taxamounts.state_id','states.id')
+        ->select('taxamounts.*','countries.country_name','states.state_name')->where('taxamounts.id',$id)->first();
+        return view('backend.taxamount.view',compact('tax'));
+        
+    }
+
 }

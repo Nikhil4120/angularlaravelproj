@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  localapi:'http://localhost:8000/api'
+  localapi:'http://localhost:8000/api',
+  image: 'http://localhost:8000',
+  stripekey:'pk_test_51JA9SuSFoMkBRyaGIAEazY21A8H095drYpUYY6NWoFw8pXK1T3LJWTh06PCsxlp5hVFy4FvPeFtBiNdl86Dmbzdk00rWO9nwx1'
 };
 
 /*

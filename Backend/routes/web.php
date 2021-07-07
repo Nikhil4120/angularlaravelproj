@@ -15,6 +15,7 @@ use App\Http\controllers\frontuserController;
 use App\Http\controllers\SliderController;
 use App\Http\controllers\TestimonialController;
 use App\Http\controllers\TaxAmountController;
+use App\Http\controllers\OrderController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -135,8 +136,15 @@ Route::get('/active/category/{id}',[CategoryController::class,'ActiveCategory'])
  Route::get('/testimonial',[TestimonialController::class,'Index'])->name('all.testimonial');
  Route::get('/add/testimonial',[TestimonialController::class,'Addtestimonial'])->name('add.testimonial');
  Route::post('/store/testimonial',[TestimonialController::class,'Storetestimonial'])->name('store.testimonial');
+ Route::get('/edit/testimonial/{id}',[TestimonialController::class,'Edittestimonial'])->name('edit.testimonial');
+ Route::post('/update/testimonial/{id}',[TestimonialController::class,'Updatetestimonial'])->name('update.testimonial');
 
  Route::get('/tax',[TaxAmountController::class,'Index'])->name('all.tax');
  Route::get('/add/tax',[TaxAmountController::class,'Addtax'])->name('add.tax');
  Route::get('/get/state/{id}',[TaxAmountController::class,'GetState']);
  Route::post('/store/tax',[TaxAmountController::class,'Storetax'])->name('store.tax');
+ Route::get('/edit/tax/{id}',[TaxAmountController::class,'Edittax'])->name('edit.tax');
+ Route::post('/update/tax/{id}',[TaxAmountController::class,'Updatetax'])->name('update.tax');
+ Route::get('/view/tax/{id}',[TaxAmountController::class,'Viewtax'])->name('tax.view');
+
+ Route::get('/all/order',[OrderController::class,'Index'])->name('all.order');

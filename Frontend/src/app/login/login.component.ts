@@ -8,49 +8,46 @@ import { TokenService } from '../services/token.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-
-  @ViewChild('modal',{static:true}) modal;
+  @ViewChild('modal', { static: true }) modal;
   isloading = false;
-  error = "";
-  
-  
-  constructor(private AuthService:AuthService,private tokenservice:TokenService,private router:Router) { }
+  error = '';
 
-  ngOnInit(): void {
-    console.log(this.modal);
-  }
+  constructor(
+    private AuthService: AuthService,
+    private tokenservice: TokenService,
+    private router: Router
+  ) {}
 
-  onSubmit(form:NgForm){
-    this.error = "";
-    let authobs:Observable<any>;
-      this.isloading = true;
-   authobs = this.AuthService.login(form.value);
-   authobs.subscribe(data=>{
-    this.isloading=false;
-    console.log(data);
-    form.reset();
-    this.tokenservice.handle(data.token);
-    this.AuthService.changeAuthStatus(true);
-    this.modal.nativeElement.click();
-    this.router.navigate(['/']);
-    // this.modal.hide();
+  ngOnInit(): void {}
+
+  onSubmit(form: NgForm) {
+    this.error = '';
+    let authobs: Observable<any>;
+    this.isloading = true;
+     this.AuthService.login(form.value).subscribe(
+      (data) => {
+        this.isloading = false;
+
+        form.reset();
+        this.tokenservice.handle(data['token']);
+        this.AuthService.changeAuthStatus(true);
+        this.modal.nativeElement.click();
+        this.router.navigate(['/']);
+      },
+      (error) => {
+        console.log(error.error.message);
+        this.isloading = false;
+        this.error = error.error.message;
+      }
+    );
     
-    
-
-  },error=>{
-    console.log(error.error.message);
-    this.isloading=false;
-    this.error = error.error.message;
-  })
-
   }
 
-  modalclose(){
+  modalclose() {
     this.modal.nativeElement.click();
   }
   
-
 }

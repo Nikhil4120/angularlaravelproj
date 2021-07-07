@@ -1,3 +1,4 @@
+<div class="loader" *ngIf="isloading"></div>
 <section class="inner-content">
     <div class="title-block-outer">
         <img src="../../assets/images/inner-banner.jpg" alt="Banner-image" class="img-responsive">
@@ -45,12 +46,12 @@
                         <tr *ngFor="let item of cartitems">
                             <td class="product-image-outer">
                                 <a routerLink="/products/detail/{{ item.id }}" title="{{ item.product_name}}"><img
-                                        src="http://localhost:8000/{{ item.product_image}}" alt="{{ item.product_name}}"
+                                        src="{{ envimage }}/{{ item.product_image}}" alt="{{ item.product_name}}"
                                         style="height: 100px;width:50px"></a>
                             </td>
                             <td>
                                 <h2 class="product-name">
-                                    <a routerLink="/products/detail/{{ item.id }}">{{ item.product_name}}</a>
+                                    <a routerLink="/products/detail/{{ item.id }}" [queryParams]="{size:item.size}">{{ item.product_name}}</a>
                                 </h2>
                                 <ul>
                                     <li><strong>Color</strong></li>
@@ -60,7 +61,7 @@
                                 </ul>
                             </td>
                             <td>
-                                <a href="#" title="Edit item" class="edit-link"> <img
+                                <a routerLink="/products/detail/{{ item.id }}" [queryParams]="{size:item.size}" title="Edit item" class="edit-link"> <img
                                         src="../../assets/images/edit-dark.svg" alt="edit"></a>
                             </td>
                             <td>
@@ -143,7 +144,7 @@
 
                                 <tr>
                                     <td colspan="2">
-                                        <a href="#" title="Update Shopping Cart" class="btn-secondary">Checkout
+                                        <a style="cursor:pointer" title="Update Shopping Cart" class="btn-secondary" (click)="checkout()">Checkout
                                             </a>
                                     </td>
                                 </tr>

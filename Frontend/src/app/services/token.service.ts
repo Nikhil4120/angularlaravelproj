@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +27,7 @@ export class TokenService {
     if(token){
       const payload = this.payload(token);
       if(payload){
-        return (payload.iss === 'http://localhost:8000/api/login') ? true:false;
+        return (payload.iss === environment.localapi+'/login') ? true:false;
       }
     }
     return false;

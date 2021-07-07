@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 import { TestimonialService } from '../services/testimonial.service';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-testimonial',
   templateUrl: './testimonial.component.html',
@@ -8,6 +9,7 @@ import { TestimonialService } from '../services/testimonial.service';
 })
 export class TestimonialComponent implements OnInit {
 
+  envimage = environment.image;
   customOptions:OwlOptions = {
     loop: true,
     mouseDrag: true,

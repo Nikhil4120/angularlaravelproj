@@ -6,7 +6,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>All Categories</h1>
+            <h1>All Tax</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -51,8 +51,8 @@
                         <td>{{ $row->state_name }}</td>
                         <td>{{ $row->tax_amount }}</td>
                         <td>
-                        <a href="{{ route('category.view',$row->id)}}" class="btn btn-info"><i class="nav-icon fas fa-eye"></i></a>
-                        <a href="{{ route('edit.category',$row->id)}}" class="btn btn-info"><i class="nav-icon fas fa-edit"></i></a>
+                        <a href="{{ route('tax.view',$row->id)}}" class="btn btn-info"><i class="nav-icon fas fa-eye"></i></a>
+                        <a href="{{ route('edit.tax',$row->id)}}" class="btn btn-info"><i class="nav-icon fas fa-edit"></i></a>
                         <a href="{{ route('delete.category',$row->id)}}" class="btn btn-danger" onclick="return confirm('Are you sure to delete')"><i class="nav-icon fas fa-trash"></i></a>
                               @if($row->status == 1)
                                 <a href="{{ route('category.deactive',$row->id)}}" class="btn btn-warning"><i class="fas fa-ban"></i></a>

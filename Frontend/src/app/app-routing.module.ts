@@ -18,7 +18,7 @@ const routes: Routes = [
   {path:'products/detail/:id',component:ProductDetailsComponent},
   {path:'products/:id',component:ProductListComponent},
   {path:'userprofile',component:UserProfileComponent,canActivate:[AfterloginService]},
-  {path:'cart',component:CartComponent},
+  {path:'cart',component:CartComponent,canActivate:[AfterloginService]},
   {path:'contact',component:ContactusComponent}
   
 ];

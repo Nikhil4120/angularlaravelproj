@@ -2,30 +2,32 @@
     <h2>Testimonial</h2>
     <div class="slider-outer">
         <div class="testimonial">
-            <owl-carousel-o [options]="customOptions">
-                <ng-template carouselSlide *ngFor="let item of testimonials">
-                    <div class="item">
-                        <div class="row">
-                            <div class="col-sm-3 col-xs-4">
-                                <div class="media">
-                                    <div class="media-left">
-                                        <img src="http://localhost:8000/{{item.image}}" alt="Testimonial"
-                                            style="height: 100px;width: 50px;border-radius:50%">
-                                    </div>
-                                    <div class="media-body">
-                                        <h5>{{ item.name }}</h5>
-                                        <p>{{ item.designation }}</p>
+            <div class="testimonial-sliders">
+                <owl-carousel-o [options]="customOptions">
+                    <ng-template carouselSlide *ngFor="let item of testimonials">
+                        <div class="item">
+                            <div class="row">
+                                <div class="col-sm-3 col-xs-4">
+                                    <div class="media">
+                                        <div class="media-left">
+                                            <img src="{{ envimage }}/{{item.image}}" alt="Testimonial"
+                                                style="height: 100px;width: 50px;border-radius:50%">
+                                        </div>
+                                        <div class="media-body">
+                                            <h5>{{ item.name }}</h5>
+                                            <p>{{ item.designation }}</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-sm-9 col-xs-8">
-                                <div class="description">"{{ item.description }}"</div>
+                                <div class="col-sm-9 col-xs-8">
+                                    <div class="description">"{{ item.description }}"</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </ng-template>
+                    </ng-template>
 
-            </owl-carousel-o>
+                </owl-carousel-o>
+            </div>
         </div>
 
     </div>

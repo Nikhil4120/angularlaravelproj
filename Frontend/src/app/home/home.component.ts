@@ -3,6 +3,8 @@ import { Product } from '../models/product.model';
 import { ProductService } from '../services/product.service';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 import { SliderService } from '../services/slider.service';
+import { environment } from 'src/environments/environment';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -38,32 +40,25 @@ export class HomeComponent implements OnInit {
   product:Product[] = [];
   filterproduct = [];
   i = 8;
-
   sliders = [];
-  
-  
-  
+  envimage = environment.image;
+
   constructor(private ProductService:ProductService,private sliderservice:SliderService) { }
 
-
-  ngOnInit(): void {
-    
+  ngOnInit(): void {  
     window.scroll(0,0);
-    
     this.ProductService.GetProduct().subscribe(data=>{
       this.product = data.filter(m=>m.istrending == 1);
       this.filterproduct = this.product.slice(0,this.i);
-      
     });
     this.sliderservice.GetSlider().subscribe(data=>{
       this.sliders = data.data.slice(0,3);
     })
-   
-    
   }
+  
   moreproduct(){
     this.i = this.i + 4; 
    this.filterproduct =  this.product.slice(0,this.i);
   }
-
+  
 }

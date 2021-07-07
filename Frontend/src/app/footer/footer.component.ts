@@ -10,22 +10,22 @@ import { NewsletterService } from '../services/newsletter.service';
 export class FooterComponent implements OnInit {
   success = "";
   error = "";
-  constructor(private newsletterservice:NewsletterService) { }
+  constructor(private newsletterservice: NewsletterService) { }
 
   ngOnInit(): void {
   }
 
-  onSubmit(form:NgForm){
+  onSubmit(form: NgForm) {
     this.success = "";
     this.error = ""
-    if(!form.valid){
+    if (!form.valid) {
       return;
     }
-    this.newsletterservice.NewsletterSubscribe(form.value.email).subscribe(data=>{
-      if(data.success){
+    this.newsletterservice.NewsletterSubscribe(form.value.email).subscribe(data => {
+      if (data.success) {
         this.success = data.message;
       }
-      else{
+      else {
         console.log(data.message);
         this.error = data.message.email;
       }

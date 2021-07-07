@@ -8,6 +8,8 @@ import { CategoryService } from '../services/category.service';
 import { SubcategoryService } from '../services/subcategory.service';
 import { TokenService } from '../services/token.service';
 import { ToastrService } from 'ngx-toastr';
+import { environment } from 'src/environments/environment';
+
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -15,86 +17,86 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class HeaderComponent implements OnInit {
 
-  public loggedIn:boolean;
- 
-  username:string;
-  category:Category[] = [];
-  subcategory:Subcategory[] = [];
+  public loggedIn: boolean;
+  envimage = environment.image;
+  username: string;
+  category: Category[] = [];
+  subcategory: Subcategory[] = [];
   cartitems = [];
   issubcategory = [];
   total = 0;
-  constructor(private CategoryService:CategoryService,private SubcategoryService:SubcategoryService,private AuthService:AuthService,private router:Router,private tokenservice:TokenService,private cartService:CartService,private toastr:ToastrService) { }
+
+  constructor(private CategoryService: CategoryService, private SubcategoryService: SubcategoryService, private AuthService: AuthService, private router: Router, private tokenservice: TokenService, private cartService: CartService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
-    this.AuthService.authstatus.subscribe(value=>{
+    this.AuthService.authstatus.subscribe(value => {
       this.loggedIn = value;
-      if(this.loggedIn){
+      if (this.loggedIn) {
         const token = localStorage.getItem('token');
-        this.AuthService.getuser(token).subscribe(data=>{
+        this.AuthService.getuser(token).subscribe(data => {
           this.username = data['user'].username;
         },
-        error=>{
-          this.toastr.error("Your token has been expired you need to relogin");
-          this.logout();
+          error => {
+            this.toastr.error("Your token has been expired you need to relogin");
+            this.logout();
 
-        } 
-        ) 
+          }
+        )
       }
     });
-    this.CategoryService.getCategories().subscribe(data=>{
+    this.CategoryService.getCategories().subscribe(data => {
       this.category = data;
     });
-    this.SubcategoryService.getSubcategories().subscribe(data=>{
+    this.SubcategoryService.getSubcategories().subscribe(data => {
       this.subcategory = data;
       this.issubcategories();
     });
-    this.cartService.getCartProducts().subscribe(data=>{
+    this.cartService.getCartProducts().subscribe(data => {
       this.cartitems = data;
       this.grandtotal();
     })
     this.cartitem();
   }
 
-  issubcategories(){
+  issubcategories() {
     for (let index = 0; index < this.category.length; index++) {
       const element = this.category[index].id;
-      const len = this.subcategory.filter(m=>m.category_id == element).length;
+      const len = this.subcategory.filter(m => m.category_id == element).length;
       this.issubcategory.push(len);
-      
+
     }
-    console.log(this.issubcategory);
+   
   }
-  
-  cartitem(){
-     if(localStorage.getItem('cart')){
-       this.cartitems = JSON.parse(localStorage.getItem('cart'));
-       this.grandtotal();
-     }
+
+  cartitem() {
+    if (localStorage.getItem('cart')) {
+      this.cartitems = JSON.parse(localStorage.getItem('cart'));
+      this.grandtotal();
+    }
 
   }
 
-  grandtotal(){
+  grandtotal() {
     this.total = 0;
-    if(localStorage.getItem('cart')){
+    if (localStorage.getItem('cart')) {
       let products = JSON.parse(localStorage.getItem('cart'));
-      
+
       for (let index = 0; index < products.length; index++) {
-        this.total += (products[index].price*products[index].product_quantity);
-        
+        this.total += (products[index].price * products[index].product_quantity);
+
       }
     }
   }
 
-  removeitem(id,size){
-   this.cartService.removeitem(id,size);
+  removeitem(id, size) {
+    this.cartService.removeitem(id, size);
   }
 
-  logout(){
+  logout() {
     this.tokenservice.remove();
     localStorage.removeItem('cart');
     this.AuthService.changeAuthStatus(false);
     this.router.navigate(['/']);
   }
-
 
 }
