@@ -48,3 +48,6 @@ Route::get('/slider',[ApiController::class,'Slider']);
 Route::get('/taxamount',[ApiController::class,'Taxamount']);
 Route::post('/orders',[ApiController::class,'Order']);
 Route::post('/checkout',[ApiController::class,'Charge']);
+
+
+Route::post('/about',[ApiController::class,'about']);

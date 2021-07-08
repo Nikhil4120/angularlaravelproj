@@ -362,5 +362,9 @@ class ApiController extends Controller implements JWTSubject
         ));
         return response()->json("Payment Successfully");
     }
+    public function about(){
+        $about = DB::table('abouts')->first();
+        return response()->json($about);
+    }
 
 }

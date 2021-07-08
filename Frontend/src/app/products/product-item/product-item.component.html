@@ -4,7 +4,9 @@
             <a href="#" title="{{ product.product_name }}" class="thumb-image"><img
                     src="{{envimage}}/{{ product.product_image}}" alt="thumb"
                     style="height:300px;width:500px"></a>
-            <a title="Add to Cart" class="cart-button" style="cursor:pointer" (click)="addcart(product)">Add to Cart</a>
+            <a title="Add to Cart" class="cart-button" style="cursor:pointer" (click)="addcart(product)" *ngIf="isloggedin">Add to Cart</a>
+            <a title="Add to Cart" class="cart-button" style="cursor:pointer" *ngIf="!isloggedin" data-toggle="modal"
+            data-target="#Login-popup">Add to Cart</a>
         </div>
         <figcaption>
             <a routerLink="/products/detail/{{ product.id }}" title="{{ product.product_name }}" class="heading">{{

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Category } from '../models/category.model';
 import { Subcategory } from '../models/subcategory.model';
@@ -9,6 +9,7 @@ import { SubcategoryService } from '../services/subcategory.service';
 import { TokenService } from '../services/token.service';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-header',
@@ -25,10 +26,12 @@ export class HeaderComponent implements OnInit {
   cartitems = [];
   issubcategory = [];
   total = 0;
+ 
 
   constructor(private CategoryService: CategoryService, private SubcategoryService: SubcategoryService, private AuthService: AuthService, private router: Router, private tokenservice: TokenService, private cartService: CartService, private toastr: ToastrService) { }
 
   ngOnInit(): void {
+  
     this.AuthService.authstatus.subscribe(value => {
       this.loggedIn = value;
       if (this.loggedIn) {
@@ -90,6 +93,13 @@ export class HeaderComponent implements OnInit {
 
   removeitem(id, size) {
     this.cartService.removeitem(id, size);
+  }
+
+  onSearch(search:NgForm){
+    if(search.value.searchtext){
+      const value = search.value.searchtext;
+      this.router.navigate(['/productsearch/'+value]);
+    }
   }
 
   logout() {

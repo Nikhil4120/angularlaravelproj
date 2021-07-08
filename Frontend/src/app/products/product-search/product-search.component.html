@@ -1,18 +1,15 @@
+
 <div class="loader" *ngIf="isloading"></div>
-
-
 <div class="title-block-outer">
     <img src="../../assets/images/inner-banner.jpg" alt="Banner-image" class="img-responsive">
     <div class="container title-block-container">
-        <h2>{{ Category }}</h2>
+        <h2>Products</h2>
     </div>
 </div>
 <div class="breadcrumb-panel">
     <div class="container">
         <ol class="breadcrumb">
-            <li><a routerLink="/" title="Home">Home</a></li>
-            <li class="active"><a title="Men">{{ Category }}</a></li>
-
+            <li class="active"><a routerLink="/" title="Home">Home</a></li>
         </ol>
     </div>
 </div>
@@ -30,12 +27,9 @@
                             <ul>
                                 <li class="custom-check" *ngFor="let item of subcategory;let i=index">
                                     <label>
-                                        <input type="checkbox" class="icheck" value="{{ item.id }}"
-                                            (change)="filterbysubcat($event,item.subcategory_name,i)" style="cursor:pointer"> {{
-                                        item.subcategory_name }} <span>({{item.count}})</span>
+                                        <input type="checkbox" class="icheck" (change)="filterbysubcat($event,item.subcategory_name,i)"> {{ item.subcategory_name }} <span>({{ item.count }})</span>
                                     </label>
                                 </li>
-
                             </ul>
                         </div>
                     </div>
@@ -44,12 +38,13 @@
                         <div class="filter-option-inner collapse in" id="collapse2">
                             <ul class="colour_family_list clearfix">
                                 <li *ngFor="let item of color;let i=index">
-                                    <a title="Magenta" (click)="filterbycolor($event,item.color_name)"> <span
+                                    <a title="Magenta" (click)="filterbycolor($event,item.color_name)" style="cursor:pointer"> <span
                                             [style.background-color]="item.color_code"></span> {{ item.color_name }}
                                         <i>({{ item.count }})</i></a>
                                 </li>
 
-                                <li><a (click)="resetcolor()" title="Reset" class="reset-link">Reset</a></li>
+                               
+                                <li><a href="#" title="Reset" class="reset-link" (click)="resetcolor()">Reset</a></li>
                             </ul>
                         </div>
                     </div>
@@ -58,8 +53,8 @@
                         <div class="filter-option-inner collapse in" id="collapse3">
                             <div class="info">{{ filterproduct.length }} items</div>
                             
-                            <ng5-slider [(value)]="value" [(highValue)]="highValue" [options]="options"
-                                (valueChange)="filterbyprice($event)"></ng5-slider>
+                            <ng5-slider [(value)]="value" [(highValue)]="highValue" [options]="options" (valueChange)="filterbyprice($event)"
+                                ></ng5-slider>
                             
                         </div>
                     </div>
@@ -67,15 +62,14 @@
                         <div class="title" data-toggle="collapse" href="#collapse4" aria-expanded="false">Size</div>
                         <div class="filter-option-inner size-filter collapse in" id="collapse4">
                             <ul>
-
                                 <li class="custom-check" *ngFor="let item of size;let i=index">
                                     <label>
-                                        <input type="checkbox" class="icheck" value="{{ item.id }}"
-                                            (change)="filterbysize($event,item.size_name,i)" style="cursor:pointer"> {{ item.size_name
-                                        }} <span>({{ item.count}})</span>
+                                        <input type="checkbox" class="icheck" value="{{ item.id }}" (change)="filterbysize($event,item.size_name,i)"
+                                            > {{ item.size_name
+                                        }} <span>({{ item.count }})</span>
                                     </label>
                                 </li>
-
+                                
                             </ul>
                         </div>
                     </div>
@@ -86,7 +80,7 @@
                 </div>
             </div>
             <div class="col-sm-9">
-                <h3>{{ Category }}</h3>
+                <h3>Products</h3>
                 <div class="toolbar clearfix">
 
                     <div class="pager_right">
@@ -94,7 +88,7 @@
                             <label>Sort By</label>
                             <div class="form-group">
                                 <select class="custom-dropdown" (change)="sorting($event)">
-                                    
+                                    <option selected disabled>Select</option>
                                     <option value="name">Name</option>
                                     <option value="price">Price</option>
                                 </select>
@@ -105,20 +99,18 @@
                 <div class="grid-content">
                     <div class="grid row">
 
-
+                        <h3 *ngIf="filterproduct.length==0 && !isloading">No Products Availiable</h3>
 
                         <app-product-item *ngFor="let item of filterproduct;let i=index" [product]="item" [Index]="i">
                         </app-product-item>
-                        <div *ngIf="filterproduct.length == 0 && !isloading">
-                            <h1>No products Availiable</h1>
-                        </div>
+                        
                     </div>
                 </div>
 
-                <div class="col-sm-12 col-xs-12" *ngIf="!isloading">
-                    <span class="button-outer text-center">
-                        <a class="btn-tertiary" style="cursor: pointer;" title="More Products"
-                            *ngIf="filterproduct.length >8 && filterproduct.length!=0">More Products</a>
+                <div class="col-sm-12 col-xs-12">
+                    <span class="button-outer text-center" *ngIf="filterproduct.length == 0 && !isloading">
+                        <a class="btn-tertiary" style="cursor: pointer;" title="More Products" (click)="moreproduct()" 
+                            >More Products</a>
                     </span>
                 </div>
             </div>

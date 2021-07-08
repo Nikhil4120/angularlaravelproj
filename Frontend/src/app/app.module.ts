@@ -24,6 +24,7 @@ import { TestimonialComponent } from './testimonial/testimonial.component';
 import { ToastrModule } from 'ngx-toastr';
 import { ContactusComponent } from './contactus/contactus.component';
 import { CheckoutComponent } from './checkout/checkout.component';
+import { ProductSearchComponent } from './products/product-search/product-search.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,7 +43,8 @@ import { CheckoutComponent } from './checkout/checkout.component';
     CartComponent,
     TestimonialComponent,
     ContactusComponent,
-    CheckoutComponent
+    CheckoutComponent,
+    ProductSearchComponent
   ],
   imports: [
     BrowserModule,

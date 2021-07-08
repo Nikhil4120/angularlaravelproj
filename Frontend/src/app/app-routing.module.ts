@@ -10,6 +10,7 @@ import { BeforeloginService } from './services/beforelogin.service';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { CartComponent } from './cart/cart.component';
 import { ContactusComponent } from './contactus/contactus.component';
+import { ProductSearchComponent } from './products/product-search/product-search.component';
 
 const routes: Routes = [
   {path:'',component:HomeComponent},
@@ -19,7 +20,8 @@ const routes: Routes = [
   {path:'products/:id',component:ProductListComponent},
   {path:'userprofile',component:UserProfileComponent,canActivate:[AfterloginService]},
   {path:'cart',component:CartComponent,canActivate:[AfterloginService]},
-  {path:'contact',component:ContactusComponent}
+  {path:'contact',component:ContactusComponent},
+  {path:'productsearch/:id',component:ProductSearchComponent}
   
 ];
 

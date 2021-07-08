@@ -16,6 +16,7 @@ use App\Http\controllers\SliderController;
 use App\Http\controllers\TestimonialController;
 use App\Http\controllers\TaxAmountController;
 use App\Http\controllers\OrderController;
+use App\Http\controllers\AboutController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -148,3 +149,6 @@ Route::get('/active/category/{id}',[CategoryController::class,'ActiveCategory'])
  Route::get('/view/tax/{id}',[TaxAmountController::class,'Viewtax'])->name('tax.view');
 
  Route::get('/all/order',[OrderController::class,'Index'])->name('all.order');
+
+ Route::get('/add/about',[AboutController::class,'Index'])->name('add.about');
+ Route::post('/store/about',[AboutController::class,'Store'])->name('store.about');

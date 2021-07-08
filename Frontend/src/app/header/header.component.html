@@ -44,8 +44,8 @@
                             <li class="hidden-xs" *ngIf="loggedIn">
                                 <span><em>Welcome</em>, {{ username }}</span>
                             </li>
-                            <li class="login-link" *ngIf="!loggedIn"><a href="#" title="Login" data-toggle="modal"
-                                    data-target="#Login-popup">Login</a></li>
+                            <li class="login-link" *ngIf="!loggedIn" #login><a href="#" title="Login" data-toggle="modal"
+                                    data-target="#Login-popup" >Login</a></li>
 
                             <li class="login-link" *ngIf="loggedIn"><a href="#" title="Login"
                                     (click)="logout()">Logout</a></li>
@@ -102,9 +102,11 @@
                             <li class="search-link-wrap">
                                 <div class="search-link-outer">
                                     <div class="search-link clearfix">
-                                        <input type="text" class="form-control" placeholder="Search">
-                                        <a href="#" title="Search"><i><img src="../../assets/images/search.svg"
-                                                    alt="Search"></i></a>
+                                        <form #search="ngForm" (ngSubmit)="onSearch(search)">
+                                            <input type="text" class="form-control" placeholder="Search" name="searchtext" ngModel>
+                                            <a href="#" title="Search"><i><img src="../../assets/images/search.svg"
+                                                        alt="Search"></i></a>
+                                        </form>
                                     </div>
                                 </div>
                             </li>

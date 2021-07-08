@@ -12,6 +12,7 @@ import { TokenService } from '../services/token.service';
 })
 export class LoginComponent implements OnInit {
   @ViewChild('modal', { static: true }) modal;
+  @ViewChild('openmodal', { static: true }) openmodal;
   isloading = false;
   error = '';
 
@@ -21,7 +22,9 @@ export class LoginComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.modalopen();
+  }
 
   onSubmit(form: NgForm) {
     this.error = '';
@@ -44,6 +47,10 @@ export class LoginComponent implements OnInit {
       }
     );
     
+  }
+
+  modalopen(){
+    console.log(this.openmodal);        
   }
 
   modalclose() {

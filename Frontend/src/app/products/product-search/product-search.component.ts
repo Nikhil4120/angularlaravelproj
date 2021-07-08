@@ -1,105 +1,73 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Color } from 'src/app/models/color.model';
-import { Product } from 'src/app/models/product.model';
-import { Size } from 'src/app/models/size.model';
-import { Subcategory } from 'src/app/models/subcategory.model';
-import { CategoryService } from 'src/app/services/category.service';
+import { ActivatedRoute, Params } from '@angular/router';
 import { ColorService } from 'src/app/services/color.service';
 import { ProductService } from 'src/app/services/product.service';
 import { SizeService } from 'src/app/services/size.service';
 import { SubcategoryService } from 'src/app/services/subcategory.service';
 import { Options } from 'ng5-slider';
+import { Product } from 'src/app/models/product.model';
+import { Subcategory } from 'src/app/models/subcategory.model';
+import { Color } from 'src/app/models/color.model';
+import { Size } from 'src/app/models/size.model';
 
 @Component({
-  selector: 'app-product-list',
-  templateUrl: './product-list.component.html',
-  styleUrls: ['./product-list.component.css']
+  selector: 'app-product-search',
+  templateUrl: './product-search.component.html',
+  styleUrls: ['./product-search.component.css']
 })
-export class ProductListComponent implements OnInit {
+export class ProductSearchComponent implements OnInit {
 
+  isloading = false;
   value: number = 0;
   highValue: number = 2000;
   options: Options = {
     floor: 0,
     ceil: 2000
   }
-  isloading = false;
-  id: number;
-  checkedsubcat;
-  checkedsize;
-  checkedcolor = "";
-  Category: string = "";
-  product: Product[] = [];
-  filterproduct: Product[] = [];
-  size: Size[];
-  color: Color[];
-  subcategory: Subcategory[] = [];
-  selected: string[] = [];
-  price: number = 0;
+  product:Product[] = [];
+  filterproduct:Product[] = [];
+  subcategory:Subcategory[] = [];
+  id;
+  color:Color[] = [];
+  size:Size[] = [];
   countsubcategory = [];
   countsize = [];
   countcolor = [];
-
-  constructor(private CategoryService: CategoryService, private route: ActivatedRoute, private router: Router, private ProductService: ProductService, private SizeService: SizeService, private SubCategoryService: SubcategoryService, private ColorService: ColorService) { }
-
+  checkedsubcat;
+  checkedsize;
+  checkedcolor = "";
+  i = 8;
+  constructor(private ProductService:ProductService,private Route:ActivatedRoute,private SubCategoryService:SubcategoryService,private ColorService:ColorService,private SizeService:SizeService) { }
+  
   ngOnInit(): void {
-
-    this.route.params.subscribe((params: Params) => {
-      this.filterproduct = [];
-      this.id = +params['id'];
-      this.selected = [];
-      this.countsubcategory = [];
-      this.countsize = [];
-      this.countcolor = [];
+    
+    
+    
+    this.Route.params.subscribe((params:Params)=>{
       this.isloading = true;
-      window.scroll(0, 0);
-      this.CategoryService.getCategories().subscribe(data => {
-        
-        this.Category = data[this.id].category_name;
-        this.getSubCategory(data[this.id].id);
-        this.getproduct();
-
+      this.id = params['id'];
+      this.SubCategoryService.getSubcategories().subscribe(data => {
+        this.subcategory = data;
+        this.countsubcategories();
+      });
+      this.ColorService.getcolor().subscribe(data => {
+        this.color = data;
       });
       this.SizeService.getSizes().subscribe(data => {
         this.size = data;
 
       });
-      this.ColorService.getcolor().subscribe(data => {
-        this.color = data;
+      this.ProductService.GetProduct().subscribe(data=>{
+        this.product = data.filter(m=>m.product_name.toLowerCase().includes(this.id.toLowerCase()));;
+        
+        this.filterproduct = this.product.slice(0,8);
+        this.countsubcategories();
+        this.countsizes();
+        this.countcolors();
+        this.isloading  = false;
       });
+      
     });
-
-  }
-
-  getproduct() {
-    console.log(this.Category);
-    this.ProductService.GetProduct().subscribe(data => {
-      this.product = data.filter(item => item.category_name == this.Category);
-      this.filterproduct = this.product;
-      this.isloading = false;
-      this.countsizes();
-      this.countcolors();
-      this.countsubcategories();
-    });
-  }
-
-  getSubCategory(categoryid: number) {
-    this.SubCategoryService.getSubcategories().subscribe(data => {
-      this.subcategory = data.filter(item => item.category_id == categoryid);
-      this.countsubcategories();
-    });
-  }
-
-  sorting(e) {
-
-    if (e.target.value == "name") {
-      this.filterproduct.sort((a, b) => (a.product_name < b.product_name) ? -1 : 1);
-    }
-    else {
-      this.filterproduct.sort((a, b) => (a.price < b.price) ? -1 : 1);
-    }
-
   }
 
   mainFunctionForFilter() {
@@ -212,20 +180,21 @@ export class ProductListComponent implements OnInit {
     });
 
     for (let index = 0; index < this.subcategory.length; index++) {
-      const len = (this.product.filter(m => m.subcategory_name == this.subcategory[index].subcategory_name)).length;
+      const len = (this.filterproduct.filter(m => m.subcategory_name == this.subcategory[index].subcategory_name)).length;
       this.subcategory[index].count = len;
     }
   }
 
   countsizes() {
+    
     this.checkedsize = this.size.map((value, index) => {
       (this.size[index])['count'] = 0;
       return 0;
     });
 
     for (let index = 0; index < this.size.length; index++) {
-      const len = (this.product.filter((m, i) => {
-        const temp = this.product[i].size_id.split(",");
+      const len = (this.filterproduct.filter((m, i) => {
+        const temp = this.filterproduct[i].size_id.split(",");
         if (temp.includes(this.size[index].size_name)) {
           return true;
         }
@@ -237,13 +206,30 @@ export class ProductListComponent implements OnInit {
     }
 
   }
-  
+
   countcolors() {
     this.countcolor = this.color.map((value, index) => {
       (this.color[index])['count'] = 0;
-      const len = this.product.filter(m => value.color_name == m.color_name).length;
+      const len = this.filterproduct.filter(m => value.color_name == m.color_name).length;
       this.color[index]['count'] = len;
     });
 
   }
+
+  sorting(e) {
+
+    if (e.target.value == "name") {
+      this.filterproduct.sort((a, b) => (a.product_name < b.product_name) ? -1 : 1);
+    }
+    else {
+      this.filterproduct.sort((a, b) => (a.price < b.price) ? -1 : 1);
+    }
+
+  }
+  
+  moreproduct(){
+    this.i = this.i + 4; 
+   this.filterproduct =  this.product.slice(0,this.i);
+  }
+
 }

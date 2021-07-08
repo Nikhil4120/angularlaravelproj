@@ -31,9 +31,7 @@ export class ProductItemComponent implements OnInit {
       this.cartservice.addTocart(product);
       this.toastr.success('Your items added to cart');
     }
-    else{
-      this.toastr.error('You need to login first');
-    }
+    
 
   }
 
