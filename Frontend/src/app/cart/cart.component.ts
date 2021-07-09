@@ -28,6 +28,10 @@ export class CartComponent implements OnInit {
   state = '';
   isloading = false;
   strikeCheckout: any = null;
+  selectedsize = "";
+  editingmode = false;
+  editingitem;
+  sizeid = [];
 
   constructor(
     private cartservice: CartService,
@@ -54,6 +58,7 @@ export class CartComponent implements OnInit {
     this.cartservice.getCartProducts().subscribe((data) => {
       this.cartitems = data;
       this.alertitems = data;
+      
       setTimeout(() => {
         this.alertitems = [];
       }, 20000);
@@ -100,8 +105,7 @@ export class CartComponent implements OnInit {
   }
 
   filtertax() {
-    console.log(this.country);
-    console.log(this.state);
+    
     var amount = this.taxamounts.filter(
       (m) => m.country_id == this.country && m.state_id == this.state
     );
@@ -114,6 +118,17 @@ export class CartComponent implements OnInit {
     } else {
       this.pay(this.total + this.taxamount);
     }
+  }
+
+  iseditablemode(i){
+    this.editingmode = true;
+    this.editingitem = i;
+    this.sizeid = this.cartitems[i].size_id.split(",");
+
+  }
+
+  updatesize(e,i){
+    this.cartitems[i].size = e.target.value;
   }
 
   pay(amount) {

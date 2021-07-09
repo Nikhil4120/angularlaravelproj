@@ -38,4 +38,10 @@ class newscontroller extends Controller
         
 
     }
+
+    public function Newsuser(){
+        $newsuser = DB::table('newsletterusers')->get();
+        return view('backend.newsletter.index',compact('newsuser'));
+    }
+
 }

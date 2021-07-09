@@ -43,7 +43,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let item of cartitems">
+                        <tr *ngFor="let item of cartitems;let i=index">
                             <td class="product-image-outer">
                                 <a routerLink="/products/detail/{{ item.id }}" title="{{ item.product_name}}"><img
                                         src="{{ envimage }}/{{ item.product_image}}" alt="{{ item.product_name}}"
@@ -57,11 +57,17 @@
                                     <li><strong>Color</strong></li>
                                     <li>{{ item.color_name }} </li>
                                     <li><strong>size</strong></li>
-                                    <li>{{ item.size}} </li>
+                                    <li *ngIf="!editingmode || editingitem!=i">{{ item.size}} </li>
+                                    <li *ngIf="editingmode && editingitem==i">
+                                        <select (change)="updatesize($event,i)">
+                                            <option *ngFor="let size of sizeid" [value]="size" [selected]="size==item.size">{{ size }}</option>
+                                        </select>
+                                    </li>
+                                    
                                 </ul>
                             </td>
                             <td>
-                                <a routerLink="/products/detail/{{ item.id }}" [queryParams]="{size:item.size}" title="Edit item" class="edit-link"> <img
+                                <a style="cursor:pointer" (click)="iseditablemode(i)" title="Edit item" class="edit-link"> <img
                                         src="../../assets/images/edit-dark.svg" alt="edit"></a>
                             </td>
                             <td>

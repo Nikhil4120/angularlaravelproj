@@ -16,7 +16,7 @@ import { environment } from 'src/environments/environment';
 })
 export class ProductDetailsComponent implements OnInit {
 
-  envimage = environment.image;s
+  envimage = environment.image;
   isloading = true;
   id: number;
   product: any = [];
@@ -57,7 +57,7 @@ export class ProductDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.isloading = true;
-    this.toastr.toastrConfig.positionClass = 'toast-top-center';
+    
     this.AuthService.authstatus.subscribe(data => {
       this.isloggedin = data;
       this.userid = JSON.parse(atob(localStorage.getItem('token').split('.')[1])).user_id;

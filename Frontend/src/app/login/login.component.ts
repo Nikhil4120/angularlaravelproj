@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
         this.tokenservice.handle(data['token']);
         this.AuthService.changeAuthStatus(true);
         this.modal.nativeElement.click();
-        this.router.navigate(['/']);
+        
       },
       (error) => {
         console.log(error.error.message);

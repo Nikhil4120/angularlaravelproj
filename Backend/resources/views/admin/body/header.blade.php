@@ -7,6 +7,9 @@
       <li class="nav-item d-none d-sm-inline-block">
         <a href="{{ route('dashboard') }}" class="nav-link">Home</a>
       </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="{{ route('all.contact') }}" class="nav-link">Contact</a>
+      </li>
      
     </ul>
 

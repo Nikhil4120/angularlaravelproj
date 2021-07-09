@@ -69,7 +69,7 @@ export class CartService {
 
   removeitem(id,size){
     let products = JSON.parse(localStorage.getItem('cart'));
-    this.cartItems = products.filter(m=>m.id!=id && m.size!=size);
+    this.cartItems = products.filter(m=>m.id!=id || m.size!=size);
     localStorage.setItem('cart',JSON.stringify(this.cartItems));
     this.AddtoCartSubject.next(this.cartItems);
 

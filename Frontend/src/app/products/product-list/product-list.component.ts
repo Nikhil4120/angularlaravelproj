@@ -10,6 +10,7 @@ import { ProductService } from 'src/app/services/product.service';
 import { SizeService } from 'src/app/services/size.service';
 import { SubcategoryService } from 'src/app/services/subcategory.service';
 import { Options } from 'ng5-slider';
+import { HeaderService } from 'src/app/services/header.service';
 
 @Component({
   selector: 'app-product-list',
@@ -25,7 +26,7 @@ export class ProductListComponent implements OnInit {
     ceil: 2000
   }
   isloading = false;
-  id: number;
+  id;
   checkedsubcat;
   checkedsize;
   checkedcolor = "";
@@ -40,24 +41,37 @@ export class ProductListComponent implements OnInit {
   countsubcategory = [];
   countsize = [];
   countcolor = [];
+  i=8;
+  selectedsubcategory = "";
 
-  constructor(private CategoryService: CategoryService, private route: ActivatedRoute, private router: Router, private ProductService: ProductService, private SizeService: SizeService, private SubCategoryService: SubcategoryService, private ColorService: ColorService) { }
+  constructor(private CategoryService: CategoryService, private route: ActivatedRoute, private router: Router, private ProductService: ProductService, private SizeService: SizeService, private SubCategoryService: SubcategoryService, private ColorService: ColorService,private headerservice:HeaderService) { }
 
+  
   ngOnInit(): void {
-
+    
+    this.headerservice.obs.subscribe(data=>{
+      this.selectedsubcategory = data;
+      if(this.checkedsubcat){
+        this.countsubcategories();
+        this.mainFunctionForFilter();
+      }
+    })
     this.route.params.subscribe((params: Params) => {
       this.filterproduct = [];
-      this.id = +params['id'];
+      this.id = params['id'];
       this.selected = [];
       this.countsubcategory = [];
       this.countsize = [];
       this.countcolor = [];
       this.isloading = true;
       window.scroll(0, 0);
+      this.selectedsubcategory = this.headerservice.Getsubcategory();
+      console.log(this.selectedsubcategory);
       this.CategoryService.getCategories().subscribe(data => {
         
-        this.Category = data[this.id].category_name;
-        this.getSubCategory(data[this.id].id);
+        this.Category = this.id;
+        const category =  data.find(m=>m.category_name.toLowerCase() == this.Category);
+        this.getSubCategory(category.id);
         this.getproduct();
 
       });
@@ -75,12 +89,19 @@ export class ProductListComponent implements OnInit {
   getproduct() {
     console.log(this.Category);
     this.ProductService.GetProduct().subscribe(data => {
-      this.product = data.filter(item => item.category_name == this.Category);
-      this.filterproduct = this.product;
+      this.product = data.filter(item => item.category_name.toLowerCase() == this.Category);
+      if(this.selectedsubcategory != ""){
+        this.filterproduct = this.product.filter(m=>m.subcategory_name==this.selectedsubcategory);
+      }
+      else{
+        this.filterproduct = this.product.slice(0,8);
+      }
+      
       this.isloading = false;
       this.countsizes();
       this.countcolors();
       this.countsubcategories();
+      
     });
   }
 
@@ -88,6 +109,7 @@ export class ProductListComponent implements OnInit {
     this.SubCategoryService.getSubcategories().subscribe(data => {
       this.subcategory = data.filter(item => item.category_id == categoryid);
       this.countsubcategories();
+      
     });
   }
 
@@ -154,7 +176,7 @@ export class ProductListComponent implements OnInit {
     }
 
     len = this.checkedcolor;
-    console.log(len);
+    
     var temp2 = [];
     if (len == "") {
       temp2 = temp1;
@@ -208,13 +230,21 @@ export class ProductListComponent implements OnInit {
   countsubcategories() {
     this.checkedsubcat = this.subcategory.map((value, index) => {
       this.subcategory[index]['count'] = 0;
-      return 0;
+      if(value.subcategory_name == this.selectedsubcategory){
+        return 1;
+      }
+      else{
+        return 0;
+      }
+      
     });
+    
 
     for (let index = 0; index < this.subcategory.length; index++) {
       const len = (this.product.filter(m => m.subcategory_name == this.subcategory[index].subcategory_name)).length;
       this.subcategory[index].count = len;
     }
+    
   }
 
   countsizes() {
@@ -246,4 +276,10 @@ export class ProductListComponent implements OnInit {
     });
 
   }
+
+  moreproduct(){
+    this.i = this.i + 4; 
+   this.filterproduct =  this.product.slice(0,this.i);
+  }
+
 }

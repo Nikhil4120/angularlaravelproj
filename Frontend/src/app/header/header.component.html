@@ -23,11 +23,11 @@
                                 <ul class="nav-menu menu clearfix">
                                     <li class="menu-item"><a routerLink="/" class="menu-link" title="Home">Home</a></li>
                                     <li class="menu-item" *ngFor="let item of category;let i=index">
-                                        <a routerLink="products/{{i}}" class="menu-link"
-                                            title="{{ item.category_name }}">{{ item.category_name }}</a>
+                                        <a routerLink="products/{{item.category_name | lowercase}}" class="menu-link"
+                                            title="{{ item.category_name }}" (click)="categorychange()">{{ item.category_name }}</a>
                                         <ul class="sub-menu" *ngIf="issubcategory[i]!=0">
-                                            <li *ngFor="let subitem of subcategory"><a
-                                                    *ngIf="item.id == subitem.category_id">{{ subitem.subcategory_name
+                                            <li *ngFor="let subitem of subcategory"><a routerLink="products/{{item.category_name | lowercase}}"
+                                                    *ngIf="item.id == subitem.category_id" (click)="subcategorychange(subitem.subcategory_name)">{{ subitem.subcategory_name
                                                     }}</a></li>
 
                                         </ul>

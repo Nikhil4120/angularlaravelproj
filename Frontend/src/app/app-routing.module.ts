@@ -11,6 +11,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { CartComponent } from './cart/cart.component';
 import { ContactusComponent } from './contactus/contactus.component';
 import { ProductSearchComponent } from './products/product-search/product-search.component';
+//import { SubcategoryComponent } from './products/subcategory/subcategory.component';
 
 const routes: Routes = [
   {path:'',component:HomeComponent},
@@ -21,7 +22,8 @@ const routes: Routes = [
   {path:'userprofile',component:UserProfileComponent,canActivate:[AfterloginService]},
   {path:'cart',component:CartComponent,canActivate:[AfterloginService]},
   {path:'contact',component:ContactusComponent},
-  {path:'productsearch/:id',component:ProductSearchComponent}
+  {path:'productsearch/:id',component:ProductSearchComponent},
+  // {path:'products/:category/:subcategory',component:SubcategoryComponent}
   
 ];
 

@@ -25,6 +25,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { ContactusComponent } from './contactus/contactus.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { ProductSearchComponent } from './products/product-search/product-search.component';
+//import { SubcategoryComponent } from './products/subcategory/subcategory.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,7 +45,8 @@ import { ProductSearchComponent } from './products/product-search/product-search
     TestimonialComponent,
     ContactusComponent,
     CheckoutComponent,
-    ProductSearchComponent
+    ProductSearchComponent,
+    //SubcategoryComponent
   ],
   imports: [
     BrowserModule,

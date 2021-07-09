@@ -17,6 +17,7 @@ use App\Http\controllers\TestimonialController;
 use App\Http\controllers\TaxAmountController;
 use App\Http\controllers\OrderController;
 use App\Http\controllers\AboutController;
+use App\Http\controllers\ContactController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -122,6 +123,7 @@ Route::get('/active/category/{id}',[CategoryController::class,'ActiveCategory'])
  Route::get('/view/city/{id}',[CityController::class,'ViewCity'])->name('city.view');
  
 
+ Route::get('/all/newsuser',[newsController::class,'Newsuser'])->name('all.newsuser');
  Route::get('/add/news',[newsController::class,'AddNews'])->name('add.news');
  Route::post('/store/news',[newsController::class,'StoreNews'])->name('store.news');
 
@@ -152,3 +154,6 @@ Route::get('/active/category/{id}',[CategoryController::class,'ActiveCategory'])
 
  Route::get('/add/about',[AboutController::class,'Index'])->name('add.about');
  Route::post('/store/about',[AboutController::class,'Store'])->name('store.about');
+
+ Route::get('/all/contact',[ContactController::class,'Index'])->name('all.contact');
+ 

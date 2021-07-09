@@ -203,7 +203,12 @@
                   <p>Add NewsLetter</p>
                 </a>
               </li>
-              
+              <li class="nav-item">
+                <a href="{{ route('all.newsuser') }}" class="nav-link {{ Route::is('all.newsuser') ? 'active' : ''}}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>All NewsLetterUser</p>
+                </a>
+              </li>
               
             </ul>
 
