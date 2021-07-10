@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { About } from '../models/about.model';
 import { AboutService } from '../services/about.service';
 
 @Component({
@@ -8,13 +9,13 @@ import { AboutService } from '../services/about.service';
 })
 export class AboutusComponent implements OnInit {
 
-  about = [];
+  about = "";
   constructor(private aboutservice:AboutService) { }
 
   ngOnInit(): void {
 
     this.aboutservice.GetAbout().subscribe(data=>{
-      this.about = data;
+      this.about = data['content'];
     })
 
   }

@@ -18,14 +18,7 @@ class AboutController extends Controller
     public function Store(Request $request){
 
         $data = array();
-        $data['title'] = $request->title;
-        $data['developed_by'] = $request->developed_by;
-        $data['description'] = $request->description;
-        $data['email'] = $request->email;
-        $data['contact'] = $request->contact;
-        $data['facebookurl'] = $request->facebookurl;
-        $data['instagramurl'] = $request->instagramurl;
-        $data['twitterurl'] = $request->twitterurl;
+        $data['content'] = $request->content;
 
         DB::table('abouts')->update($data);
         $notification = array(

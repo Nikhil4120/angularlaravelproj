@@ -156,4 +156,4 @@ Route::get('/active/category/{id}',[CategoryController::class,'ActiveCategory'])
  Route::post('/store/about',[AboutController::class,'Store'])->name('store.about');
 
  Route::get('/all/contact',[ContactController::class,'Index'])->name('all.contact');
- 
+ Route::post('/give/reply/{id}',[ContactController::class,'Reply'])->name('give.reply');

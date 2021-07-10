@@ -8,12 +8,14 @@ import { CartService } from 'src/app/services/cart.service';
 import { ToastrService } from 'ngx-toastr';
 import { WishlistService } from 'src/app/services/wishlist.service';
 import { environment } from 'src/environments/environment';
+import { StarRatingComponent } from 'ng-starrating';
 
 @Component({
   selector: 'app-product-details',
   templateUrl: './product-details.component.html',
   styleUrls: ['./product-details.component.css']
 })
+
 export class ProductDetailsComponent implements OnInit {
 
   envimage = environment.image;
@@ -60,7 +62,10 @@ export class ProductDetailsComponent implements OnInit {
     
     this.AuthService.authstatus.subscribe(data => {
       this.isloggedin = data;
-      this.userid = JSON.parse(atob(localStorage.getItem('token').split('.')[1])).user_id;
+      if(this.isloggedin){
+        this.userid = JSON.parse(atob(localStorage.getItem('token').split('.')[1])).user_id;
+      }
+      
 
     });
 
@@ -91,6 +96,7 @@ export class ProductDetailsComponent implements OnInit {
       });
     });
   }
+
   addtocart(product) {
     if (this.isloggedin) {
       product['size'] = this.product_size;
@@ -118,4 +124,10 @@ export class ProductDetailsComponent implements OnInit {
 
   }
   
+  onRate($event:{oldValue:number, newValue:number, starRating:StarRatingComponent}) {
+    alert(`Old Value:${$event.oldValue}, 
+      New Value: ${$event.newValue}, 
+      Checked Color: ${$event.starRating.checkedcolor}, 
+      Unchecked Color: ${$event.starRating.uncheckedcolor}`);
+  }
 }

@@ -306,25 +306,7 @@ class ApiController extends Controller implements JWTSubject
 
         $userid = $request->userid;
         $cartitems = $request->cartitems;
-        // foreach ($cartitems as $row) {
-
-        //     $data = array();
-        //     $data['product_id'] = $row['id'];
-        //     $data['user_id'] = $userid;
-        //     $data['quantity'] = $row['product_quantity'];
-        //     $data['total_amount'] = $row['price'] * $row['product_quantity'];
-        //     $data['delievery_status'] = 1;
-        //     $data['status'] = 1;
-        //     $data['created_at'] = Carbon::now();
-        //     $product = DB::table('products')->where('id',$row['id'])->first();
-        //     $product_quantity = $product->quantity - $row['product_quantity'];
-        //     $productupdate = array();
-        //     $productupdate['quantity'] = $product_quantity;
-        //     DB::table('products')->where('id',$row->id)->update($productupdate);
-
-        //     DB::table('orders')->insert($data);
-            
-        // }        
+        
         for ($i=0; $i < count($cartitems); $i++) { 
             # code...
             $data = array();
@@ -366,6 +348,11 @@ class ApiController extends Controller implements JWTSubject
     public function about(){
         $about = DB::table('abouts')->first();
         return response()->json($about);
+    }
+
+    public function allorder($id){
+        $order = DB::table('orders')->join('products','orders.product_id','products.id')->select('orders.*','products.product_name','products.product_description','products.price','products.product_image')->where('user_id',$id)->get();
+        return response()->json($order);
     }
 
 }

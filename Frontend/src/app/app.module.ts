@@ -25,7 +25,13 @@ import { ToastrModule } from 'ngx-toastr';
 import { ContactusComponent } from './contactus/contactus.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { ProductSearchComponent } from './products/product-search/product-search.component';
-//import { SubcategoryComponent } from './products/subcategory/subcategory.component';
+import { RatingModule } from 'ng-starrating';
+import { OrdersComponent } from './orders/orders.component';
+import { OrderItemsComponent } from './orders/order-items/order-items.component';
+import { OrderDetailsComponent } from './orders/order-details/order-details.component';
+import { SlicePipe } from './orders/slice.pipe';
+import { SearchPipe } from './orders/search.pipe';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,6 +52,11 @@ import { ProductSearchComponent } from './products/product-search/product-search
     ContactusComponent,
     CheckoutComponent,
     ProductSearchComponent,
+    OrdersComponent,
+    OrderItemsComponent,
+    OrderDetailsComponent,
+    SlicePipe,
+    SearchPipe,
     //SubcategoryComponent
   ],
   imports: [
@@ -56,7 +67,8 @@ import { ProductSearchComponent } from './products/product-search/product-search
     FormsModule,
     Ng5SliderModule,
     CarouselModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    RatingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

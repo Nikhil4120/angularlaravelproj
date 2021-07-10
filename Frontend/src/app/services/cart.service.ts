@@ -40,10 +40,12 @@ export class CartService {
           if(product['product_quantity']){
             products[index].product_quantity = parseInt(products[index].product_quantity);
             products[index].product_quantity += parseInt(product['product_quantity']);  
+            product[index].isshown = 0;
           }
           else{
             products[index].product_quantity = parseInt(products[index].product_quantity);
             products[index].product_quantity += 1;
+            product[index].isshown = 0;
           }
           
           productexist = true;
@@ -57,7 +59,7 @@ export class CartService {
         if(!product['product_quantity']){
           product['product_quantity'] = 1;
         } 
-     
+        product['isshown'] = 0;
       products.push(product)
       }
       this.cartItems = products;
@@ -89,5 +91,15 @@ export class CartService {
     localStorage.setItem('cart',JSON.stringify(this.cartItems));
     this.AddtoCartSubject.next(this.cartItems);
   }
+
+  ChangeShown(products){
+
+    this.cartItems = products;
+    localStorage.setItem('cart',JSON.stringify(this.cartItems));
+    this.AddtoCartSubject.next(this.cartItems);
+
+  }
+
+  
   
 }

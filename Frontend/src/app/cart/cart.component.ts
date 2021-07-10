@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CartService } from '../services/cart.service';
 import { ToastrService } from 'ngx-toastr';
 import { CountryService } from '../services/country.service';
@@ -13,7 +13,7 @@ import {  environment } from 'src/environments/environment';
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.css'],
 })
-export class CartComponent implements OnInit {
+export class CartComponent implements OnInit,OnDestroy {
   stripekey = environment.stripekey;
   envimage = environment.image;
   cartitems = [];
@@ -57,7 +57,7 @@ export class CartComponent implements OnInit {
 
     this.cartservice.getCartProducts().subscribe((data) => {
       this.cartitems = data;
-      this.alertitems = data;
+      this.alertitems = data.filter(m=>m.isshown == 0);
       
       setTimeout(() => {
         this.alertitems = [];
@@ -190,5 +190,17 @@ export class CartComponent implements OnInit {
     }
   }
 
+  ngOnDestroy(){
+    
+    if(localStorage.getItem('cart')){
+
+      let product = JSON.parse(localStorage.getItem('cart'));
+      product.forEach(element => {
+        element.isshown = 1;
+      });
+      this.cartservice.ChangeShown(product);
+    }
+
+  }
   
 }

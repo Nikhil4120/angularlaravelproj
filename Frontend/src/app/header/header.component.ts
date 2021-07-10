@@ -26,6 +26,8 @@ export class HeaderComponent implements OnInit {
   cartitems = [];
   issubcategory = [];
   total = 0;
+  settingopen = false;
+  @ViewChild('closecart',{static:true}) closecart:ElementRef;
 
   constructor(
     private CategoryService: CategoryService,
@@ -40,6 +42,7 @@ export class HeaderComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    
     this.AuthService.authstatus.subscribe((value) => {
       this.loggedIn = value;
       if (this.loggedIn) {
@@ -125,4 +128,13 @@ export class HeaderComponent implements OnInit {
   categorychange() {
     this.headerService.Storesubcategory('');
   }
+
+  hidecart(){
+    this.closecart.nativeElement.click();
+  }
+
+  setting(){
+    this.settingopen = !this.settingopen;
+  }
+
 }

@@ -45,7 +45,7 @@
 					<span>SKU: </span> {{ product.sku_id }}
 				</div>
 
-				<div class="price-box">${{ product.price }}</div>
+				<div class="price-box">&#8377;{{ product.price }}</div>
 				<div class="product-options">
 					<label class="required"><em>*</em> size</label>
 					<p class="required">* Required Fields</p>
@@ -150,41 +150,10 @@
 				</div>
 				<div role="tabpanel" class="tab-pane" id="product-review">
 					<p class="write-review">
-						<a href="#" title="Write a review" class="review-tag">Write a review</a>
+						<a style="cursor:pointer" title="Write a review" class="review-tag">Write a review</a>
 					</p>
-					<form class="review-open">
-						<ul class="star-links clearfix">
-							<li>
-								<a href="#" title="">
-									<i class="img-original"><img src="../../assets/images/star.svg" alt="star"></i>
-									<i class="img-hover"><img src="../../assets/images/star-h.svg" alt="star"></i>
-								</a>
-							</li>
-							<li>
-								<a href="#" title="">
-									<i class="img-original"><img src="../../assets/images/star.svg" alt="star"></i>
-									<i class="img-hover"><img src="../../assets/images/star-h.svg" alt="star"></i>
-								</a>
-							</li>
-							<li>
-								<a href="#" title="">
-									<i class="img-original"><img src="../../assets/images/star.svg" alt="star"></i>
-									<i class="img-hover"><img src="../../assets/images/star-h.svg" alt="star"></i>
-								</a>
-							</li>
-							<li>
-								<a href="#" title="">
-									<i class="img-original"><img src="../../assets/images/star.svg" alt="star"></i>
-									<i class="img-hover"><img src="../../assets/images/star-h.svg" alt="star"></i>
-								</a>
-							</li>
-							<li>
-								<a href="#" title="">
-									<i class="img-original"><img src="../../assets/images/star.svg" alt="star"></i>
-									<i class="img-hover"><img src="../../assets/images/star-h.svg" alt="star"></i>
-								</a>
-							</li>
-						</ul>
+					<form>
+						
 						<div class="form-group">
 							<textarea class="form-control" placeholder="Write a review"></textarea>
 						</div>

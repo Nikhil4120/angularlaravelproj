@@ -50,4 +50,5 @@ Route::post('/orders',[ApiController::class,'Order']);
 Route::post('/checkout',[ApiController::class,'Charge']);
 
 
-Route::post('/about',[ApiController::class,'about']);
+Route::get('/about',[ApiController::class,'about']);
+Route::get('/allorders/{id}',[ApiController::class,'allorder']);

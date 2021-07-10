@@ -6,7 +6,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>All Categories</h1>
+            <h1>All Contact</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -28,7 +28,7 @@
 
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title"><a class="btn btn-primary" href="{{ route('add.category') }}">All Contact</a></h3>
+                <h3 class="card-title">All Contact</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -56,7 +56,7 @@
                         <td>
                         
                               @if($row->isreplied == 1)
-                                <h3 class="text-success">Query Solved</h3>
+                                <span class="text-success">{{ $row->reply }}</span>
                                 @elseif ($row->isreplied == 0)
                                 <a href="#" class="btn btn-success" data-toggle="modal" data-target="#modal{{$row->id}}">Reply</a>
                                 @endif
@@ -64,23 +64,25 @@
                             <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                <h4 class="modal-title">Default Modal</h4>
+                                <h4 class="modal-title">Reply</h4>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                                 </div>
+                                <form action="{{ route('give.reply',$row->id) }}" method="post">@csrf
                                 <div class="modal-body">
-                                    <form>
+                                    
                                         <div class="form-group">
                                             <label for="reply">Reply</label>
                                             <textarea class="form-control" rows="3" name="reply"></textarea>
                                         </div>
-                                    </form>
+                                    
                                 </div>
                                 <div class="modal-footer justify-content-between">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
+                                <button type="Submit" class="btn btn-primary">Reply</button>
                                 </div>
+                                </form>
                             </div>
                             <!-- /.modal-content -->
                             </div>

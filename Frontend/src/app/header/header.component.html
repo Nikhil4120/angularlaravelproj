@@ -49,11 +49,16 @@
 
                             <li class="login-link" *ngIf="loggedIn"><a href="#" title="Login"
                                     (click)="logout()">Logout</a></li>
-                            <li *ngIf="loggedIn">
-                                <a routerLink="/userprofile" title="My Profile">Profile</a>
+                            <li *ngIf="loggedIn" class="dropdown" [ngClass]="{'open':settingopen}">
+                                <a class="dropdown-toggle" role="button" (click)="setting()">Manage <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a routerLink="/userprofile" title="My Profile">Profile</a></li>
+                                    <li><a routerLink="/orders" title="My Profile">Orders</a></li>
+                                </ul>
+                                
                             </li>
                             <li class="cart-outer">
-                                <a style="cursor: pointer;" title="Add to Cart" class="add-to-cart"></a>
+                                <a style="cursor: pointer;" title="Add to Cart" class="add-to-cart" #closecart></a>
                                 <div class="cart-wrap">
                                     <p>Recently added item(s)</p>
                                     <ul>
@@ -91,11 +96,11 @@
                                     </ul>
                                     <div class="summary">
                                         <p class="subtotal">
-                                            <span>Cart Subtotal:</span> <span class="price">${{ total }}</span>
+                                            <span>Cart Subtotal:</span> <span class="price">&#8377;{{ total }}</span>
                                         </p>
                                     </div>
                                     <div class="cart-action">
-                                        <a routerLink="/cart" title="View Cart" class="btn-secondary">View Cart</a>
+                                        <a routerLink="/cart" title="View Cart" class="btn-secondary" (click)="hidecart()">View Cart</a>
                                     </div>
                                 </div>
                             </li>

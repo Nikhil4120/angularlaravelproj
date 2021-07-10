@@ -1,0 +1,30 @@
+<div class="row">
+    <div class="col-xs-12">
+        <img src="{{ envimage }}/{{ selecteditem.product_image}}" alt="recipename" class="img-responsive" style="max-height:300px">
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <h2>{{ selecteditem.product_name }}</h2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        <p>{{ selecteditem.product_description }}</p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+        
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12">
+      <ul class="list-group">
+          <li class="list-group-item" >
+            Price:{{ selecteditem.price }} &nbsp;
+            Quantity:{{ selecteditem.quantity }}
+          </li>
+      </ul>
+    </div>
+</div>

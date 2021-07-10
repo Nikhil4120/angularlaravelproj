@@ -1,0 +1,11 @@
+<div class="container" *ngIf="!isloading">
+    <div class="row">
+        <div class="col-md-5">
+            Search: <input type="text" name="search" [(ngModel)]="search"><br><br>
+            <app-order-items *ngFor="let item of order|search:search;let i=index" [orderitem]="item" [selecteditem]="selecteditem" [index]="i"></app-order-items>
+        </div>
+        <div class="col-md-7">
+            <app-order-details [selecteditem]="selecteditem"></app-order-details>
+        </div>
+    </div>
+</div>

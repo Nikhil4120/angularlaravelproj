@@ -1,0 +1,16 @@
+<a 
+style="cursor:pointer"
+class="list-group-item clearfix" [ngClass]="{'active':selecteditem== orderitem}"
+(click) = "onselect(orderitem)"
+>
+            <div class="pull-left">
+                <h4 class="list-group-item-heading">
+                    {{ orderitem.product_name | slice }}...
+                </h4>
+                <p class="list-group-item-text">{{ orderitem.created_at|date:'medium'}}</p>
+                <p class="list-group-item-text">{{ orderitem.product_description  }}</p>
+            </div>
+            <span class="pull-right">
+                <img src="{{ envimage }}/{{ orderitem.product_image}}" alt="" class="img-responsive" style="max-height: 100px;">
+            </span>
+        </a>
