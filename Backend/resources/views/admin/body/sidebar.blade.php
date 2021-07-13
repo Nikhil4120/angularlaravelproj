@@ -1,6 +1,6 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
+    <a href="{{ route('dashboard') }}" class="brand-link">
       <img src="{{ asset('admin/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">AdminLTE 3</span>
     </a>
@@ -209,7 +209,12 @@
                   <p>All NewsLetterUser</p>
                 </a>
               </li>
-              
+              <li class="nav-item">
+                <a href="{{ route('all.newsletter') }}" class="nav-link {{ Route::is('all.newsletter') ? 'active' : ''}}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>All NewsLetter</p>
+                </a>
+              </li>
             </ul>
 
           </li>

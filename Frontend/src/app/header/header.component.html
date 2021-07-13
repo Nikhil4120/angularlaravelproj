@@ -52,8 +52,8 @@
                             <li *ngIf="loggedIn" class="dropdown" [ngClass]="{'open':settingopen}">
                                 <a class="dropdown-toggle" role="button" (click)="setting()">Manage <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a routerLink="/userprofile" title="My Profile">Profile</a></li>
-                                    <li><a routerLink="/orders" title="My Profile">Orders</a></li>
+                                    <li><a routerLink="/userprofile" title="My Profile" (click)="dropclose()">Profile</a></li>
+                                    <li><a routerLink="/orders" title="Orders" (click)="dropclose()">Orders</a></li>
                                 </ul>
                                 
                             </li>
@@ -96,7 +96,7 @@
                                     </ul>
                                     <div class="summary">
                                         <p class="subtotal">
-                                            <span>Cart Subtotal:</span> <span class="price">&#8377;{{ total }}</span>
+                                            <span>Cart Subtotal:</span> &nbsp;<span class="price">&#8377;{{ total }}</span>
                                         </p>
                                     </div>
                                     <div class="cart-action">

@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CartService } from '../services/cart.service';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 import { CountryService } from '../services/country.service';
 import { StateService } from '../services/state.service';
 import { TaxService } from '../services/tax.service';
@@ -39,7 +40,9 @@ export class CartComponent implements OnInit,OnDestroy {
     private CountryService: CountryService,
     private StateService: StateService,
     private taxservice: TaxService,
-    private Orderservice: OrdersService
+    private Orderservice: OrdersService,
+    private router: Router
+    
   ) {}
 
   ngOnInit(): void {
@@ -61,7 +64,7 @@ export class CartComponent implements OnInit,OnDestroy {
       
       setTimeout(() => {
         this.alertitems = [];
-      }, 20000);
+      }, 10000);
       this.grandtotal();
       window.scroll(0, 0);
     });
@@ -88,6 +91,7 @@ export class CartComponent implements OnInit,OnDestroy {
   updatecart() {
     this.cartservice.UpdateCart(this.cartitems);
     this.Toastr.success('Your Cart is Updated');
+    
   }
 
   grandtotal() {
@@ -124,11 +128,13 @@ export class CartComponent implements OnInit,OnDestroy {
     this.editingmode = true;
     this.editingitem = i;
     this.sizeid = this.cartitems[i].size_id.split(",");
+    
 
   }
 
   updatesize(e,i){
     this.cartitems[i].size = e.target.value;
+    
   }
 
   pay(amount) {
@@ -140,6 +146,8 @@ export class CartComponent implements OnInit,OnDestroy {
     ).user_id;
     var toastr = this.Toastr;
     let stripekey = this.stripekey;
+    let cartservice = this.cartservice;
+    let router = this.router;
     const strikeCheckout = (<any>window).StripeCheckout.configure({
       key: stripekey,
       locale: 'auto',
@@ -153,6 +161,8 @@ export class CartComponent implements OnInit,OnDestroy {
             .PlaceOrder({ cartitems: cartitems, userid: userid })
             .subscribe((data) => {
               toastr.success(data.data);
+              cartservice.clearall();
+              router.navigate(['/']);
             });
         });
       },

@@ -126,6 +126,7 @@ Route::get('/active/category/{id}',[CategoryController::class,'ActiveCategory'])
  Route::get('/all/newsuser',[newsController::class,'Newsuser'])->name('all.newsuser');
  Route::get('/add/news',[newsController::class,'AddNews'])->name('add.news');
  Route::post('/store/news',[newsController::class,'StoreNews'])->name('store.news');
+ Route::get('/all/news',[newsController::class,'AllNews'])->name('all.newsletter');
 
  Route::get('/users',[frontuserController::class,'Index'])->name('all.users');
  Route::get('/view/user/{id}',[frontuserController::class,'ViewUser'])->name('user.view');
@@ -151,6 +152,9 @@ Route::get('/active/category/{id}',[CategoryController::class,'ActiveCategory'])
  Route::get('/view/tax/{id}',[TaxAmountController::class,'Viewtax'])->name('tax.view');
 
  Route::get('/all/order',[OrderController::class,'Index'])->name('all.order');
+ Route::get('/order/packed/{id}',[OrderController::class,'Packed'])->name('order.packed');
+ Route::get('/order/shipped/{id}',[OrderController::class,'Shipped'])->name('order.shipped');
+ Route::get('/order/delievered/{id}',[OrderController::class,'Delievered'])->name('order.delievered');
 
  Route::get('/add/about',[AboutController::class,'Index'])->name('add.about');
  Route::post('/store/about',[AboutController::class,'Store'])->name('store.about');

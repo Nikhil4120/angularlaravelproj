@@ -52,3 +52,6 @@ Route::post('/checkout',[ApiController::class,'Charge']);
 
 Route::get('/about',[ApiController::class,'about']);
 Route::get('/allorders/{id}',[ApiController::class,'allorder']);
+Route::get('/CancelOrder/{id}',[ApiController::class,'cancelorder']);
+
+Route::post('/addreview',[ApiController::class,'AddReview']);

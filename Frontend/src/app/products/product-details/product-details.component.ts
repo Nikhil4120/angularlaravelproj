@@ -9,6 +9,8 @@ import { ToastrService } from 'ngx-toastr';
 import { WishlistService } from 'src/app/services/wishlist.service';
 import { environment } from 'src/environments/environment';
 import { StarRatingComponent } from 'ng-starrating';
+import { NgForm } from '@angular/forms';
+import { ReviewService } from 'src/app/services/review.service';
 
 @Component({
   selector: 'app-product-details',
@@ -55,7 +57,7 @@ export class ProductDetailsComponent implements OnInit {
   isloggedin = false;
   userid: number;
   wishlists = [];
-  constructor(private ProductService: ProductService, private route: ActivatedRoute, private AuthService: AuthService, private cartservice: CartService, private toastr: ToastrService, private wishlistservice: WishlistService) { }
+  constructor(private ProductService: ProductService, private route: ActivatedRoute, private AuthService: AuthService, private cartservice: CartService, private toastr: ToastrService, private wishlistservice: WishlistService,private reviewservice:ReviewService) { }
 
   ngOnInit(): void {
     this.isloading = true;
@@ -124,10 +126,14 @@ export class ProductDetailsComponent implements OnInit {
 
   }
   
-  onRate($event:{oldValue:number, newValue:number, starRating:StarRatingComponent}) {
-    alert(`Old Value:${$event.oldValue}, 
-      New Value: ${$event.newValue}, 
-      Checked Color: ${$event.starRating.checkedcolor}, 
-      Unchecked Color: ${$event.starRating.uncheckedcolor}`);
+  onSubmit(form:NgForm){
+    this.isloading= true;
+    this.reviewservice.Addreview({review:form.value.rating,description:form.value.description,user_id:this.userid,product_id:this.id}).subscribe(data=>{
+      this.isloading = false;
+      this.toastr.success("Review Added Successfully");
+      form.reset();
+    }
+      )
   }
+  
 }

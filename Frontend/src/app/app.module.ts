@@ -29,8 +29,8 @@ import { RatingModule } from 'ng-starrating';
 import { OrdersComponent } from './orders/orders.component';
 import { OrderItemsComponent } from './orders/order-items/order-items.component';
 import { OrderDetailsComponent } from './orders/order-details/order-details.component';
-import { SlicePipe } from './orders/slice.pipe';
-import { SearchPipe } from './orders/search.pipe';
+import { SlicePipe } from './pipes/slice.pipe';
+import { SearchPipe } from './pipes/search.pipe';
 
 @NgModule({
   declarations: [

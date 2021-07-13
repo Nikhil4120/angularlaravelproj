@@ -6,7 +6,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>All Categories</h1>
+            <h1>All Orders</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -28,7 +28,7 @@
 
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title"><a class="btn btn-primary" href="{{ route('add.category') }}">Add Category</a></h3>
+                <h3 class="card-title">All Orders</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -39,7 +39,7 @@
                     <th>SR No.</th>
                     <th>User Name</th>
                     <th>Product Name</th>
-                    <th>Total</th>
+                    <th>Status</th>
                     <th>Action</th>
                   </tr>
                   </thead>
@@ -49,16 +49,31 @@
                         <td>{{ $i++ }}</td>
                         <td>{{ $row->username }}</td>
                         <td>{{ $row->product_name }}</td>
-                        <td>{{ $row->total_amount  }}</td>
                         <td>
-                        <a href="{{ route('category.view',$row->id)}}" class="btn btn-info"><i class="nav-icon fas fa-eye"></i></a>
-                        <a href="{{ route('edit.category',$row->id)}}" class="btn btn-info"><i class="nav-icon fas fa-edit"></i></a>
-                        <a href="{{ route('delete.category',$row->id)}}" class="btn btn-danger" onclick="return confirm('Are you sure to delete')"><i class="nav-icon fas fa-trash"></i></a>
-                              @if($row->status == 1)
-                                <a href="{{ route('category.deactive',$row->id)}}" class="btn btn-warning"><i class="fas fa-ban"></i></a>
-                                @elseif ($row->status == 0)
-                                <a href="{{ route('category.active',$row->id)}}" class="btn btn-success"><i class="fas fa-check"></i></a>
-                                @endif
+                          @if ($row->delievery_status == 1)
+                            <span class="text-secondary">Order Has been Placed</span>
+                          @elseif ($row->delievery_status == 2)
+                            <span class="text-info">Order is Packed</span>
+                          @elseif ($row->delievery_status == 3)
+                            <span class="text-primary">Order is Shipped</span>
+                          @elseif ($row->delievery_status == 4)
+                            <span class="text-success">Order hasbeen delievered</span>
+                          @elseif ($row->delievery_status == 5)
+                            <span class="text-danger">Cancel</span>
+                          @elseif ($row->delievery_status == 6)
+                            <span class="text-warning">Return</span>
+                          @endif
+                        </td>
+                        <td>
+                        <a href="{{ route('category.view',$row->id)}}" class="btn btn-secondary"><i class="nav-icon fas fa-eye"></i></a>
+                        
+                              @if($row->delievery_status == 1)
+                                <a href="{{ route('order.packed',$row->id)}}" class="btn btn-info">Packed</a>
+                              @elseif ($row->delievery_status == 2)
+                                <a href="{{ route('order.shipped',$row->id)}}" class="btn btn-primary">Shipped</a>
+                              @elseif ($row->delievery_status == 3)
+                                <a href="{{ route('order.delievered',$row->id)}}" class="btn btn-success">Delievered</a>
+                              @endif
                         </td>
                         </tr>
                     @endforeach

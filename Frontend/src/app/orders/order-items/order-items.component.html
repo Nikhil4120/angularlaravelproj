@@ -2,13 +2,19 @@
 style="cursor:pointer"
 class="list-group-item clearfix" [ngClass]="{'active':selecteditem== orderitem}"
 (click) = "onselect(orderitem)"
+title="{{ orderitem.product_description}}"
 >
             <div class="pull-left">
                 <h4 class="list-group-item-heading">
                     {{ orderitem.product_name | slice }}...
                 </h4>
                 <p class="list-group-item-text">{{ orderitem.created_at|date:'medium'}}</p>
-                <p class="list-group-item-text">{{ orderitem.product_description  }}</p>
+                <p class="list-group-item-text" *ngIf="orderitem.delievery_status==1">Order hasbeen Placed</p>
+                <p class="list-group-item-text" *ngIf="orderitem.delievery_status==2">Order hasbeen Paked</p>
+                <p class="list-group-item-text" *ngIf="orderitem.delievery_status==3">Order hasbeen Shipped</p>
+                <p class="list-group-item-text" *ngIf="orderitem.delievery_status==4">Order hasbeen Delievered</p>
+                <p class="list-group-item-text" *ngIf="orderitem.delievery_status==5">Canncelled</p>
+                <p class="list-group-item-text" *ngIf="orderitem.delievery_status==6">Return</p>
             </div>
             <span class="pull-right">
                 <img src="{{ envimage }}/{{ orderitem.product_image}}" alt="" class="img-responsive" style="max-height: 100px;">

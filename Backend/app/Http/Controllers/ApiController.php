@@ -167,6 +167,7 @@ class ApiController extends Controller implements JWTSubject
         
         ->select('products.id','products.product_name','products.product_description','products.product_image','products.sku_id','products.price','categories.category_name','subcategories.subcategory_name','colors.color_name','products.istrending','products.size_id','products.quantity')
         ->where('products.status',1)
+        ->where('products.quantity','>',0)
         ->orderBy('products.id','desc')
         ->get();
         return $product;
@@ -351,8 +352,27 @@ class ApiController extends Controller implements JWTSubject
     }
 
     public function allorder($id){
-        $order = DB::table('orders')->join('products','orders.product_id','products.id')->select('orders.*','products.product_name','products.product_description','products.price','products.product_image')->where('user_id',$id)->get();
+        $order = DB::table('orders')->join('products','orders.product_id','products.id')->select('orders.*','products.product_name','products.product_description','products.price','products.product_image')->where('user_id',$id)->orderBy('orders.id','desc')->get();
         return response()->json($order);
+    }
+
+    public function Addreview(Request $request){
+
+        $data = array();
+        $data['review'] = $request->review;
+        $data['description'] = $request->description;
+        $data['user_id'] = $request->user_id;
+        $data['product_id'] = $request->product_id;
+        $data['created_at'] = Carbon::now();
+        DB::table('reviews')->insert($data);
+        return response()->json("Review Added Successfully");
+    }
+
+    public function cancelorder($id){
+        $data = array();
+        $data['delievery_status'] = 5;
+        DB::table('orders')->where('id',$id)->update($data);
+        return response()->json("Order Cancelled Successfully");
     }
 
 }

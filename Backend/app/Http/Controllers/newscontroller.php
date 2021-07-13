@@ -8,7 +8,7 @@ use DB;
 
 class newscontroller extends Controller
 {
-    //
+    
     public function AddNews(){
         return view('backend.newsletter.add');
     }
@@ -35,13 +35,16 @@ class newscontroller extends Controller
                 'alert-type' => 'success'
                 );
             return redirect()->back()->with($notification);
-        
-
     }
 
     public function Newsuser(){
         $newsuser = DB::table('newsletterusers')->get();
         return view('backend.newsletter.index',compact('newsuser'));
+    }
+
+    public function Allnews(){
+        $newsletter = DB::table('newsletters')->get();
+        return view('backend.newsletter.newsletter',compact('newsletter'));
     }
 
 }

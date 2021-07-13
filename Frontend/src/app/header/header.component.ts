@@ -137,4 +137,8 @@ export class HeaderComponent implements OnInit {
     this.settingopen = !this.settingopen;
   }
 
+  dropclose(){
+    this.settingopen = false;
+  }
+
 }

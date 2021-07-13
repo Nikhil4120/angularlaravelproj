@@ -30,4 +30,8 @@ export class OrdersService {
     this.orderobs.next(order);
   }
 
+  cancelorder(id){
+    return this.Http.get(environment.localapi+'/CancelOrder/'+id);
+  }
+
 }

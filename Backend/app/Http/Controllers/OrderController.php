@@ -13,4 +13,26 @@ class OrderController extends Controller
         return view('backend.orders.index',compact('orders'));
 
     }
+
+    public function Packed($id){
+        $data = array();
+        $data['delievery_status'] = 2;
+        DB::table('orders')->where('id',$id)->update($data);
+        return redirect()->route('all.order');
+    }
+
+    public function Shipped($id){
+        $data = array();
+        $data['delievery_status'] = 3;
+        DB::table('orders')->where('id',$id)->update($data);
+        return redirect()->route('all.order');
+    }
+
+    public function Delievered($id){
+        $data = array();
+        $data['delievery_status'] = 4;
+        DB::table('orders')->where('id',$id)->update($data);
+        return redirect()->route('all.order');
+    }
+
 }

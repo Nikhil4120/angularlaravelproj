@@ -13,11 +13,7 @@
         <p>{{ selecteditem.product_description }}</p>
     </div>
 </div>
-<div class="row">
-    <div class="col-xs-12">
-        
-    </div>
-</div>
+
 <div class="row">
     <div class="col-xs-12">
       <ul class="list-group">
@@ -26,5 +22,12 @@
             Quantity:{{ selecteditem.quantity }}
           </li>
       </ul>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+      <button class="btn btn-danger" *ngIf="selecteditem.delievery_status < 3" (click)="CancelOrder(selecteditem.id)">Cancel</button>
+      <button class="btn btn-warning" *ngIf="selecteditem.delievery_status == 3 || selecteditem.delievery_status == 4 ">Return</button>  
     </div>
 </div>

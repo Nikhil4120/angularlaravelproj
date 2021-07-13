@@ -1,190 +1,274 @@
 <div class="loader" *ngIf="isloading"></div>
 
 <div class="title-block-outer" *ngIf="!isloading">
-	<img src="../../assets/images/inner-banner.jpg" alt="Banner-image" class="img-responsive">
-	<div class="container title-block-container">
-		<h2>{{ product.subcategory_name }}</h2>
-	</div>
+  <img
+    src="../../assets/images/inner-banner.jpg"
+    alt="Banner-image"
+    class="img-responsive"
+  />
+  <div class="container title-block-container">
+    <h2>{{ product.subcategory_name }}</h2>
+  </div>
 </div>
 <div class="breadcrumb-panel">
-	<div class="container">
-		<ol class="breadcrumb">
-			<li><a routerLink="/" title="Home">Home</a></li>
-			<li><a>{{ product.category_name }}</a></li>
-			<li><a>{{ product.subcategory_name }}</a></li>
-			<li class="active">{{ product.product_name }}</li>
-		</ol>
-	</div>
+  <div class="container">
+    <ol class="breadcrumb">
+      <li><a routerLink="/" title="Home">Home</a></li>
+      <li>
+        <a routerLink="/products/{{ product.category_name | lowercase }}">{{ product.category_name }}</a>
+      </li>
+      <li>
+        <a>{{ product.subcategory_name }}</a>
+      </li>
+      <li class="active">{{ product.product_name }}</li>
+    </ol>
+  </div>
 </div>
 <section class="product_detail content">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-5">
+        <owl-carousel-o [options]="customOptions">
+          <ng-template carouselSlide
+            ><img src="{{ envimage }}/{{ product.product_image }}" alt="" />
+          </ng-template>
+        </owl-carousel-o>
 
-	<div class="container">
-		<div class="row">
-			<div class="col-sm-5">
-				<owl-carousel-o [options]="customOptions">
-					<ng-template carouselSlide><img src="{{ envimage }}/{{ product.product_image}}" alt="">
-					</ng-template>
-				</owl-carousel-o>
-
-				<owl-carousel-o [options]="customOptions">
-					<ng-template carouselSlide *ngFor="let item of allproduct"><a style="cursor:pointer"
-							routerLink="/products/detail/{{ item.id }}"><img
-								src="{{ envimage }}/{{ item.product_image}}" alt="" style="height:70px"></a>
-					</ng-template>
-
-				</owl-carousel-o>
-			</div>
-			<div class="col-sm-7">
-				<div class="product-name">
-					<h1>{{ product.product_name }}</h1>
-				</div>
-				<div class="short-description">
-					{{ product.product_description }}
-				</div>
-				<div class="sku">
-					<span>SKU: </span> {{ product.sku_id }}
-				</div>
-
-				<div class="price-box">&#8377;{{ product.price }}</div>
-				<div class="product-options">
-					<label class="required"><em>*</em> size</label>
-					<p class="required">* Required Fields</p>
-					<div class="form-group">
-						<select [(ngModel)]="product_size" name="product_size">
-							<option value="">-- Please Select --</option>
-							<option *ngFor="let item of size">{{ item }}</option>
-
-						</select>
-					</div>
-				</div>
-				<div class="add-to-cart-btn clearfix">
-					<label>Qty:</label>
-					<select name="product_quantity" [(ngModel)]="product_quantity">
-						<option *ngFor="let item of quantity;let i=index" value="{{ i+1 }}">{{i+1}}</option>
-
-					</select>
-					<button type="button" (click)="addtocart(product)" title="Add to Cart" class="button btn-cart"
-						[disabled]="product_size==''" *ngIf="isloggedin"><span><span>Add to Cart</span></span></button>
-					<button type="button" title="Add to Cart" class="button btn-cart" *ngIf="!isloggedin" data-toggle="modal"
-					data-target="#Login-popup"><span><span>Add to Cart</span></span>		
-					</button>
-				</div>
-				<div class="email-addto-box clearfix">
-					<ul class="add-to-links">
-						<li><a style="cursor: pointer;" class="link-wishlist" *ngIf="isloggedin && !wishlist"
-								(click)="addwishlist()">Add to Wishlist</a></li>
-						<li><a style="cursor: pointer;" class="link-wishlist" *ngIf="isloggedin && wishlist"
-								(click)="removewishlist()">Remove to Wishlist</a></li>
-					</ul>
-				</div>
-				<div class="tablist-nav">
-					<!-- Nav tabs -->
-					<ul class="nav nav-tabs clearfix" role="tablist">
-						<li role="presentation" class="active"><a href="#delivery" aria-controls="delivery" role="tab"
-								data-toggle="tab">Delivery</a></li>
-						<li role="presentation"><a href="#shipping" aria-controls="shipping" role="tab"
-								data-toggle="tab">Shipping</a></li>
-						<li role="presentation"><a href="#sizeguide" aria-controls="sizeguide" role="tab"
-								data-toggle="tab">Sizeguide</a></li>
-					</ul>
-					<!-- Tab panes -->
-					<div class="tab-content">
-						<div role="tabpanel" class="tab-pane active" id="delivery">
-							We offer the following delivery options for 24c ours over the world. Deliveries are not made
-							on Saturdays, Sundays or on public holidays. A specific time slot cannot be specified with
-							any of our delivery options. Please refer to the Terms and Conditions of Sale.
-						</div>
-						<div role="tabpanel" class="tab-pane" id="shipping">
-							Before we can dispatch your purchases, we may need to confirm your details with your card
-							issuer. We will do our best to keep delays to a minimum Our delivery time starts from the
-							moment an order is accepted and includes a 48 hour period where your items will be processed
-							and dispatched by our warehouse
-						</div>
-						<div role="tabpanel" class="tab-pane" id="sizeguide">
-							<table class="size_guide_table">
-								<thead>
-									<tr>
-										<th>Size</th>
-										<th>S</th>
-										<th>M</th>
-										<th>L</th>
-										<th>XL</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>Men</td>
-										<td>7-10</td>
-										<td>10-13</td>
-										<td>13-15</td>
-										<td>15-17</td>
-									</tr>
-									<tr>
-										<td>Women</td>
-										<td>7-9</td>
-										<td>10-12</td>
-										<td>13-14</td>
-										<td>15-16</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="product-content">
-			<!-- Nav tabs -->
-			<ul class="nav nav-tabs" role="tablist">
-				<li role="presentation" class="active"><a href="#product-des" aria-controls="product-des" role="tab"
-						data-toggle="tab">Product Description</a></li>
-				<li role="presentation"><a href="#product-review" aria-controls="product-review" role="tab"
-						data-toggle="tab">Product's Review</a></li>
-				<li role="presentation"><a href="#cms-tab" aria-controls="cms-tab" role="tab" data-toggle="tab">CMS
-						tab</a></li>
-			</ul>
-			<!-- Tab panes -->
-			<div class="tab-content">
-				<div role="tabpanel" class="tab-pane active" id="product-des">
-					<p>{{ product.product_description }}</p>
-				</div>
-				<div role="tabpanel" class="tab-pane" id="product-review">
-					<p class="write-review">
-						<a style="cursor:pointer" title="Write a review" class="review-tag">Write a review</a>
-					</p>
-					<form>
-						
-						<div class="form-group">
-							<textarea class="form-control" placeholder="Write a review"></textarea>
-						</div>
-						<a href="#" title="Submit" class="btn-secondary">Submit</a>
-					</form>
-					<div class="review-detail">
-						<span>Mark, 26-12-2016 writes:</span>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-							labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-							laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-							voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-							cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-					</div>
-				</div>
-				<div role="tabpanel" class="tab-pane" id="cms-tab">
-					<p>
-						Custom Variants and Options let you create product customization options and fields quickly and
-						easily. Any product can have custom variants and options – this can be configured in its product
-						configuration. Custom variants and options can be created for products as required or
-						non-required options. They can affect the total price of the product by a fixed amount or
-						percentage.
-					</p>
-					<p>
-						Custom Variants and Options let you create product customization options and fields quickly and
-						easily. Any product can have custom variants and options – this can be configured in its product
-						configuration. Custom variants and options can be created for products as required or
-						non-required options. They can affect the total price of the product by a fixed amount or
-						percentage.
-					</p>
-				</div>
-			</div>
-		</div>
-	</div>
+        <owl-carousel-o [options]="customOptions">
+          <ng-template carouselSlide *ngFor="let item of allproduct"
+            ><a
+              style="cursor: pointer"
+              routerLink="/products/detail/{{ item.id }}"
+              ><img
+                src="{{ envimage }}/{{ item.product_image }}"
+                alt=""
+                style="height: 70px"
+            /></a>
+          </ng-template>
+        </owl-carousel-o>
+      </div>
+      <div class="col-sm-7">
+        <div class="product-name">
+          <h1>{{ product.product_name }}</h1>
+        </div>
+        <div class="short-description">
+          {{ product.product_description }}
+        </div>
+        <div class="sku"><span>SKU: </span> {{ product.sku_id }}</div>
+		<br>
+        <div class="price-box">&#8377;{{ product.price }}</div>
+        <div class="product-options">
+          <label class="required"><em>*</em> size</label>
+          <p class="required">* Required Fields</p>
+          <div class="form-group">
+            <select [(ngModel)]="product_size" name="product_size">
+              <option value="">-- Please Select --</option>
+              <option *ngFor="let item of size">{{ item }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="add-to-cart-btn clearfix">
+          <label>Qty:</label>
+          <select name="product_quantity" [(ngModel)]="product_quantity">
+            <option
+              *ngFor="let item of quantity; let i = index"
+              value="{{ i + 1 }}"
+            >
+              {{ i + 1 }}
+            </option>
+          </select>
+          <button
+            type="button"
+            (click)="addtocart(product)"
+            title="Add to Cart"
+            class="button btn-cart"
+            [disabled]="product_size == ''"
+            *ngIf="isloggedin"
+          >
+            <span><span>Add to Cart</span></span>
+          </button>
+          <button
+            type="button"
+            title="Add to Cart"
+            class="button btn-cart"
+            *ngIf="!isloggedin"
+            data-toggle="modal"
+            data-target="#Login-popup"
+          >
+            <span><span>Add to Cart</span></span>
+          </button>
+        </div>
+        <div class="email-addto-box clearfix">
+          <ul class="add-to-links">
+            <li>
+              <a
+                style="cursor: pointer"
+                class="link-wishlist"
+                *ngIf="isloggedin && !wishlist"
+                (click)="addwishlist()"
+                >Add to Wishlist</a
+              >
+            </li>
+            <li>
+              <a
+                style="cursor: pointer"
+                class="link-wishlist"
+                *ngIf="isloggedin && wishlist"
+                (click)="removewishlist()"
+                >Remove to Wishlist</a
+              >
+            </li>
+          </ul>
+        </div>
+        <div class="tablist-nav">
+          <!-- Nav tabs -->
+          <ul class="nav nav-tabs clearfix" role="tablist">
+            <li role="presentation" class="active">
+              <a
+                href="#delivery"
+                aria-controls="delivery"
+                role="tab"
+                data-toggle="tab"
+                >Delivery</a
+              >
+            </li>
+            <li role="presentation">
+              <a
+                href="#shipping"
+                aria-controls="shipping"
+                role="tab"
+                data-toggle="tab"
+                >Shipping</a
+              >
+            </li>
+            <li role="presentation">
+              <a
+                href="#sizeguide"
+                aria-controls="sizeguide"
+                role="tab"
+                data-toggle="tab"
+                >Sizeguide</a
+              >
+            </li>
+          </ul>
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="delivery">
+              We offer the following delivery options for 24c ours over the
+              world. Deliveries are not made on Saturdays, Sundays or on public
+              holidays. A specific time slot cannot be specified with any of our
+              delivery options. Please refer to the Terms and Conditions of
+              Sale.
+            </div>
+            <div role="tabpanel" class="tab-pane" id="shipping">
+              Before we can dispatch your purchases, we may need to confirm your
+              details with your card issuer. We will do our best to keep delays
+              to a minimum Our delivery time starts from the moment an order is
+              accepted and includes a 48 hour period where your items will be
+              processed and dispatched by our warehouse
+            </div>
+            <div role="tabpanel" class="tab-pane" id="sizeguide">
+              <table class="size_guide_table">
+                <thead>
+                  <tr>
+                    <th>Size</th>
+                    <th>S</th>
+                    <th>M</th>
+                    <th>L</th>
+                    <th>XL</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Men</td>
+                    <td>7-10</td>
+                    <td>10-13</td>
+                    <td>13-15</td>
+                    <td>15-17</td>
+                  </tr>
+                  <tr>
+                    <td>Women</td>
+                    <td>7-9</td>
+                    <td>10-12</td>
+                    <td>13-14</td>
+                    <td>15-16</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="product-content">
+      <!-- Nav tabs -->
+      <ul class="nav nav-tabs" role="tablist">
+        
+        <li role="presentation" class="active">
+          <a
+            href="#product-review"
+            aria-controls="product-review"
+            role="tab"
+            data-toggle="tab"
+            >Product's Review</a
+          >
+        </li>
+        
+      </ul>
+      <!-- Tab panes -->
+      <div class="tab-content">
+        
+        <div role="tabpanel" class="tab-pane active" id="product-review">
+          <p class="write-review">
+            <a style="cursor: pointer" title="Write a review" class="review-tag"
+              >Write a review</a
+            >
+          </p>
+          <form #reviewForm="ngForm" (ngSubmit)="onSubmit(reviewForm)">
+            <div class="form-group">
+              
+                <div class="feedback">
+                  <div class="rating">
+                    <input type="radio" name="rating" id="rating-5" value="5" ngModel required/>
+                    <label for="rating-5"></label>
+                    <input type="radio" name="rating" id="rating-4" value="4" ngModel required/>
+                    <label for="rating-4"></label>
+                    <input type="radio" name="rating" id="rating-3" value="3" ngModel required/>
+                    <label for="rating-3"></label>
+                    <input type="radio" name="rating" id="rating-2" value="2" ngModel required/>
+                    <label for="rating-2"></label>
+                    <input type="radio" name="rating" id="rating-1" value="1" ngModel required/>
+                    <label for="rating-1"></label>
+                  </div>
+                </div>
+              
+            </div>
+            <div class="form-group">
+              <textarea
+                class="form-control"
+                placeholder="Write a review"
+				ngModel
+				name="description"
+				required
+              ></textarea>
+            </div>
+            <button type="submit" class="btn btn-secondary" [disabled]="!isloggedin || !reviewForm.valid ">Submit</button>
+          </form>
+          <div class="review-detail">
+            <span>Mark, 26-12-2016 writes:</span>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+              reprehenderit in voluptate velit esse cillum dolore eu fugiat
+              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+              sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </p>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
 </section>

@@ -1,5 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Order } from 'src/app/models/order.model';
+import { OrdersService } from 'src/app/services/orders.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -11,9 +14,16 @@ export class OrderDetailsComponent implements OnInit {
 
   @Input() selecteditem:Order;
   envimage = environment.image;
-  constructor() { }
+  constructor(private OrderService:OrdersService,private toastr:ToastrService,private router:Router) { }
 
   ngOnInit(): void {
+  }
+
+  CancelOrder(id){
+    this.OrderService.cancelorder(id).subscribe(data=>{
+      this.toastr.success("Order Cancelled Successfully");
+      this.router.navigate(['/']);
+    })
   }
 
 }
