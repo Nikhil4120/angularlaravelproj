@@ -40,7 +40,7 @@
                     <th>Email</th>
 
                     
-                    <th>Action</th>
+                    
                   </tr>
                   </thead>
                   <tbody>
@@ -50,12 +50,7 @@
                         <td>{{ $row->email }}</td>
                         
                         
-                        <td>
-                        <a href="{{ route('size.view',$row->id)}}" class="btn btn-info"><i class="nav-icon fas fa-eye"></i></a>
-                        <a href="{{ route('edit.size',$row->id)}}" class="btn btn-info"><i class="nav-icon fas fa-edit"></i></a>
-                        <a href="{{ route('delete.size',$row->id)}}" class="btn btn-danger" onclick="return confirm('Are you sure to delete')"><i class="nav-icon fas fa-trash"></i></a>
-                              
-                        </td>
+                        
                         </tr>
                     @endforeach
                   </tbody>

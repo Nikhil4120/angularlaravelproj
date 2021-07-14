@@ -69,7 +69,7 @@ export class UserProfileComponent implements OnInit {
       this.allcities = data;
     })
     this.authservice.getuser(token).subscribe(data => {
-
+      console.log(data['token']);
       this.formdata.id = data['user'].id;
       this.formdata.firstname = data['user'].firstname;
       this.formdata.lastname = data['user'].lastname;
@@ -124,6 +124,8 @@ export class UserProfileComponent implements OnInit {
 
 
       this.isloading = false;
+    },error=>{
+      console.log(error.error.message);
     })
   }
 

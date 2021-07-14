@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-xs-12">
-        <img src="{{ envimage }}/{{ selecteditem.product_image}}" alt="recipename" class="img-responsive" style="max-height:300px">
+        <img src="{{ envimage }}/{{ selecteditem.product_image}}" alt="Product" class="img-responsive" style="max-height:300px">
     </div>
 </div>
 <div class="row">
@@ -28,6 +28,6 @@
 <div class="row">
     <div class="col-xs-12">
       <button class="btn btn-danger" *ngIf="selecteditem.delievery_status < 3" (click)="CancelOrder(selecteditem.id)">Cancel</button>
-      <button class="btn btn-warning" *ngIf="selecteditem.delievery_status == 3 || selecteditem.delievery_status == 4 ">Return</button>  
+      <button class="btn btn-warning" *ngIf="selecteditem.delievery_status == 3 || selecteditem.delievery_status == 4 " (click)="ReturnOrder(selecteditem.id)">Return</button>  
     </div>
 </div>

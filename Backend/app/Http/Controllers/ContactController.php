@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use Mail;
+use Stripe\Stripe;
+use Stripe\Customer;
+use Stripe\Charge;
+use Stripe\Coupon;
+
 
 class ContactController extends Controller
 {
@@ -34,6 +39,16 @@ class ContactController extends Controller
             'alert-type' => 'success'
             );
         return redirect()->route('all.contact')->with($notification);
+    }
+
+    public function Coupons(){
+        Stripe::setApiKey(env('STRIPE_SECRET'));
+        $coupen = Coupon::all(
+            
+            
+        );
+        return response()->json($coupen);
+
     }
     
 

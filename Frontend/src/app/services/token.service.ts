@@ -1,12 +1,14 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class TokenService {
-
-  constructor() { }
+  a:any;
+  constructor(private http:HttpClient) { }
   handle(token){
     this.set(token);
     console.log(this.isvalid());
@@ -20,6 +22,7 @@ export class TokenService {
     return localStorage.getItem('token');
   }
   remove(){
+    clearInterval(this.a);
     return localStorage.removeItem('token');
   }
   isvalid(){
@@ -27,7 +30,13 @@ export class TokenService {
     if(token){
       const payload = this.payload(token);
       if(payload){
-        return (payload.iss === environment.localapi+'/login') ? true:false;
+        const diff = payload.exp - payload.iat;
+        
+        this.a = setInterval(()=>this.http.get(environment.localapi+'/refresh?token='+token).subscribe(data=>{
+          this.set(data);
+        }),(diff-60)*1000);
+        
+        return true;
       }
     }
     return false;

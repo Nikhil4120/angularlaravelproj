@@ -26,4 +26,11 @@ export class OrderDetailsComponent implements OnInit {
     })
   }
 
+  ReturnOrder(id){
+    this.OrderService.returnorder(id).subscribe(data=>{
+      this.toastr.success("Order Returned Successfully");
+      this.router.navigate(['/']);
+    })
+  }
+
 }

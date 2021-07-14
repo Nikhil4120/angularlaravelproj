@@ -14,6 +14,7 @@ export class OrdersComponent implements OnInit {
   selecteditem;
   isloading = false;
   search = "";
+  page = 1;
   
   constructor(private orderservice:OrdersService) { }
 
@@ -33,6 +34,21 @@ export class OrdersComponent implements OnInit {
       
     });
     
+  }
+
+  pagechange(name){
+    const len = this.order.length;
+    const pagecount = Math.ceil(len/5);
+    if(name == "previous"){
+      if(this.page != 1){
+        this.page = this.page-1;
+      }      
+    }
+    else if(name  == "next"){
+      if(this.page != pagecount){
+        this.page = this.page + 1;
+      }
+    }
   }
 
 }

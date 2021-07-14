@@ -172,8 +172,8 @@ class ProductController extends Controller
         $products = DB::table('products')->join('categories','categories.id','products.category_id')
                     ->join('subcategories','subcategories.id','products.subcategory_id')
                     ->join('colors','colors.id','products.color_id')
-                    ->join('sizes','sizes.id','products.size_id')
-                    ->select('products.*','categories.category_name','subcategories.subcategory_name','colors.color_name','sizes.size_name')
+                    
+                    ->select('products.*','categories.category_name','subcategories.subcategory_name','colors.color_name')
                     ->where('products.id',$id)
                     ->first();
                     

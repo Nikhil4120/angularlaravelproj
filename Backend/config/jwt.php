@@ -101,7 +101,7 @@ return [
     |
     */
 
-    'ttl' => env('JWT_TTL', 60),
+    'ttl' => env('JWT_TTL',60),
 
     /*
     |--------------------------------------------------------------------------
@@ -220,11 +220,11 @@ return [
     |
     */
 
-    'blacklist_enabled' => env('JWT_BLACKLIST_ENABLED', true),
+    'blacklist_enabled' => env('JWT_BLACKLIST_ENABLED', false),
 
     /*
     | -------------------------------------------------------------------------
-    | Blacklist Grace Period
+    | Blacklist Grace Periods
     | -------------------------------------------------------------------------
     |
     | When multiple concurrent requests are made with the same JWT,

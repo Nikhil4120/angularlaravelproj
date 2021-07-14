@@ -31,6 +31,7 @@ import { OrderItemsComponent } from './orders/order-items/order-items.component'
 import { OrderDetailsComponent } from './orders/order-details/order-details.component';
 import { SlicePipe } from './pipes/slice.pipe';
 import { SearchPipe } from './pipes/search.pipe';
+import { PaginationPipe } from './pipes/pagination.pipe';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { SearchPipe } from './pipes/search.pipe';
     OrderDetailsComponent,
     SlicePipe,
     SearchPipe,
+    PaginationPipe,
     //SubcategoryComponent
   ],
   imports: [

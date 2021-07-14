@@ -173,6 +173,7 @@ export class CartComponent implements OnInit,OnDestroy {
       description: 'Payment widgets',
       amount: amount * 100,
       currency: 'inr',
+      
     });
   }
 

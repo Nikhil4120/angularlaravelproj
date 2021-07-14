@@ -15,6 +15,8 @@ use Illuminate\Support\Carbon;
 use Stripe\Stripe;
 use Stripe\Customer;
 use Stripe\Charge;
+use Stripe\Coupon;
+
 
 class ApiController extends Controller implements JWTSubject
 {
@@ -100,11 +102,28 @@ class ApiController extends Controller implements JWTSubject
         ],200);
     }
 
+    public function Refresh(){
+        $token = auth()->guard('api')->refresh();
+        return response()->json($token);
+    }
+
     public function getuser(Request $request){
-        $user = auth()->guard('api')->authenticate($request->token);
-        $shippinginformation = DB::table('shippinginformations')->where('user_id',$user->id)->first();
-        $billinginformation = DB::table('billinginformations')->where('user_id',$user->id)->first();
-        return response()->json(['user' => $user,'shippinginformation'=>$shippinginformation,'billinginformation'=>$billinginformation]);
+        try{
+            $token=$request->token;
+            $user = auth()->guard('api')->authenticate($request->token);
+            $shippinginformation = DB::table('shippinginformations')->where('user_id',$user->id)->first();
+            $billinginformation = DB::table('billinginformations')->where('user_id',$user->id)->first();
+            return response()->json(['user' => $user,'shippinginformation'=>$shippinginformation,'billinginformation'=>$billinginformation,'token'=>$token]);
+        }
+        catch(JWTException $e){
+            $token = auth()->guard('api')->refresh();
+            $user = auth()->guard('api')->authenticate($token);
+            $shippinginformation = DB::table('shippinginformations')->where('user_id',$user->id)->first();
+            $billinginformation = DB::table('billinginformations')->where('user_id',$user->id)->first();
+            return response()->json(['user' => $user,'shippinginformation'=>$shippinginformation,'billinginformation'=>$billinginformation,'token'=>$token]);
+        }
+        
+        
     }
 
     public function updateuser(Request $request){
@@ -252,6 +271,8 @@ class ApiController extends Controller implements JWTSubject
         $data['email'] = $request->email;
         $data['subject'] = $request->subject;
         $data['message'] = $request->message;
+        $data['isreplied'] = 0;
+        $data['reply'] = "";
         $data['status'] = 1;
         $data['created_at'] = Carbon::now();
 
@@ -335,6 +356,10 @@ class ApiController extends Controller implements JWTSubject
     {
         Stripe::setApiKey(env('STRIPE_SECRET'));
 
+        $coupon = Coupon::create([
+            'percent_off'=>20,
+            'duration'=>'once',
+        ]);
         
 
         $charge = Charge::create(array(
@@ -372,7 +397,43 @@ class ApiController extends Controller implements JWTSubject
         $data = array();
         $data['delievery_status'] = 5;
         DB::table('orders')->where('id',$id)->update($data);
+        $order = DB::table('orders')->where('id',$id)->first();
+        $productid = $order->product_id;
+        $order_quantity = $order->quantity;
+        $product = DB::table('products')->where('id',$productid)->first();
+        $product_quantity  = $product->quantity;
+        $dataproduct = array();
+        $dataproduct['quantity'] = $product_quantity + $order_quantity;
+        DB::table('products')->where('id',$productid)->update($dataproduct);
+
+
         return response()->json("Order Cancelled Successfully");
+    }
+
+    public function returnorder($id){
+        $data = array();
+        $data['delievery_status'] = 6;
+        DB::table('orders')->where('id',$id)->update($data);
+        DB::table('orders')->where('id',$id)->update($data);
+        $order = DB::table('orders')->where('id',$id)->first();
+        $productid = $order->product_id;
+        $order_quantity = $order->quantity;
+        $product = DB::table('products')->where('id',$productid)->first();
+        $product_quantity  = $product->quantity;
+        $dataproduct = array();
+        $dataproduct['quantity'] = $product_quantity + $order_quantity;
+        DB::table('products')->where('id',$productid)->update($dataproduct);
+        return response()->json("Order returned Successfully");
+    }
+
+    public function AllReview($id){
+        $reviews = DB::table('reviews')
+        ->join('products','products.id','reviews.product_id')
+        ->join('frontusers','frontusers.id','reviews.user_id')
+        ->select('reviews.id','reviews.review','reviews.description','reviews.created_at','products.product_name','frontusers.username')
+        ->where('reviews.product_id',$id)
+        ->get();
+        return response()->json($reviews);
     }
 
 }

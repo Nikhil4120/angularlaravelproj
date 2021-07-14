@@ -59,9 +59,9 @@
                       
                         
                         <td>
-                        <a href="{{ route('product.view',$row->id)}}" class="btn btn-info"><i class="nav-icon fas fa-eye"></i></a>
+                        
                         <a href="{{ route('edit.testimonial',$row->id)}}" class="btn btn-info"><i class="nav-icon fas fa-edit"></i></a>
-                        <a href="{{ route('delete.product',$row->id)}}" class="btn btn-danger" onclick="return confirm('Are you sure to delete')"><i class="nav-icon fas fa-trash"></i></a>
+                        
                               
                               
                                

@@ -11,6 +11,9 @@ import { environment } from 'src/environments/environment';
 import { StarRatingComponent } from 'ng-starrating';
 import { NgForm } from '@angular/forms';
 import { ReviewService } from 'src/app/services/review.service';
+import { HeaderService } from 'src/app/services/header.service';
+import { Review } from 'src/app/models/review.model';
+import { newArray } from '@angular/compiler/src/util';
 
 @Component({
   selector: 'app-product-details',
@@ -28,6 +31,7 @@ export class ProductDetailsComponent implements OnInit {
   size: [];
   wishlist = false;
   quantity;
+  toggle:boolean = false;
   customOptions: OwlOptions = {
     loop: true,
     mouseDrag: true,
@@ -57,7 +61,11 @@ export class ProductDetailsComponent implements OnInit {
   isloggedin = false;
   userid: number;
   wishlists = [];
-  constructor(private ProductService: ProductService, private route: ActivatedRoute, private AuthService: AuthService, private cartservice: CartService, private toastr: ToastrService, private wishlistservice: WishlistService,private reviewservice:ReviewService) { }
+  allreviews:Review[] = [];
+  filterreviews = [];
+  averagerating:any = 0;
+  averagestar = 0;
+  constructor(private ProductService: ProductService, private route: ActivatedRoute, private AuthService: AuthService, private cartservice: CartService, private toastr: ToastrService, private wishlistservice: WishlistService,private reviewservice:ReviewService,private headerService:HeaderService) { }
 
   ngOnInit(): void {
     this.isloading = true;
@@ -96,7 +104,19 @@ export class ProductDetailsComponent implements OnInit {
           this.wishlist = true;
         }
       });
+      this.reviewservice.Allreview(this.id).subscribe(data=>{
+        this.allreviews = data;
+        if(this.allreviews.length != 0){
+          const sum = this.allreviews.reduce((sum,current)=>sum+current.review,0);
+        this.averagerating = (sum/(this.allreviews.length)).toFixed(2);
+        this.averagestar = Math.round(this.averagerating);
+        }
+        
+        this.filterreviews = this.allreviews.slice(0,5);
+      });
     });
+
+    
   }
 
   addtocart(product) {
@@ -132,8 +152,36 @@ export class ProductDetailsComponent implements OnInit {
       this.isloading = false;
       this.toastr.success("Review Added Successfully");
       form.reset();
+      this.reviewservice.Allreview(this.id).subscribe(data=>{
+        this.allreviews = data;
+        const sum = this.allreviews.reduce((sum,current)=>sum+current.review,0);
+        this.averagerating = (sum/(this.allreviews.length)).toFixed(2);
+        this.averagestar = Math.round(this.averagerating);
+        this.filterreviews = data.slice(0,5);
+      })
     }
-      )
+    );
+  }
+
+  subcategorychange(name) {
+    this.headerService.Storesubcategory(name);
+    
+  }
+
+  categorychange() {
+    this.headerService.Storesubcategory('');
+  }
+
+  counter(i:number){
+    return newArray(i);
+  }
+
+  viewmore(){
+    this.filterreviews = this.allreviews;
+  }
+
+  reviewtoggle(){
+    this.toggle = !this.toggle;
   }
   
 }

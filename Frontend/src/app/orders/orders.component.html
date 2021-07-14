@@ -1,8 +1,17 @@
+<div class="loader" *ngIf="isloading"></div>
 <div class="container" *ngIf="!isloading">
     <div class="row">
         <div class="col-md-5">
             Search: <input type="text" name="search" [(ngModel)]="search"><br><br>
-            <app-order-items *ngFor="let item of order|search:search;let i=index" [orderitem]="item" [selecteditem]="selecteditem" [index]="i"></app-order-items>
+            <app-order-items *ngFor="let item of order|search:search|pagination:page;let i=index" [orderitem]="item" [selecteditem]="selecteditem" [index]="i"></app-order-items>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                  <li class="page-item"><a class="page-link" style="cursor:pointer" (click)="pagechange('previous')">Previous</a></li>
+                  
+                  <li class="page-item"><a class="page-link" style="cursor:pointer" (click)="pagechange('next')">Next</a></li>
+                </ul>
+              </nav>
+              
         </div>
         <div class="col-md-7">
             <app-order-details [selecteditem]="selecteditem"></app-order-details>

@@ -6,7 +6,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
-                            <img src="{{ asset($products->product_image) }}"> 
+                            <img src="{{ asset($products->product_image) }}" style="height:300px;width:300px"> 
                         </div>
                         <hr><br>
                         <div class="col-md-6">
@@ -53,7 +53,7 @@
                         </div>
                         
                         <div class="col-md-6">
-                            {{ $products->size_name }}
+                            {{ $products->size_id }}
                         </div>
                         <hr>
                         <div class="col-md-6">

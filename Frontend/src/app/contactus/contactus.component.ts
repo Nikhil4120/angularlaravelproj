@@ -21,7 +21,7 @@ export class ContactusComponent implements OnInit {
       form.reset();
       this.toastr.success("Mail Sent Successfully");
     },error=>{
-      this.toastr.error("Something Went Wrong Please try again later");
+      this.toastr.error(error.error.message);
     })
   }
 

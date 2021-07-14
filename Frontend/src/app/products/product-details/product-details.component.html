@@ -15,10 +15,10 @@
     <ol class="breadcrumb">
       <li><a routerLink="/" title="Home">Home</a></li>
       <li>
-        <a routerLink="/products/{{ product.category_name | lowercase }}">{{ product.category_name }}</a>
+        <a routerLink="/products/{{ product.category_name | lowercase }}" (click)="categorychange()">{{ product.category_name }}</a>
       </li>
       <li>
-        <a>{{ product.subcategory_name }}</a>
+        <a routerLink="/products/{{ product.category_name | lowercase }}" (click)="subcategorychange(product.subcategory_name)">{{ product.subcategory_name }}</a>
       </li>
       <li class="active">{{ product.product_name }}</li>
     </ol>
@@ -219,12 +219,21 @@
       <div class="tab-content">
         
         <div role="tabpanel" class="tab-pane active" id="product-review">
-          <p class="write-review">
-            <a style="cursor: pointer" title="Write a review" class="review-tag"
-              >Write a review</a
+          <div style="float: right;">
+            {{ averagerating }} Out of 5
+            <div>
+              <img src="data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='126.729' height='126.73'%3e%3cpath fill='%23fcd93a' d='M121.215 44.212l-34.899-3.3c-2.2-.2-4.101-1.6-5-3.7l-12.5-30.3c-2-5-9.101-5-11.101 0l-12.4 30.3c-.8 2.1-2.8 3.5-5 3.7l-34.9 3.3c-5.2.5-7.3 7-3.4 10.5l26.3 23.1c1.7 1.5 2.4 3.7 1.9 5.9l-7.9 32.399c-1.2 5.101 4.3 9.3 8.9 6.601l29.1-17.101c1.9-1.1 4.2-1.1 6.1 0l29.101 17.101c4.6 2.699 10.1-1.4 8.899-6.601l-7.8-32.399c-.5-2.2.2-4.4 1.9-5.9l26.3-23.1c3.8-3.5 1.6-10-3.6-10.5z'/%3e%3c/svg%3e" alt="" *ngFor="let star of counter(averagestar)" style="height: 20px;width:20px"/>
+              <img src="data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='126.729' height='126.73'%3e%3cpath fill='%23e3e3e3' d='M121.215 44.212l-34.899-3.3c-2.2-.2-4.101-1.6-5-3.7l-12.5-30.3c-2-5-9.101-5-11.101 0l-12.4 30.3c-.8 2.1-2.8 3.5-5 3.7l-34.9 3.3c-5.2.5-7.3 7-3.4 10.5l26.3 23.1c1.7 1.5 2.4 3.7 1.9 5.9l-7.9 32.399c-1.2 5.101 4.3 9.3 8.9 6.601l29.1-17.101c1.9-1.1 4.2-1.1 6.1 0l29.101 17.101c4.6 2.699 10.1-1.4 8.899-6.601l-7.8-32.399c-.5-2.2.2-4.4 1.9-5.9l26.3-23.1c3.8-3.5 1.6-10-3.6-10.5z'/%3e%3c/svg%3e" alt="" *ngFor="let star of counter(5-averagestar)" style="height: 20px;width:20px"/>              
+            </div>
+          </div>
+          <p class="write-review" style="border-bottom: none;">
+            <a style="cursor: pointer" title="Write a review" class="review-tag" (click)="reviewtoggle()" 
+              >Write a review &nbsp;<span class="glyphicon glyphicon-pencil
+              " style="font-size: 12px;"></span></a
             >
           </p>
-          <form #reviewForm="ngForm" (ngSubmit)="onSubmit(reviewForm)">
+          
+          <form #reviewForm="ngForm" (ngSubmit)="onSubmit(reviewForm)" *ngIf="toggle" style="border-top: 1px solid #ccc;margin-top: 20px;"> 
             <div class="form-group">
               
                 <div class="feedback">
@@ -247,24 +256,29 @@
               <textarea
                 class="form-control"
                 placeholder="Write a review"
-				ngModel
-				name="description"
-				required
+                rows="4"
+			      	  ngModel
+				        name="description"
+				        required
               ></textarea>
             </div>
             <button type="submit" class="btn btn-secondary" [disabled]="!isloggedin || !reviewForm.valid ">Submit</button>
           </form>
-          <div class="review-detail">
-            <span>Mark, 26-12-2016 writes:</span>
+          
+          <div class="review-detail" *ngFor="let item of filterreviews">
+            <hr>
+            <span>{{ item.username}}, {{ item.created_at|date}}  writes:</span>
+            <div>
+              <img src="data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='126.729' height='126.73'%3e%3cpath fill='%23fcd93a' d='M121.215 44.212l-34.899-3.3c-2.2-.2-4.101-1.6-5-3.7l-12.5-30.3c-2-5-9.101-5-11.101 0l-12.4 30.3c-.8 2.1-2.8 3.5-5 3.7l-34.9 3.3c-5.2.5-7.3 7-3.4 10.5l26.3 23.1c1.7 1.5 2.4 3.7 1.9 5.9l-7.9 32.399c-1.2 5.101 4.3 9.3 8.9 6.601l29.1-17.101c1.9-1.1 4.2-1.1 6.1 0l29.101 17.101c4.6 2.699 10.1-1.4 8.899-6.601l-7.8-32.399c-.5-2.2.2-4.4 1.9-5.9l26.3-23.1c3.8-3.5 1.6-10-3.6-10.5z'/%3e%3c/svg%3e" alt="" *ngFor="let star of counter(item.review)" style="height: 20px;width:20px"/>
+              <img src="data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='126.729' height='126.73'%3e%3cpath fill='%23e3e3e3' d='M121.215 44.212l-34.899-3.3c-2.2-.2-4.101-1.6-5-3.7l-12.5-30.3c-2-5-9.101-5-11.101 0l-12.4 30.3c-.8 2.1-2.8 3.5-5 3.7l-34.9 3.3c-5.2.5-7.3 7-3.4 10.5l26.3 23.1c1.7 1.5 2.4 3.7 1.9 5.9l-7.9 32.399c-1.2 5.101 4.3 9.3 8.9 6.601l29.1-17.101c1.9-1.1 4.2-1.1 6.1 0l29.101 17.101c4.6 2.699 10.1-1.4 8.899-6.601l-7.8-32.399c-.5-2.2.2-4.4 1.9-5.9l26.3-23.1c3.8-3.5 1.6-10-3.6-10.5z'/%3e%3c/svg%3e" alt="" *ngFor="let star of counter(5-item.review)" style="height: 20px;width:20px"/>              
+            </div>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
+              {{ item.description}}
             </p>
+          </div>
+          <hr>
+          <div style="display: flex;justify-content: center;">
+            <a style="cursor: pointer;" class="btn btn-secondary" *ngIf="allreviews.length>5 && filterreviews.length != allreviews.length" (click)="viewmore()">View More</a>
           </div>
         </div>
         

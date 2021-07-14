@@ -53,7 +53,7 @@ export class HeaderComponent implements OnInit {
           },
           (error) => {
             this.toastr.error(
-              'Your token has been expired you need to relogin'
+              error.error.message
             );
             this.logout();
           }
