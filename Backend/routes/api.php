@@ -53,7 +53,7 @@ Route::post('/checkout',[ApiController::class,'Charge']);
 Route::get('/about',[ApiController::class,'about']);
 Route::get('/allorders/{id}',[ApiController::class,'allorder']);
 Route::post('/CancelOrder',[ApiController::class,'cancelorder']);
-Route::get('/ReturnOrder/{id}',[ApiController::class,'returnorder']);
+Route::post('/ReturnOrder',[ApiController::class,'returnorder']);
 
 Route::post('/addreview',[ApiController::class,'AddReview']);
 Route::get('/allreview/{id}',[ApiController::class,'AllReview']);

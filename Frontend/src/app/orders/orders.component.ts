@@ -12,6 +12,7 @@ export class OrdersComponent implements OnInit {
   userid;
   order:Order[] = [];
   filterorder = [];
+  orderfilters = [];
   selecteditem;
   isloading = false;
   search = "";
@@ -58,7 +59,7 @@ export class OrdersComponent implements OnInit {
 
       },[]);
       console.log(this.filterorder);
-
+      this.orderfilters = this.filterorder;
       this.selecteditem = data[0];
       
       this.isloading = false;
@@ -67,37 +68,105 @@ export class OrdersComponent implements OnInit {
     
   }
 
-  ChangeStatus(e,id){
-    
-    if(e.target.value){
-      this.filterorder = this.filterorder.filter((value,index)=>{
-        if((value.filter(m=>m.delievery_status == id)).length!=0){
-          return true;
+  MainFunctionForFilter(){
+    var len = this.orderstatus.filter(m => m.checkeditem != 0).length;
+    var temp = [];
+    if (len == 0) {
+      temp = this.filterorder;
+    }
+
+    else {
+      for (let index = 0; index < this.orderstatus.length; index++) {
+        const element = this.orderstatus[index].checkeditem;
+        if (element != 0) {
+
+          const order = this.filterorder.filter((value)=>{
+            if((value.filter(m=>m.delievery_status == this.orderstatus[index].id)).length!=0){
+              return true;
+            }
+            else{
+              return false;
+            }
+          });
+          temp.push(...order);
+
         }
-        else{
-          return false;
+
+      }
+
+    }
+
+    len = this.datestatus.filter(m => m.checkeditem != 0).length;
+
+    var temp1 = [];
+    if (len == 0) {
+
+      temp1 = temp;
+    }
+    else {
+      for (let index = 0; index < this.datestatus.length; index++) {
+        const element = this.datestatus[index].checkeditem;
+        if (element != 0) {
+          const order = temp.filter((value)=>{
+            let temp4 = value.filter((m)=>{
+              const time = new Date(m.created_at).getTime();
+             
+              return (time > this.datestatus[index].min && time <= this.datestatus[index].max);
+              
+            });
+            return temp4.length!=0;
+            
+          })
+          temp1.push(...order);
         }
-      })
+      }
+    }
+
+    var temp2  = [];
+    if(this.search == ""){
+      temp2 = temp1;
     }
     else{
 
+      temp2 = temp1.filter((value)=>{
+         return (value.filter(m=>(m.product_name.toLowerCase()).includes(this.search.toLowerCase())).length !=0);
+           
+         
+      })
+
+    }
+    
+    
+    this.orderfilters = temp2;
+  }
+
+  ChangeStatus(e,i){
+    
+    if(e.target.checked){
+      this.orderstatus[i].checkeditem = 1;
+      this.MainFunctionForFilter();
+    }
+    else{
+      this.orderstatus[i].checkeditem = 0;
+      this.MainFunctionForFilter();
     }
 
   }
-  ChangeDate(e,max,min){
+  ChangeDate(e,i){
     
-    if(e.target.value){
-      this.filterorder = this.filterorder.filter((value,index)=>{
-        const temp = value.filter((m)=>{
-          const datesplit = m.created_at.split(" ")[0];
-          console.log(datesplit);
-        })
-      })
+    if(e.target.checked){
+      this.datestatus[i].checkeditem = 1;
+      this.MainFunctionForFilter();
     }
     else{
-
+      this.datestatus[i].checkeditem = 0;
+      this.MainFunctionForFilter();
     }
 
+  }
+
+  filtersearch(){
+    this.MainFunctionForFilter();
   }
 
 

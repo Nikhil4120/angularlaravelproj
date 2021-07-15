@@ -34,8 +34,8 @@ export class OrdersService {
     return this.Http.post(environment.localapi+'/CancelOrder',data);
   }
 
-  returnorder(id){
-    return this.Http.get(environment.localapi+'/ReturnOrder/'+id);
+  returnorder(data){
+    return this.Http.post(environment.localapi+'/ReturnOrder',data);
   }
 
 }

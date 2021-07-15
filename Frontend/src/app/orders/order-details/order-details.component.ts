@@ -21,6 +21,7 @@ export class OrderDetailsComponent implements OnInit {
   isloading = false;
   selecteditem;
   @ViewChild('modal', { static: true }) modal;
+  @ViewChild('modal1', { static: true }) modal1;
   constructor(private OrderService:OrdersService,private toastr:ToastrService,private router:Router,private route:ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -50,9 +51,10 @@ export class OrderDetailsComponent implements OnInit {
     })
   }
 
-  ReturnOrder(id){
-    this.OrderService.returnorder(id).subscribe(data=>{
+  ReturnOrder(form:NgForm){
+    this.OrderService.returnorder({id:this.selecteditem.id,reason:form.value.reason,description:form.value.description}).subscribe(data=>{
       this.toastr.success("Order Returned Successfully");
+      this.modal1.nativeElement.click();
       this.router.navigate(['/']);
     })
   }

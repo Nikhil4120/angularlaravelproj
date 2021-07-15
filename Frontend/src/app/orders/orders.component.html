@@ -22,9 +22,18 @@
 <div class="container" *ngIf="!isloading" id="listingpage">
    
   <div class="row">
-      <div class="col-md-12" style="text-align: center;">
-        Search:
-        <input type="text" name="search" [(ngModel)]="search" style="justify-content: center;"/><br /><br />
+      <div class="col-md-3">
+      </div>
+      <div class="col-md-9">
+        <input type="text" name="search" [(ngModel)]="search"  (keyup)="filtersearch()" placeholder="search" class="form-control"/>
+        <a href="#" title="Search" style="float: right;
+        position: relative;
+        left: 135px;
+        top: -35px;
+        width: 20%;
+        height: 20%;"><i><img src="../../assets/images/search.svg"
+          alt="Search" style="height: 15%;
+          width: 10%;"></i></a>
       </div>
     <div class="col-md-3">
       
@@ -42,13 +51,13 @@
           </div>
           <div class="filter-option-inner collapse in" id="collapse1">
             <ul>
-              <li class="custom-check" *ngFor="let item of orderstatus">
+              <li class="custom-check" *ngFor="let item of orderstatus;let i=index">
                 <label>
                   <input
                     type="checkbox"
                     class="icheck"
                     style="cursor: pointer"
-                    (change)="ChangeStatus($event,item.id)"
+                    (change)="ChangeStatus($event,i)"
                   />
                   {{ item.name }}
                 </label>
@@ -73,13 +82,13 @@
             id="collapse4"
           >
             <ul>
-              <li class="custom-check" *ngFor="let item of datestatus">
+              <li class="custom-check" *ngFor="let item of datestatus;let i=index">
                 <label>
                   <input
                     type="checkbox"
                     class="icheck"
                     style="cursor: pointer"
-                    (change)="ChangeDate($event,item.max,item.min)"
+                    (change)="ChangeDate($event,i)"
                   />
                   {{ item.name }}
                 </label>
@@ -89,14 +98,7 @@
           </div>
         </div>
       </div>
-      <div class="add-block">
-        <a title="Promotion"
-          ><img
-            src="../../assets/images/promo2.jpg"
-            alt=""
-            class="img-responsive"
-        /></a>
-      </div>
+      
 
       <!-- <app-order-items *ngFor="let item of order|search:search|pagination:page;let i=index" [orderitem]="item" [selecteditem]="selecteditem" [index]="i"></app-order-items>
             <nav aria-label="Page navigation example">
@@ -108,9 +110,9 @@
               </nav> -->
     </div>
 
-    <div class="col-md-7">
+    <div class="col-md-9">
       <app-order-items
-        *ngFor="let item of filterorder"
+        *ngFor="let item of orderfilters"
         [orderitem]="item"
       ></app-order-items>
     </div>

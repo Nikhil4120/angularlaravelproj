@@ -6,15 +6,19 @@
   
 >
   <div class="pull-left">
-    <h4 class="list-group-item-heading">
-      {{ orderitem[0].product_name | slice }}...
+    <h4 class="list-group-item-heading" >
+      {{ orderitem[0].product_name }}...
+      
     </h4>
+    
      <p class="list-group-item-text">
       {{ orderitem[0].created_at | date: "medium" }}
     </p>
     
   </div>
-  <span class="pull-right">
-    <span class="badge badge-info">{{ orderitem.length }} item</span>
+  <span class="pull-right" style="display: flex;flex-direction: column;justify-content: space-around;">
+    <span class="badge badge-info">{{ orderitem.length }} item</span><br>
+    <img src="{{envimage}}/{{ orderitem[0].product_image}}" style="max-height: 70px;max-width: 70px;"/>
+    
   </span>
 </a>

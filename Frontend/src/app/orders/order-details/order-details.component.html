@@ -58,7 +58,7 @@
   <div class="row">
     <div class="col-md-5">
       <div *ngFor="let item of Order">
-        <a style="cursor: pointer" class="list-group-item clearfix" [ngClass]="{'active':item == selecteditem}" (click)="itemchange(item)">
+        <a style="cursor: pointer" class="list-group-item clearfix" [ngClass]="{'active':item == selecteditem}" (click)="itemchange(item)" title="{{ item.product_description}}">
           <div class="pull-left">
             <h4 class="list-group-item-heading">
               {{ item.product_name | slice }}...
@@ -90,7 +90,7 @@
               src="{{ envimage }}/{{ item.product_image }}"
               alt=""
               class="img-responsive"
-              style="max-height: 50px; max-width: 50px"
+              style="max-height: 200px; max-width: 100px"
             />
           </span>
         </a>
@@ -120,7 +120,7 @@
         </div>
         <div class="col-md-12">
             <button class="btn btn-danger" *ngIf="selecteditem.delievery_status < 3" data-toggle="modal" data-target="#Cancel-popup">Cancel</button>
-            <button class="btn btn-warning" *ngIf="selecteditem.delievery_status == 3 || selecteditem.delievery_status == 4 " (click)="ReturnOrder(selecteditem.id)">Return</button>  
+            <button class="btn btn-warning" *ngIf="selecteditem.delievery_status == 3 || selecteditem.delievery_status == 4 " data-toggle="modal" data-target="#Return-popup">Return</button>  
           </div>
       </div>
     </div>
@@ -167,4 +167,48 @@
             </div>
         </div>
     </div>
+</div>
+
+<div class="popup-outer">
+  <div class="modal fade" id="Return-popup" role="dialog" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close" #modal1>
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+                  <h2>Return Order</h2>
+              </div>
+              <div class="modal-body">
+                  <div *ngIf="isloading" style="text-align: center">
+                      <app-loading-spinner></app-loading-spinner>
+                  </div>
+                  
+                  <form class="loginform" #returnForm="ngForm" (ngSubmit)="ReturnOrder(returnForm)">
+                      <div class="form-group">
+                          <label class="form-label">Select a reason</label>
+                          <select name="reason" id="" class="form-control" required ngModel>
+                              <option value="" selected disabled>Select Reason</option>
+                              <option>Product isn’t matching with the product description</option>
+                              <option>Product/packaging is damaged or defective</option>
+                              <option>Color, size or fit isn’t right</option>
+                              <option>Product is fake, used or expired</option>
+                              
+                          </select>
+                          
+                      </div>
+                      <div class="form-group">
+                          <label class="form-label">Description</label>
+                          <textarea class="form-control" rows="4" ngModel name="description"></textarea>
+                      </div>
+
+                      <div class="form-group clearfix login-options">
+                          <button type="submit" class="btn btn-secondary" [disabled]="!returnForm.valid">Return Order</button>
+                          
+                      </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
 </div>

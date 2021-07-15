@@ -17,7 +17,7 @@ use Stripe\Customer;
 use Stripe\Charge;
 use Stripe\Coupon;
 use Stripe\Refund;
-
+use Stripe\Subscription;
 
 class ApiController extends Controller implements JWTSubject
 {
@@ -361,10 +361,14 @@ class ApiController extends Controller implements JWTSubject
     {
         Stripe::setApiKey(env('STRIPE_SECRET'));
 
-        $coupon = Coupon::create([
-            'percent_off'=>20,
-            'duration'=>'once',
-        ]);
+        // $coupon = Coupon::create([
+        //     'percent_off'=>20,
+        //     'duration'=>'once',
+        // ]);
+        // $subscription = Subscription::create([
+        //     'customer'=>"admin@gmail.com",
+        //     'coupon' =>"qxpvHKMR",
+        // ]);
         
 
         $charge = Charge::create(array(
@@ -435,13 +439,22 @@ class ApiController extends Controller implements JWTSubject
         return response()->json("Order Cancelled Successfully");
     }
 
-    public function returnorder($id){
+    public function returnorder(Request $request){
+
         Stripe::setApiKey(env('STRIPE_SECRET'));
+        $id = $request->id;
         $data = array();
         $data['delievery_status'] = 6;
         DB::table('orders')->where('id',$id)->update($data);
         DB::table('orders')->where('id',$id)->update($data);
         $order = DB::table('orders')->where('id',$id)->first();
+        $returndata = array();
+        $returndata['order_id'] = $id;
+        $returndata['user_id'] = $order->user_id;
+        $returndata['reason'] = $request->reason;
+        $returndata['description'] = $request->description;
+        $returndata['created_at'] = Carbon::now();
+        DB::table('returnorders')->insert($returndata);
         $productid = $order->product_id;
         $order_quantity = $order->quantity;
         $charge_id = $order->charge_id;
