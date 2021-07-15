@@ -1,4 +1,4 @@
-<div class="row">
+<!-- <div class="row">
     <div class="col-xs-12">
         <img src="{{ envimage }}/{{ selecteditem.product_image}}" alt="Product" class="img-responsive" style="max-height:300px">
     </div>
@@ -29,5 +29,142 @@
     <div class="col-xs-12">
       <button class="btn btn-danger" *ngIf="selecteditem.delievery_status < 3" (click)="CancelOrder(selecteditem.id)">Cancel</button>
       <button class="btn btn-warning" *ngIf="selecteditem.delievery_status == 3 || selecteditem.delievery_status == 4 " (click)="ReturnOrder(selecteditem.id)">Return</button>  
+    </div>
+</div> -->
+<div class="title-block-outer">
+  <img
+    src="../../assets/images/inner-banner.jpg"
+    alt="Banner-image"
+    class="img-responsive"
+  />
+  <div class="container title-block-container">
+    <h2>My Orders</h2>
+  </div>
+</div>
+<div class="breadcrumb-panel">
+  <div class="container">
+    <ol class="breadcrumb" *ngIf="!isloading">
+      <li><a routerLink="/" title="Home">Home</a></li>
+      <li>
+        <a routerLink="/orders">orders</a>
+      </li>
+      <li class="active">
+        {{ id }}
+      </li>
+    </ol>
+  </div>
+</div>
+<div class="container" *ngIf="!isloading" id="listingpage">
+  <div class="row">
+    <div class="col-md-5">
+      <div *ngFor="let item of Order">
+        <a style="cursor: pointer" class="list-group-item clearfix" [ngClass]="{'active':item == selecteditem}" (click)="itemchange(item)">
+          <div class="pull-left">
+            <h4 class="list-group-item-heading">
+              {{ item.product_name | slice }}...
+            </h4>
+            <p class="list-group-item-text">
+              {{ item.created_at | date: "medium" }}
+            </p>
+            <p class="list-group-item-text text-success" *ngIf="item.delievery_status == 1">
+                Order hasbeen placed
+            </p>
+            <p class="list-group-item-text text-success" *ngIf="item.delievery_status == 2">
+                Order hasbeen Packed
+            </p>
+            <p class="list-group-item-text text-success" *ngIf="item.delievery_status == 3">
+                Order hasbeen Shipped
+            </p>
+            <p class="list-group-item-text text-success" *ngIf="item.delievery_status == 4">
+                Order hasbeen Delievered
+            </p>
+            <p class="list-group-item-text text-success" *ngIf="item.delievery_status == 5">
+                Cancelled
+            </p>
+            <p class="list-group-item-text text-success" *ngIf="item.delievery_status == 6">
+                Return
+            </p>
+          </div>
+          <span class="pull-right">
+            <img
+              src="{{ envimage }}/{{ item.product_image }}"
+              alt=""
+              class="img-responsive"
+              style="max-height: 50px; max-width: 50px"
+            />
+          </span>
+        </a>
+      </div>
+    </div>
+    <div class="col-md-7">
+      
+      <div class="row">
+        <div class="col-md-12">
+          <img
+            src="{{ envimage }}/{{ selecteditem.product_image }}"
+            alt=""
+            style="max-height: 300px; max-width: 300px"
+          />
+        </div>
+        <div class="col-md-12">
+          <span style="font-weight: 700; font-size: large">{{
+            selecteditem.product_name
+          }}</span>
+        </div>
+        <div class="col-md-12">
+          <ul class="list-group">
+            <li class="list-group-item">
+              Price:{{ selecteditem.price }} &nbsp; Quantity:{{ selecteditem.quantity }}
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-12">
+            <button class="btn btn-danger" *ngIf="selecteditem.delievery_status < 3" data-toggle="modal" data-target="#Cancel-popup">Cancel</button>
+            <button class="btn btn-warning" *ngIf="selecteditem.delievery_status == 3 || selecteditem.delievery_status == 4 " (click)="ReturnOrder(selecteditem.id)">Return</button>  
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="popup-outer">
+    <div class="modal fade" id="Cancel-popup" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" #modal>
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h2>Cancel Order</h2>
+                </div>
+                <div class="modal-body">
+                    <div *ngIf="isloading" style="text-align: center">
+                        <app-loading-spinner></app-loading-spinner>
+                    </div>
+                    
+                    <form class="loginform" #cancelForm="ngForm" (ngSubmit)="CancelOrder(cancelForm)">
+                        <div class="form-group">
+                            <label class="form-label">Select a reason</label>
+                            <select name="reason" id="" class="form-control" required ngModel>
+                                <option value="" selected disabled>Select Reason</option>
+                                <option>I have Changed my mind</option>
+                                <option>Product price is decreased</option>
+                                <option>The delievery has been delay</option>
+                                <option>Order Placed By mistake</option>
+                            </select>
+                            
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control" rows="4" ngModel name="description"></textarea>
+                        </div>
+
+                        <div class="form-group clearfix login-options">
+                            <button type="submit" class="btn btn-secondary" [disabled]="!cancelForm.valid">Cancel Order</button>
+                            
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

@@ -10,7 +10,7 @@ import { environment } from 'src/environments/environment';
 })
 export class OrderItemsComponent implements OnInit {
 
-  @Input() orderitem:Order;
+  @Input() orderitem:any;
   @Input() index:number;
   @Input() selecteditem:Order;
 

@@ -33,6 +33,7 @@ export class TokenService {
         const diff = payload.exp - payload.iat;
         
         this.a = setInterval(()=>this.http.get(environment.localapi+'/refresh?token='+token).subscribe(data=>{
+          console.log(data);
           this.set(data);
         }),(diff-60)*1000);
         

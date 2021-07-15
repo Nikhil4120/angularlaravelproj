@@ -1,4 +1,4 @@
-.container{
+#listingpage{
     margin-top:50px;
     margin-bottom: 50px;
 }
@@ -12,10 +12,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
     animation: spin 2s linear infinite;
+    z-index: 9999;
   }
   
   @keyframes spin {

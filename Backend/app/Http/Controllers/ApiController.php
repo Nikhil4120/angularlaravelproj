@@ -16,6 +16,7 @@ use Stripe\Stripe;
 use Stripe\Customer;
 use Stripe\Charge;
 use Stripe\Coupon;
+use Stripe\Refund;
 
 
 class ApiController extends Controller implements JWTSubject
@@ -328,6 +329,8 @@ class ApiController extends Controller implements JWTSubject
 
         $userid = $request->userid;
         $cartitems = $request->cartitems;
+        $charge_id = $request->charge_id;
+        $order_id = "OD_" . uniqid();
         
         for ($i=0; $i < count($cartitems); $i++) { 
             # code...
@@ -337,6 +340,8 @@ class ApiController extends Controller implements JWTSubject
             $data['quantity'] = ($cartitems[$i])['product_quantity'];
             $data['total_amount'] = ($cartitems[$i])['price'] * ($cartitems[$i])['product_quantity'];
             $data['delievery_status'] = 1;
+            $data['order_id'] = $order_id;
+            $data['charge_id'] = $charge_id;
             $data['status'] = 1;
             $data['created_at'] = Carbon::now();
             $product = DB::table('products')->where('id',($cartitems[$i])['id'])->first();
@@ -368,7 +373,7 @@ class ApiController extends Controller implements JWTSubject
             'currency' => 'inr',
             "source" => $request->token
         ));
-        return response()->json("Payment Successfully");
+        return response()->json($charge);
     }
     
     public function about(){
@@ -393,24 +398,45 @@ class ApiController extends Controller implements JWTSubject
         return response()->json("Review Added Successfully");
     }
 
-    public function cancelorder($id){
+    public function cancelorder(Request $request){
+        Stripe::setApiKey(env('STRIPE_SECRET'));
+
+        $id = $request->id;
+        
         $data = array();
         $data['delievery_status'] = 5;
+
         DB::table('orders')->where('id',$id)->update($data);
         $order = DB::table('orders')->where('id',$id)->first();
+        $canceldata = array();
+        $canceldata['order_id'] = $id;
+        $canceldata['user_id'] = $order->user_id;
+        $canceldata['reason'] = $request->reason;
+        $canceldata['description'] = $request->description;
+        $canceldata['created_at'] = Carbon::now();
+        DB::table('cancelorders')->insert($canceldata);
         $productid = $order->product_id;
         $order_quantity = $order->quantity;
+        $charge_id = $order->charge_id;
+        $total_amount = $order->total_amount;
+        $refund = Refund::create([
+            'charge' => $charge_id,
+            'amount' => $total_amount*100
+            
+        ]);
         $product = DB::table('products')->where('id',$productid)->first();
         $product_quantity  = $product->quantity;
         $dataproduct = array();
         $dataproduct['quantity'] = $product_quantity + $order_quantity;
         DB::table('products')->where('id',$productid)->update($dataproduct);
-
+        
+        
 
         return response()->json("Order Cancelled Successfully");
     }
 
     public function returnorder($id){
+        Stripe::setApiKey(env('STRIPE_SECRET'));
         $data = array();
         $data['delievery_status'] = 6;
         DB::table('orders')->where('id',$id)->update($data);
@@ -418,6 +444,13 @@ class ApiController extends Controller implements JWTSubject
         $order = DB::table('orders')->where('id',$id)->first();
         $productid = $order->product_id;
         $order_quantity = $order->quantity;
+        $charge_id = $order->charge_id;
+        $total_amount = $order->total_amount;
+        $refund = Refund::create([
+            'charge' => $charge_id,
+            'amount' => $total_amount*100
+            
+        ]);
         $product = DB::table('products')->where('id',$productid)->first();
         $product_quantity  = $product->quantity;
         $dataproduct = array();
@@ -432,6 +465,7 @@ class ApiController extends Controller implements JWTSubject
         ->join('frontusers','frontusers.id','reviews.user_id')
         ->select('reviews.id','reviews.review','reviews.description','reviews.created_at','products.product_name','frontusers.username')
         ->where('reviews.product_id',$id)
+        ->orderBy('reviews.id','desc')
         ->get();
         return response()->json($reviews);
     }

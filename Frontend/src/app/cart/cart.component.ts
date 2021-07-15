@@ -157,8 +157,9 @@ export class CartComponent implements OnInit,OnDestroy {
         token = stripeToken;
         
         ser.Checkout(stripeToken, amount).subscribe((data) => {
+          console.log(data);
           ser
-            .PlaceOrder({ cartitems: cartitems, userid: userid })
+            .PlaceOrder({ cartitems: cartitems, userid: userid,charge_id:data.id })
             .subscribe((data) => {
               toastr.success(data.data);
               cartservice.clearall();
@@ -173,7 +174,7 @@ export class CartComponent implements OnInit,OnDestroy {
       description: 'Payment widgets',
       amount: amount * 100,
       currency: 'inr',
-      
+
     });
   }
 
