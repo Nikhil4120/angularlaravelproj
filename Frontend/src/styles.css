@@ -9,7 +9,9 @@
 @import 'assets/css/style.css';
 @import 'assets/css/media.css';
 
-
+body{
+    padding-right: 0 !important;
+}
 
 
 

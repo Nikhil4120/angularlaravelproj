@@ -15,9 +15,7 @@ use App\Http\controllers\ApiController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+
 Route::post('register', [ApiController::class, 'register']);
 Route::post('login', [ApiController::class, 'authenticate']);
 Route::get('getuser',[ApiController::class,'getuser']);
@@ -54,9 +52,12 @@ Route::get('/about',[ApiController::class,'about']);
 Route::get('/allorders/{id}',[ApiController::class,'allorder']);
 Route::post('/CancelOrder',[ApiController::class,'cancelorder']);
 Route::post('/ReturnOrder',[ApiController::class,'returnorder']);
+Route::get('/reorder/{id}',[ApiController::class,'reorder']);
 
 Route::post('/addreview',[ApiController::class,'AddReview']);
 Route::get('/allreview/{id}',[ApiController::class,'AllReview']);
 Route::get('/refresh',[ApiController::class,'Refresh']);
 
 Route::post('/passwordchange',[ApiController::class,'PasswordChange']);
+Route::post('/passwordforget',[ApiController::class,'PasswordForget']);
+Route::post('/passwordreset',[ApiController::class,'PasswordReset']);

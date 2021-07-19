@@ -33,6 +33,7 @@ import { SlicePipe } from './pipes/slice.pipe';
 import { SearchPipe } from './pipes/search.pipe';
 import { PaginationPipe } from './pipes/pagination.pipe';
 import { ChangepasswordComponent } from './changepassword/changepassword.component';
+import { ForgetpasswordComponent } from './forgetpassword/forgetpassword.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { ChangepasswordComponent } from './changepassword/changepassword.compone
     SearchPipe,
     PaginationPipe,
     ChangepasswordComponent,
+    ForgetpasswordComponent,
     //SubcategoryComponent
   ],
   imports: [

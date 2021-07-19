@@ -13,4 +13,13 @@ export class ChangepasswordService {
   PasswordChange(data){
     return this.http.post<any>(environment.localapi+'/passwordchange',data);
   }
+
+ PasswordForget(data){
+  return this.http.post<any>(environment.localapi+'/passwordforget',data);
+ }
+
+ PasswordReset(data){
+  return this.http.post<any>(environment.localapi+'/passwordreset',data);
+ }
+
 }

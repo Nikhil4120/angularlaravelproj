@@ -111,8 +111,10 @@
 <script src="{{ asset('admin/dist/js/demo.js')}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script>
+  
   @if(Session::has('message'))
   var type = "{{ Session::get('alert-type','info') }}";
+  
   switch(type){
     case 'info':
     toastr.info(" {{ Session::get('message') }} ");

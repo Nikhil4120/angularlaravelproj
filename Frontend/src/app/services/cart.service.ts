@@ -26,6 +26,14 @@ export class CartService {
         products = JSON.parse(localStorage.getItem('cart'));
         
       }
+      // let product_avail = products.filter(m=>m.id == product.id);
+      // if(product_avail.length > 0 ){
+
+      // }
+      // else{
+
+      // }
+
       let productexist = false;
       
       if(product['size']){
@@ -40,12 +48,12 @@ export class CartService {
           if(product['product_quantity']){
             products[index].product_quantity = parseInt(products[index].product_quantity);
             products[index].product_quantity += parseInt(product['product_quantity']);  
-            product[index].isshown = 0;
+            products[index].isshown = 0;
           }
           else{
             products[index].product_quantity = parseInt(products[index].product_quantity);
             products[index].product_quantity += 1;
-            product[index].isshown = 0;
+            products[index].isshown = 0;
           }
           
           productexist = true;

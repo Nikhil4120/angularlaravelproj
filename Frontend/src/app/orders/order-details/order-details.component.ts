@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Order } from 'src/app/models/order.model';
+import { CartService } from 'src/app/services/cart.service';
 import { OrdersService } from 'src/app/services/orders.service';
 import { environment } from 'src/environments/environment';
 
@@ -22,7 +23,7 @@ export class OrderDetailsComponent implements OnInit {
   selecteditem;
   @ViewChild('modal', { static: true }) modal;
   @ViewChild('modal1', { static: true }) modal1;
-  constructor(private OrderService:OrdersService,private toastr:ToastrService,private router:Router,private route:ActivatedRoute) { }
+  constructor(private OrderService:OrdersService,private toastr:ToastrService,private router:Router,private route:ActivatedRoute,private cartservice:CartService) { }
 
   ngOnInit(): void {
     this.isloading = true;
@@ -62,7 +63,17 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   reorder(){
-    console.log(this.selecteditem.product_id);
+    this.isloading = true;
+    this.OrderService.ReOrder(this.selecteditem.product_id).subscribe(data=>{
+      this.isloading = false;
+      if(data.length != 0){
+        this.cartservice.addTocart(data[0]);
+        this.toastr.success("Item is added to cart");
+      }
+      else{
+        this.toastr.warning("Item is either deactivated or out of stock");
+      }
+    })
   }
 
   itemchange(item){

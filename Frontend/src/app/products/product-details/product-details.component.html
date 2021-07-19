@@ -69,7 +69,8 @@
         </div>
         <div class="add-to-cart-btn clearfix">
           <label>Qty:</label>
-          <select name="product_quantity" [(ngModel)]="product_quantity">
+          <h3 *ngIf="quantity.length <= 0">Out of stock</h3>
+          <select name="product_quantity" [(ngModel)]="product_quantity" *ngIf="quantity.length > 0">
             <option
               *ngFor="let item of quantity; let i = index"
               value="{{ i + 1 }}"
@@ -82,7 +83,7 @@
             (click)="addtocart(product)"
             title="Add to Cart"
             class="button btn-cart"
-            [disabled]="product_size == ''"
+            [disabled]="product_size == '' || quantity.length <=0"
             *ngIf="isloggedin"
           >
             <span><span>Add to Cart</span></span>

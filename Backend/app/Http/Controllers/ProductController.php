@@ -89,7 +89,7 @@ class ProductController extends Controller
         $categories = DB::table('categories')->where('status',1)->get();
         $colors = DB::table('colors')->where('status',1)->get();
         $size = DB::table('sizes')->where('status',1)->get();
-        $products = DB::table('products')->where('status',1)->where('id',$id)->first();
+        $products = DB::table('products')->where('id',$id)->first();
         return view('backend.product.edit',compact('products','size','colors','categories'));
     }
 

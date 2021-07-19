@@ -516,4 +516,60 @@ class ApiController extends Controller implements JWTSubject
 
     }
 
+    public function PasswordForget(Request $request){
+
+        $email = $request->email;
+
+        $emailexist = DB::table('frontusers')->where('email',$email)->get();
+
+        if(count($emailexist) != 0){
+            $verifyuser = $emailexist[0];
+            $chars ="abc1defghij2k3lmno4pq5rs6tu7vw8xy9z@0ABCDEFGHIJK#LMNOPQRSTUVWXYZ#";
+            $password = substr(str_shuffle($chars),0,8);
+            $data = array();
+            $data['username'] = $verifyuser->username;
+            $data['password'] = $password;
+            $user['to'] = $email;
+            Mail::send('backend.mail.otpmail',$data,function($messages) use($user){
+                $messages->to($user['to']);
+                $messages->subject("Forget Password Otp mail");
+            });            
+            
+
+            return response()->json(['success' => true,'data' => $password], 200);
+        }
+        else{
+            return response()->json(['success' => false,'data' => "This Email is not Exist"], 200);
+        }
+
+    }
+
+    public function PasswordReset(Request $request){
+
+        $password = Hash::make($request->password);
+        $email = $request->email;
+
+        DB::table('frontusers')->where('email',$email)->update([
+            'password'=>$password
+        ]);
+
+        return response()->json(['success' => true,'data' => "Password hasbeen changed"], 200);                        
+
+    }
+
+    public function reorder($id){
+
+        $product = DB::table('products')->join('categories','categories.id','products.category_id')
+        ->join('subcategories','subcategories.id','products.subcategory_id')
+        ->join('colors','colors.id','products.color_id')
+        
+        ->select('products.id','products.product_name','products.product_description','products.product_image','products.sku_id','products.price','categories.category_name','subcategories.subcategory_name','colors.color_name','products.istrending','products.size_id','products.quantity')
+        ->where('products.status',1)
+        ->where('products.quantity','>',0)
+        ->where('products.id',$id)
+        ->get();
+        return $product;        
+
+    }
+
 }

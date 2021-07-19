@@ -25,7 +25,7 @@
                         <div class="form-group">
                             <label class="form-label">Password</label>
                             <span class="pull-right"><a style="cursor: pointer;color: #ea4748;
-                                text-decoration: underline;">forget password?</a></span>
+                                text-decoration: underline;" data-toggle="modal" data-target="#Forget-popup" data-dismiss="modal">forget password?</a></span>
                             <input type="password" class="form-control" placeholder="Enter your Password"
                                 #password="ngModel" name="password" ngModel required>
                             
@@ -44,3 +44,4 @@
         </div>
     </div>
 </div>
+<app-forgetpassword></app-forgetpassword>

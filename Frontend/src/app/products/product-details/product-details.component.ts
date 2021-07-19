@@ -30,7 +30,7 @@ export class ProductDetailsComponent implements OnInit {
   allproduct: any;
   size: [];
   wishlist = false;
-  quantity;
+  quantity:any=[];
   toggle:boolean = false;
   customOptions: OwlOptions = {
     loop: true,
@@ -65,6 +65,7 @@ export class ProductDetailsComponent implements OnInit {
   filterreviews = [];
   averagerating:any = 0;
   averagestar = 0;
+  cartproduct = 0;
   constructor(private ProductService: ProductService, private route: ActivatedRoute, private AuthService: AuthService, private cartservice: CartService, private toastr: ToastrService, private wishlistservice: WishlistService,private reviewservice:ReviewService,private headerService:HeaderService) { }
 
   ngOnInit(): void {
@@ -82,6 +83,18 @@ export class ProductDetailsComponent implements OnInit {
     this.route.params.subscribe((params: Params) => {
       this.id = +params['id'];
       this.product_size = "";
+
+      let productavail = JSON.parse(localStorage.getItem('cart'));
+      if(productavail){
+        productavail = productavail.filter(m=>m.id == this.id);
+        console.log(productavail.length);
+        if(productavail.length !=0){
+          this.cartproduct = parseInt((productavail[0])['product_quantity']);
+        }
+      }
+      
+
+
       this.product_quantity = 1;
       this.wishlist = false;
       
@@ -89,7 +102,11 @@ export class ProductDetailsComponent implements OnInit {
         this.allproduct = data.filter(item => item.id != this.id);
         this.product = data.filter(item => item.id == this.id)[0];
         this.size = this.product.size_id.split(",");
-        this.quantity = new Array(this.product.quantity);
+        console.log(this.product.quantity - this.cartproduct);
+        if(this.product.quantity - this.cartproduct != 0){
+          this.quantity = new Array(this.product.quantity - this.cartproduct);
+        }
+        
         this.route.queryParams.subscribe((params: any) => {
           if (params.size) {
             this.product_size = params.size;
@@ -115,19 +132,18 @@ export class ProductDetailsComponent implements OnInit {
         this.filterreviews = this.allreviews.slice(0,5);
       });
     });
-
-    
   }
 
   addtocart(product) {
-    if (this.isloggedin) {
+    if(this.product.quantity < this.product_quantity){
+      this.toastr.warning("Out of Stock");
+    }
+    else{
       product['size'] = this.product_size;
       product['product_quantity'] = this.product_quantity;
+      this.quantity = new Array(this.quantity.length - this.product_quantity);
       this.cartservice.addTocart(product);
       this.toastr.success("Your item is added to cart");
-    }
-    else {
-      this.toastr.error("you need to login first");
     }
   }
 

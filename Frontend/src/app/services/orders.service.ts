@@ -4,6 +4,7 @@ import { Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { of } from 'rxjs'; 
 import { Order } from '../models/order.model';
+import { Product } from '../models/product.model';
 @Injectable({
   providedIn: 'root'
 })
@@ -36,6 +37,10 @@ export class OrdersService {
 
   returnorder(data){
     return this.Http.post(environment.localapi+'/ReturnOrder',data);
+  }
+
+  ReOrder(id){
+    return this.Http.get<Product[]>(environment.localapi+'/reorder/'+id);
   }
 
 }
