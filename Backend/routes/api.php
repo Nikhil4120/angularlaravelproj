@@ -58,3 +58,5 @@ Route::post('/ReturnOrder',[ApiController::class,'returnorder']);
 Route::post('/addreview',[ApiController::class,'AddReview']);
 Route::get('/allreview/{id}',[ApiController::class,'AllReview']);
 Route::get('/refresh',[ApiController::class,'Refresh']);
+
+Route::post('/passwordchange',[ApiController::class,'PasswordChange']);

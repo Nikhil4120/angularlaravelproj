@@ -24,8 +24,11 @@
                         </div>
                         <div class="form-group">
                             <label class="form-label">Password</label>
+                            <span class="pull-right"><a style="cursor: pointer;color: #ea4748;
+                                text-decoration: underline;">forget password?</a></span>
                             <input type="password" class="form-control" placeholder="Enter your Password"
                                 #password="ngModel" name="password" ngModel required>
+                            
                             <span class="error" *ngIf="password.invalid && password.touched">Password field is
                                 required</span>
                         </div>

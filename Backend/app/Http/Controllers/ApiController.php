@@ -19,6 +19,8 @@ use Stripe\Coupon;
 use Stripe\Refund;
 use Stripe\Subscription;
 
+
+
 class ApiController extends Controller implements JWTSubject
 {
     //
@@ -365,17 +367,25 @@ class ApiController extends Controller implements JWTSubject
         //     'percent_off'=>20,
         //     'duration'=>'once',
         // ]);
+        
+        $customer = Customer::create([
+            'name'=>'test',
+            'description'=>'my description',
+            'email'=>'admin@gmail.com',
+            'source'=>$request->token,
+            'address'=>["city"=>"washington","country"=>"US","line1"=>"abcdefghj","line2"=>"gjfd","postal_code"=>123456,"state"=>"washington"]
+        ]);
         // $subscription = Subscription::create([
-        //     'customer'=>"admin@gmail.com",
+        //     'customer'=>$customer->id,
         //     'coupon' =>"qxpvHKMR",
         // ]);
-        
 
         $charge = Charge::create(array(
-            
-            'amount'   => $request->amount * 100,
-            'currency' => 'inr',
-            "source" => $request->token
+            'customer'=>$customer->id,
+            'amount'   => $request->amount *100,
+            'currency' => 'usd',
+            'description'=>"sadcv adff",
+            // "source" => $request->token
         ));
         return response()->json($charge);
     }
@@ -481,6 +491,29 @@ class ApiController extends Controller implements JWTSubject
         ->orderBy('reviews.id','desc')
         ->get();
         return response()->json($reviews);
+    }
+
+    public function passwordchange(Request $request){
+
+        $userid = $request->userid;
+        $user = DB::table('frontusers')->where('id',$userid)->first();
+        $hashpassword = $user->password;
+        if(Hash::check($request->current_password,$hashpassword)){
+
+            DB::table('frontusers')->where('id',$userid)->update([
+                'password'=>Hash::make($request->new_password)
+            ]);
+    		
+            return response()->json(['success' => true,'data' => "Password has been changed"], 200);
+    		
+
+    		
+
+    	}
+    	else{
+    		return response()->json(['success' => false,'data' => "Old passowrd is incorrect"], 200);
+    	}
+
     }
 
 }

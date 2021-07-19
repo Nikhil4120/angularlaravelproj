@@ -1,36 +1,4 @@
-<!-- <div class="row">
-    <div class="col-xs-12">
-        <img src="{{ envimage }}/{{ selecteditem.product_image}}" alt="Product" class="img-responsive" style="max-height:300px">
-    </div>
-</div>
-<div class="row">
-    <div class="col-xs-12">
-        <h2>{{ selecteditem.product_name }}</h2>
-    </div>
-</div>
-<div class="row">
-    <div class="col-xs-12">
-        <p>{{ selecteditem.product_description }}</p>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-xs-12">
-      <ul class="list-group">
-          <li class="list-group-item" >
-            Price:{{ selecteditem.price }} &nbsp;
-            Quantity:{{ selecteditem.quantity }}
-          </li>
-      </ul>
-    </div>
-</div>
-
-<div class="row">
-    <div class="col-xs-12">
-      <button class="btn btn-danger" *ngIf="selecteditem.delievery_status < 3" (click)="CancelOrder(selecteditem.id)">Cancel</button>
-      <button class="btn btn-warning" *ngIf="selecteditem.delievery_status == 3 || selecteditem.delievery_status == 4 " (click)="ReturnOrder(selecteditem.id)">Return</button>  
-    </div>
-</div> -->
+<div class="loader" *ngIf="isloading"></div>
 <div class="title-block-outer">
   <img
     src="../../assets/images/inner-banner.jpg"
@@ -121,6 +89,7 @@
         <div class="col-md-12">
             <button class="btn btn-danger" *ngIf="selecteditem.delievery_status < 3" data-toggle="modal" data-target="#Cancel-popup">Cancel</button>
             <button class="btn btn-warning" *ngIf="selecteditem.delievery_status == 3 || selecteditem.delievery_status == 4 " data-toggle="modal" data-target="#Return-popup">Return</button>  
+            &nbsp;<button class="btn btn-info" *ngIf="selecteditem.delievery_status == 4 " (click)="reorder()">Reorder</button>  
           </div>
       </div>
     </div>
@@ -137,9 +106,7 @@
                     <h2>Cancel Order</h2>
                 </div>
                 <div class="modal-body">
-                    <div *ngIf="isloading" style="text-align: center">
-                        <app-loading-spinner></app-loading-spinner>
-                    </div>
+                    
                     
                     <form class="loginform" #cancelForm="ngForm" (ngSubmit)="CancelOrder(cancelForm)">
                         <div class="form-group">
@@ -180,9 +147,7 @@
                   <h2>Return Order</h2>
               </div>
               <div class="modal-body">
-                  <div *ngIf="isloading" style="text-align: center">
-                      <app-loading-spinner></app-loading-spinner>
-                  </div>
+                  
                   
                   <form class="loginform" #returnForm="ngForm" (ngSubmit)="ReturnOrder(returnForm)">
                       <div class="form-group">

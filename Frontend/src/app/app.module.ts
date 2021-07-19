@@ -32,6 +32,7 @@ import { OrderDetailsComponent } from './orders/order-details/order-details.comp
 import { SlicePipe } from './pipes/slice.pipe';
 import { SearchPipe } from './pipes/search.pipe';
 import { PaginationPipe } from './pipes/pagination.pipe';
+import { ChangepasswordComponent } from './changepassword/changepassword.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { PaginationPipe } from './pipes/pagination.pipe';
     SlicePipe,
     SearchPipe,
     PaginationPipe,
+    ChangepasswordComponent,
     //SubcategoryComponent
   ],
   imports: [

@@ -9,6 +9,7 @@ use Stripe\Stripe;
 use Stripe\Customer;
 use Stripe\Charge;
 use Stripe\Coupon;
+use Stripe\Exception\InvalidRequestException;
 
 
 class ContactController extends Controller
@@ -43,11 +44,14 @@ class ContactController extends Controller
 
     public function Coupons(){
         Stripe::setApiKey(env('STRIPE_SECRET'));
-        $coupen = Coupon::all(
-            
-            
-        );
-        return response()->json($coupen['data']);
+        try{
+
+            $coupen = Coupon::retrieve('qxpvHKMR',[]);
+            return response()->json($coupen);
+        }
+        catch(InvalidRequestException $e){
+            return response()->json($e);
+        }
 
     }
     

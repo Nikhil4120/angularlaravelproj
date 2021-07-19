@@ -42,9 +42,9 @@ export class OrderDetailsComponent implements OnInit {
 
   CancelOrder(form:NgForm){
 
-
+    this.isloading = true;
     this.OrderService.cancelorder({id:this.selecteditem.id,reason:form.value.reason,description:form.value.description}).subscribe(data=>{
-
+      this.isloading = false;
       this.toastr.success("Order Cancelled Successfully");
       this.modal.nativeElement.click();
       this.router.navigate(['/']);
@@ -52,11 +52,17 @@ export class OrderDetailsComponent implements OnInit {
   }
 
   ReturnOrder(form:NgForm){
+    this.isloading = true;
     this.OrderService.returnorder({id:this.selecteditem.id,reason:form.value.reason,description:form.value.description}).subscribe(data=>{
+      this.isloading = false;
       this.toastr.success("Order Returned Successfully");
       this.modal1.nativeElement.click();
       this.router.navigate(['/']);
     })
+  }
+
+  reorder(){
+    console.log(this.selecteditem.product_id);
   }
 
   itemchange(item){

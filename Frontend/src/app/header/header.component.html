@@ -52,8 +52,10 @@
                             <li *ngIf="loggedIn" class="dropdown" [ngClass]="{'open':settingopen}">
                                 <a class="dropdown-toggle" role="button" (click)="setting()">Manage <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a routerLink="/userprofile" title="My Profile" (click)="dropclose()">Profile</a></li>
-                                    <li><a routerLink="/orders" title="Orders" (click)="dropclose()">Orders</a></li>
+                                    <li><a routerLink="/userprofile" title="My Profile" (click)="dropclose()" style="cursor: pointer;">Profile</a></li>
+                                    <li><a routerLink="/orders" title="Orders" (click)="dropclose()" style="cursor: pointer;">Orders</a></li>
+                                    <li><a data-toggle="modal"
+                                        data-target="#changepassword-popup"  title="Change Password" (click)="dropclose()" style="cursor: pointer;">Change Password</a></li>
                                 </ul>
                                 
                             </li>
@@ -65,7 +67,7 @@
                                         <li *ngFor="let item of cartitems">
                                             <a class="cart-product" title="consectetur adipiscing elit"
                                                 routerLink="/products/detail/{{ item.id }}"><img alt=""
-                                                    src="{{ envimage }}/{{ item.product_image}}"></a>
+                                                    src="{{ envimage }}/{{ item.product_image}}" style="max-height:100px"></a>
 
                                             <div class="cart-details">
                                                 <a class="btn-remove" title="Remove item" style="cursor:pointer"
@@ -126,3 +128,4 @@
     </nav>
 </header>
 <app-login></app-login>
+<app-changepassword *ngIf="loggedIn"></app-changepassword>
