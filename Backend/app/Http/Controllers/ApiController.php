@@ -355,10 +355,9 @@ class ApiController extends Controller implements JWTSubject
             DB::table('orders')->insert($data);
         }
 
-        $orderuser = DB::table('orders')->where('delievery_status',4)->where('user_id',$userid)->get();
-        $countorderuser = count($orderuser);
-        $won = $countorderuser;
-        if($countorderuser % 10 == 1){
+        $random = rand(1,6);
+        // $won = $random;
+        if($random == 6){
             $coupon = Coupon::create([
                 'percent_off'=>10,
                 'duration'=>'once',
@@ -643,15 +642,18 @@ class ApiController extends Controller implements JWTSubject
         Stripe::setApiKey(env('STRIPE_SECRET'));
         $id = $request->userid;
         $coupon = $request->coupon;
-        $availcoupon = DB::table('coupons')->where('user_id',$id)->where('coupon_id',$coupon)->get();
+        $availcoupon = DB::table('coupons')->where('user_id',$id)->where('coupon_id',$coupon)->where('isvalid',1)->get();
         $countcoupon = count($availcoupon);
 
         if($countcoupon != 0){
             $coupen = Coupon::retrieve($coupon,[]);
+            DB::table('coupons')->where('user_id',$id)->where('coupon_id',$coupon)->update([
+                'isvalid'=>0
+            ]);
             return response()->json(['success' => true,'data' => $availcoupon[0]->discount], 200);
         }
         else{
-            return response()->json(['success' => false,'data' => "Coupon not availiable"], 200);
+            return response()->json(['success' => false,'data' => "Coupon code is not valid"], 200);
         }
     }
 

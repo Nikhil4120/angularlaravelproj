@@ -23,7 +23,7 @@ import { CarouselModule } from 'ngx-owl-carousel-o';
 import { TestimonialComponent } from './testimonial/testimonial.component';
 import { ToastrModule } from 'ngx-toastr';
 import { ContactusComponent } from './contactus/contactus.component';
-import { CheckoutComponent } from './checkout/checkout.component';
+
 import { ProductSearchComponent } from './products/product-search/product-search.component';
 import { RatingModule } from 'ng-starrating';
 import { OrdersComponent } from './orders/orders.component';
@@ -53,7 +53,7 @@ import { ForgetpasswordComponent } from './forgetpassword/forgetpassword.compone
     CartComponent,
     TestimonialComponent,
     ContactusComponent,
-    CheckoutComponent,
+    
     ProductSearchComponent,
     OrdersComponent,
     OrderItemsComponent,
@@ -63,7 +63,7 @@ import { ForgetpasswordComponent } from './forgetpassword/forgetpassword.compone
     PaginationPipe,
     ChangepasswordComponent,
     ForgetpasswordComponent,
-    //SubcategoryComponent
+    
   ],
   imports: [
     BrowserModule,
