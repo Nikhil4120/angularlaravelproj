@@ -29,7 +29,7 @@ export class ProductItemComponent implements OnInit {
   addcart(product){
     if(this.isloggedin){
       this.cartservice.addTocart(product);
-      this.toastr.success('Your items added to cart');
+      
     }
     
 

@@ -61,3 +61,7 @@ Route::get('/refresh',[ApiController::class,'Refresh']);
 Route::post('/passwordchange',[ApiController::class,'PasswordChange']);
 Route::post('/passwordforget',[ApiController::class,'PasswordForget']);
 Route::post('/passwordreset',[ApiController::class,'PasswordReset']);
+Route::post('/skippassword', [ApiController::class,'PasswordSkip']);
+
+Route::post('/availiabity', [ApiController::class,'Availiabity']);
+Route::post('/couponapply', [ApiController::class,'Couponapply']);

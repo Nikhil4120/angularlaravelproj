@@ -74,12 +74,13 @@
                                 <span class="orange-text">&#8377;{{ item.price }}</span>
                             </td>
                             <td>
+                                <span *ngIf="item.product_quantity == 0">out of stock</span>
                                 <input type="number" title="Qty" class="form-control qty" #quantity
                                     ngModel="{{item.product_quantity}}" min="1" max="{{item.quantity}}" style="width:60px"
-                                    (change)="quantitychange($event,item.id,item.size)">
+                                    (change)="quantitychange($event,item.id,item.size)" *ngIf="item.product_quantity > 0">
                             </td>
                             <td>
-                                <span class="orange-text">&#8377;{{ quantity.value * item.price}}</span>
+                                <span class="orange-text">&#8377;{{ item.product_quantity * item.price}}</span>
                             </td>
                             <td>
                                 <a style="cursor: pointer;" title="Remove item" class="remove-link"
@@ -126,7 +127,14 @@
                                 </select>
                             </div>
                             
-                            <h3>Estimated Tax:</h3>{{ taxamount }}
+                            <h3>Estimated Tax:{{ taxamount }}</h3>
+                            <hr>
+                            <div class="form-group">
+                                <label for="" class="form-label">Coupon</label>
+                                <input type="text" class="form-control" #coupon><br>
+                                <button class="btn btn-secondary" (click)="applycoupon(coupon.value)">Apply Coupon</button>
+                            </div>
+                            <span class="error" *ngIf="couponerror!=''">{{ couponerror }}</span>
                         </form>
                     </div>
                 </div>
@@ -138,14 +146,17 @@
                                     <td>Subtotal</td>
                                     <td>&#8377;{{ total }}</td>
                                 </tr>
-                                
+                                <tr>
+                                    <td>Discount</td>
+                                    <td>&#8377;{{ total*discount/100 }}</td>
+                                </tr>
                                 <tr>
                                     <td>Tax</td>
                                     <td>&#8377;{{ taxamount }}</td>
                                 </tr>
                                 <tr>
                                     <td class="summary-total"><strong>Total</strong></td>
-                                    <td class="summary-price"><strong>&#8377;{{ total + taxamount }}</strong></td>
+                                    <td class="summary-price"><strong>&#8377;{{ total - (total*discount/100) + taxamount }}</strong></td>
                                 </tr>
 
                                 <tr>

@@ -43,4 +43,12 @@ export class OrdersService {
     return this.Http.get<Product[]>(environment.localapi+'/reorder/'+id);
   }
 
+  Availiabitycheck(data){
+    return this.Http.post<any>(environment.localapi+'/availiabity',data);
+  }
+
+  couponapply(id){
+    return this.Http.post<any>(environment.localapi+'/couponapply',id);
+  }
+
 }

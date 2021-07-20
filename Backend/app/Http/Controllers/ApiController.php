@@ -328,12 +328,12 @@ class ApiController extends Controller implements JWTSubject
     }
 
     public function Order(Request $request){
-
+        Stripe::setApiKey(env('STRIPE_SECRET'));
         $userid = $request->userid;
         $cartitems = $request->cartitems;
         $charge_id = $request->charge_id;
         $order_id = "OD_" . uniqid();
-        
+        $won = "";
         for ($i=0; $i < count($cartitems); $i++) { 
             # code...
             $data = array();
@@ -355,7 +355,25 @@ class ApiController extends Controller implements JWTSubject
             DB::table('orders')->insert($data);
         }
 
-        return response()->json(['success' => true,'data' => "your order hasbeen placed"], 200);
+        $orderuser = DB::table('orders')->where('delievery_status',4)->where('user_id',$userid)->get();
+        $countorderuser = count($orderuser);
+        $won = $countorderuser;
+        if($countorderuser % 10 == 1){
+            $coupon = Coupon::create([
+                'percent_off'=>10,
+                'duration'=>'once',
+            ]);   
+            DB::table('coupons')->insert([
+                'coupon_id'=>$coupon->id,
+                'user_id'=>$userid,
+                'discount'=>$coupon->percent_off,
+                'isvalid'=>1,
+                'created_at'=>Carbon::now()
+            ]);
+            $won = " And you won the coupon";
+        }
+
+        return response()->json(['success' => true,'data' => "your order hasbeen placed".$won], 200);
         
     }
 
@@ -363,10 +381,7 @@ class ApiController extends Controller implements JWTSubject
     {
         Stripe::setApiKey(env('STRIPE_SECRET'));
 
-        // $coupon = Coupon::create([
-        //     'percent_off'=>20,
-        //     'duration'=>'once',
-        // ]);
+         
         
         $customer = Customer::create([
             'name'=>'test',
@@ -570,6 +585,74 @@ class ApiController extends Controller implements JWTSubject
         ->get();
         return $product;        
 
+    }
+
+    public function PasswordSkip(Request $request){
+        $credentials = $request->only('email');
+        // $credentials['password'] = "123456";
+        $user = DB::table('frontusers')->where('email',$request->email)->first();
+        // $credentials['password'] = $user->password;
+        $token = auth()->guard('api')->claims([
+            'user_id' => $user->id,
+            'email' => $user->email
+        ])->attempt($credentials);
+ 	
+ 		//Token created, return with success response and jwt token
+        return response()->json([
+            'success' => true,
+            'token' => $token,
+        ],200);
+        return $credentials;
+
+    }
+
+    public function Availiabity(Request $request){
+        $product_avail = true;
+        $unavail_product = 0;
+        $cartitems = $request->cartitems;
+        for ($i=0; $i < count($cartitems); $i++) { 
+            # code...
+            
+            $product_id = ($cartitems[$i])['id'];
+            
+            $quantity = ($cartitems[$i])['product_quantity'];
+            $product = DB::table('products')->where('id',($cartitems[$i])['id'])->first();
+            $product_quantity = $product->quantity - ($cartitems[$i])['product_quantity'];
+            
+            if($product_quantity < 0){
+                $product_avail = false;
+                $unavail_product = $product_id;
+                break;
+            }
+
+            
+        }
+
+        if($product_avail){
+            return response()->json(['success' => true,'data' => "Availiable Stock"], 200);
+        }
+        else{
+            return response()->json(['success' => false,'data' => $unavail_product], 200);
+        }
+
+
+        
+    }
+
+    public function Couponapply(Request $request){
+        Stripe::setApiKey(env('STRIPE_SECRET'));
+        $id = $request->userid;
+        $coupon = $request->coupon;
+        $availcoupon = DB::table('coupons')->where('user_id',$id)->where('coupon_id',$coupon)->get();
+        $countcoupon = count($availcoupon);
+
+        if($countcoupon != 0){
+            $coupen = Coupon::retrieve($coupon,[]);
+            return response()->json(['success' => true,'data' => $availcoupon[0]->discount], 200);
+        }
+        else{
+            return response()->json(['success' => false,'data' => "Coupon not availiable"], 200);
+        }
     }
 
 }

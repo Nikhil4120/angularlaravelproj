@@ -22,3 +22,12 @@
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
+
+  .image-details{
+    max-height:300px;
+    max-width:500px;
+  }
+
+  .list-image{
+    max-height:120px;
+  }

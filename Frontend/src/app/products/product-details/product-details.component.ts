@@ -84,6 +84,8 @@ export class ProductDetailsComponent implements OnInit {
       this.id = +params['id'];
       this.product_size = "";
 
+      
+
       let productavail = JSON.parse(localStorage.getItem('cart'));
       if(productavail){
         productavail = productavail.filter(m=>m.id == this.id);
@@ -143,7 +145,7 @@ export class ProductDetailsComponent implements OnInit {
       product['product_quantity'] = this.product_quantity;
       this.quantity = new Array(this.quantity.length - this.product_quantity);
       this.cartservice.addTocart(product);
-      this.toastr.success("Your item is added to cart");
+      // this.toastr.success("Your item is added to cart");
     }
   }
 

@@ -22,4 +22,9 @@ export class ChangepasswordService {
   return this.http.post<any>(environment.localapi+'/passwordreset',data);
  }
 
+ Skippassword(data){
+  return this.http.post<any>(environment.localapi+'/skippassword',data) 
+
+ }
+
 }

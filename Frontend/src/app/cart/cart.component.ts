@@ -33,6 +33,8 @@ export class CartComponent implements OnInit,OnDestroy {
   editingmode = false;
   editingitem;
   sizeid = [];
+  discount = 0;
+  couponerror = "";
 
   constructor(
     private cartservice: CartService,
@@ -102,6 +104,22 @@ export class CartComponent implements OnInit,OnDestroy {
     }
   }
 
+  applycoupon(coupon){
+    this.discount = 0;
+    this.couponerror = "";
+    var userid = JSON.parse(
+      atob(localStorage.getItem('token').split('.')[1])
+    ).user_id;
+    this.Orderservice.couponapply({userid:userid,coupon:coupon}).subscribe(data=>{
+      if(data.success){
+        this.discount = 10;
+      }
+      else{
+        this.couponerror = data.data;
+      }
+    })
+  }
+
   filterstate(e) {
     this.statefilter = this.allstate.filter(
       (m) => m.country_id == e.target.value
@@ -120,7 +138,20 @@ export class CartComponent implements OnInit,OnDestroy {
     if (this.country == '' || this.state == '') {
       this.Toastr.warning('Please Select Country and State');
     } else {
-      this.pay(this.total + this.taxamount);
+      this.isloading = true;
+      this.Orderservice.Availiabitycheck({cartitems:this.cartitems}).subscribe(data=>{
+        this.isloading = false;
+        if(data.success){
+          this.pay(this.total - (this.total*this.discount/100) + this.taxamount);
+        }
+        else{
+          this.Toastr.warning("item is out of stock");
+          let index = this.cartitems.findIndex(m=>m.id == data.data);
+          (this.cartitems[index]).product_quantity = 0;
+          console.log(data.data);
+        }
+      })
+      
     }
   }
 

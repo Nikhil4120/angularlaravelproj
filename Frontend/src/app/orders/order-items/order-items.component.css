@@ -1,0 +1,10 @@
+.listdiv{
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+}
+.list-img{
+    max-height: 100px;
+    margin-bottom:10px;
+    width:120px
+}

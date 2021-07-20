@@ -138,6 +138,15 @@ export class ForgetpasswordComponent implements OnInit , OnDestroy {
   
 }
 
+skippassword(){
+ this.changepasswordservice.Skippassword({email:this.email}).subscribe(data=>{
+        this.tokenservice.handle(data['token']);
+        this.AuthService.changeAuthStatus(true);
+        this.modal.nativeElement.click();   
+        console.log(data);
+ })
+}
+
 
   ngOnDestroy(){
 
