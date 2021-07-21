@@ -9,6 +9,10 @@ use DB;
 class newscontroller extends Controller
 {
     
+    public function __construct(){
+
+        $this->middleware('auth');
+    }
     public function AddNews(){
         return view('backend.newsletter.add');
     }

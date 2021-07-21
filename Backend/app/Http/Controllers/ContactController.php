@@ -15,6 +15,10 @@ use Stripe\Exception\InvalidRequestException;
 class ContactController extends Controller
 {
     //
+    public function __construct(){
+
+        $this->middleware('auth');
+    }
     public function Index(){
         $contact = DB::table('contacts')->get();
         return view('backend.contact.index',compact('contact'));

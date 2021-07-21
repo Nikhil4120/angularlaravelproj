@@ -8,7 +8,11 @@ use DB;
 class AboutController extends Controller
 {
     //
+    public function __construct(){
 
+        $this->middleware('auth');
+    }
+    
     public function Index(){
         
         $about = DB::table('abouts')->first();

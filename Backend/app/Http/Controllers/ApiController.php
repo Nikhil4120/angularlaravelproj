@@ -355,6 +355,9 @@ class ApiController extends Controller implements JWTSubject
             DB::table('orders')->insert($data);
         }
 
+        DB::table('orders')->where('charge_id',$charge_id)->update([
+            'discount'=>$request->discount
+        ]);
         $random = rand(1,6);
         // $won = $random;
         if($random == 6){
@@ -447,6 +450,7 @@ class ApiController extends Controller implements JWTSubject
         $order_quantity = $order->quantity;
         $charge_id = $order->charge_id;
         $total_amount = $order->total_amount;
+        $total_amount = $total_amount - ($total_amount*$order->discount/100);
         $refund = Refund::create([
             'charge' => $charge_id,
             'amount' => $total_amount*100
@@ -483,6 +487,7 @@ class ApiController extends Controller implements JWTSubject
         $order_quantity = $order->quantity;
         $charge_id = $order->charge_id;
         $total_amount = $order->total_amount;
+        $total_amount = $total_amount - ($total_amount*$order->discount/100);
         $refund = Refund::create([
             'charge' => $charge_id,
             'amount' => $total_amount*100
@@ -608,6 +613,7 @@ class ApiController extends Controller implements JWTSubject
     public function Availiabity(Request $request){
         $product_avail = true;
         $unavail_product = 0;
+        $unavail_quantity = 0;
         $cartitems = $request->cartitems;
         for ($i=0; $i < count($cartitems); $i++) { 
             # code...
@@ -621,6 +627,7 @@ class ApiController extends Controller implements JWTSubject
             if($product_quantity < 0){
                 $product_avail = false;
                 $unavail_product = $product_id;
+                $unavail_quantity = $product->quantity;
                 break;
             }
 
@@ -631,7 +638,7 @@ class ApiController extends Controller implements JWTSubject
             return response()->json(['success' => true,'data' => "Availiable Stock"], 200);
         }
         else{
-            return response()->json(['success' => false,'data' => $unavail_product], 200);
+            return response()->json(['success' => false,'data' => $unavail_product,'quantity'=>$unavail_quantity], 200);
         }
 
 

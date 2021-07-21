@@ -74,7 +74,7 @@
                                 <span class="orange-text">&#8377;{{ item.price }}</span>
                             </td>
                             <td>
-                                <span *ngIf="item.product_quantity == 0">out of stock</span>
+                                <span class="error" *ngIf="item.id == quantityunavail">out of stock</span>
                                 <input type="number" title="Qty" class="form-control qty" #quantity
                                     ngModel="{{item.product_quantity}}" min="1" max="{{item.quantity}}" style="width:60px"
                                     (change)="quantitychange($event,item.id,item.size)" *ngIf="item.product_quantity > 0">
@@ -135,6 +135,7 @@
                                 <button class="btn btn-secondary" (click)="applycoupon(coupon.value)">Apply Coupon</button>
                             </div>
                             <span class="error" *ngIf="couponerror!=''">{{ couponerror }}</span>
+                            <span class="error" *ngIf="couponsuccess!=''">{{ couponsuccess }}</span>
                         </form>
                     </div>
                 </div>

@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CartService } from '../services/cart.service';
-import { ToastrService } from 'ngx-toastr';
+import { ToastRef, ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { CountryService } from '../services/country.service';
 import { StateService } from '../services/state.service';
@@ -35,6 +35,8 @@ export class CartComponent implements OnInit,OnDestroy {
   sizeid = [];
   discount = 0;
   couponerror = "";
+  couponsuccess = "";
+  quantityunavail = -1;
 
   constructor(
     private cartservice: CartService,
@@ -110,9 +112,13 @@ export class CartComponent implements OnInit,OnDestroy {
     var userid = JSON.parse(
       atob(localStorage.getItem('token').split('.')[1])
     ).user_id;
+    this.isloading = true;
     this.Orderservice.couponapply({userid:userid,coupon:coupon}).subscribe(data=>{
+      this.isloading = false;
       if(data.success){
-        this.discount = 10;
+        this.Toastr.success("Your coupon code has been applied");
+        this.couponsuccess = "Your coupon code has been applied";
+        this.discount = data.data;
       }
       else{
         this.couponerror = data.data;
@@ -147,7 +153,8 @@ export class CartComponent implements OnInit,OnDestroy {
         else{
           this.Toastr.warning("item is out of stock");
           let index = this.cartitems.findIndex(m=>m.id == data.data);
-          (this.cartitems[index]).product_quantity = 0;
+          this.quantityunavail = data.data;
+          (this.cartitems[index]).quantity = data.quantity;
           console.log(data.data);
         }
       })
@@ -179,6 +186,7 @@ export class CartComponent implements OnInit,OnDestroy {
     let stripekey = this.stripekey;
     let cartservice = this.cartservice;
     let router = this.router;
+    let discount = this.discount;
     const strikeCheckout = (<any>window).StripeCheckout.configure({
       key: stripekey,
       locale: 'auto',
@@ -190,7 +198,7 @@ export class CartComponent implements OnInit,OnDestroy {
         ser.Checkout(stripeToken, amount).subscribe((data) => {
           console.log(data);
           ser
-            .PlaceOrder({ cartitems: cartitems, userid: userid,charge_id:data.id })
+            .PlaceOrder({ cartitems: cartitems, userid: userid,charge_id:data.id,discount: discount})
             .subscribe((data) => {
               toastr.success(data.data);
               cartservice.clearall();
