@@ -11,6 +11,7 @@ import { SizeService } from 'src/app/services/size.service';
 import { SubcategoryService } from 'src/app/services/subcategory.service';
 import { Options } from 'ng5-slider';
 import { HeaderService } from 'src/app/services/header.service';
+import { CurrencyService } from 'src/app/services/currency.service';
 
 @Component({
   selector: 'app-product-list',
@@ -43,8 +44,9 @@ export class ProductListComponent implements OnInit {
   countcolor = [];
   i=8;
   selectedsubcategory = "";
+  currency = 'inr';
 
-  constructor(private CategoryService: CategoryService, private route: ActivatedRoute, private router: Router, private ProductService: ProductService, private SizeService: SizeService, private SubCategoryService: SubcategoryService, private ColorService: ColorService,private headerservice:HeaderService) { }
+  constructor(private CategoryService: CategoryService, private route: ActivatedRoute, private router: Router, private ProductService: ProductService, private SizeService: SizeService, private SubCategoryService: SubcategoryService, private ColorService: ColorService,private headerservice:HeaderService,private currencyservice:CurrencyService) { }
 
   
   ngOnInit(): void {
@@ -55,7 +57,8 @@ export class ProductListComponent implements OnInit {
         this.countsubcategories();
         this.mainFunctionForFilter();
       }
-    })
+    });
+    
     this.route.params.subscribe((params: Params) => {
       this.filterproduct = [];
       this.id = params['id'];
@@ -184,7 +187,11 @@ export class ProductListComponent implements OnInit {
     else {
       temp2 = temp1.filter(m => m.color_name == len);
     }
-    temp2 = temp2.filter(m => m.price >= this.value && m.price <= this.highValue);
+    
+      temp2 = temp2.filter(m => m.price >= this.value && m.price <= this.highValue);
+    
+    
+    
     this.filterproduct = temp2;
   }
 

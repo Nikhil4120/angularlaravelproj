@@ -332,6 +332,7 @@ class ApiController extends Controller implements JWTSubject
         $userid = $request->userid;
         $cartitems = $request->cartitems;
         $charge_id = $request->charge_id;
+        $currency = $request->currency;
         $order_id = "OD_" . uniqid();
         $won = "";
         for ($i=0; $i < count($cartitems); $i++) { 
@@ -344,6 +345,7 @@ class ApiController extends Controller implements JWTSubject
             $data['delievery_status'] = 1;
             $data['order_id'] = $order_id;
             $data['charge_id'] = $charge_id;
+            $data['currency'] = $currency;
             $data['status'] = 1;
             $data['created_at'] = Carbon::now();
             $product = DB::table('products')->where('id',($cartitems[$i])['id'])->first();
@@ -356,7 +358,8 @@ class ApiController extends Controller implements JWTSubject
         }
 
         DB::table('orders')->where('charge_id',$charge_id)->update([
-            'discount'=>$request->discount
+            'discount'=>$request->discount,
+            'coupon'=>$request->coupon
         ]);
         $random = rand(1,6);
         // $won = $random;
@@ -369,6 +372,8 @@ class ApiController extends Controller implements JWTSubject
                 'coupon_id'=>$coupon->id,
                 'user_id'=>$userid,
                 'discount'=>$coupon->percent_off,
+                'expired_at'=>Carbon::tomorrow(),
+                'type'=>0,
                 'isvalid'=>1,
                 'created_at'=>Carbon::now()
             ]);
@@ -382,7 +387,12 @@ class ApiController extends Controller implements JWTSubject
     public function charge(Request $request)
     {
         Stripe::setApiKey(env('STRIPE_SECRET'));
-
+        if($request->currency == 'inr'){
+            $countrycode = "IN";
+        }
+        else{
+            $countrycode = "US";
+        }
          
         
         $customer = Customer::create([
@@ -390,7 +400,7 @@ class ApiController extends Controller implements JWTSubject
             'description'=>'my description',
             'email'=>'admin@gmail.com',
             'source'=>$request->token,
-            'address'=>["city"=>"washington","country"=>"US","line1"=>"abcdefghj","line2"=>"gjfd","postal_code"=>123456,"state"=>"washington"]
+            'address'=>["city"=>"washington","country"=>$countrycode,"line1"=>"abcdefghj","line2"=>"gjfd","postal_code"=>123456,"state"=>"washington"]
         ]);
         // $subscription = Subscription::create([
         //     'customer'=>$customer->id,
@@ -399,8 +409,8 @@ class ApiController extends Controller implements JWTSubject
 
         $charge = Charge::create(array(
             'customer'=>$customer->id,
-            'amount'   => $request->amount *100,
-            'currency' => 'usd',
+            'amount'   => ceil($request->amount *100),
+            'currency' => $request->currency,
             'description'=>"sadcv adff",
             // "source" => $request->token
         ));
@@ -450,10 +460,14 @@ class ApiController extends Controller implements JWTSubject
         $order_quantity = $order->quantity;
         $charge_id = $order->charge_id;
         $total_amount = $order->total_amount;
+
         $total_amount = $total_amount - ($total_amount*$order->discount/100);
+        if($order->currency != 'inr'){
+            $total_amount = $total_amount/70;
+        }
         $refund = Refund::create([
             'charge' => $charge_id,
-            'amount' => $total_amount*100
+            'amount' => ceil($total_amount*100)
             
         ]);
         $product = DB::table('products')->where('id',$productid)->first();
@@ -649,19 +663,74 @@ class ApiController extends Controller implements JWTSubject
         Stripe::setApiKey(env('STRIPE_SECRET'));
         $id = $request->userid;
         $coupon = $request->coupon;
-        $availcoupon = DB::table('coupons')->where('user_id',$id)->where('coupon_id',$coupon)->where('isvalid',1)->get();
-        $countcoupon = count($availcoupon);
+        // $availcoupon = DB::table('coupons')->where('user_id',$id)->where('coupon_id',$coupon)->where('isvalid',1)->where('expired_at','>=',Carbon::now())->get();
+        // $countcoupon = count($availcoupon);
 
+        // if($countcoupon != 0){
+        //     $coupen = Coupon::retrieve($coupon,[]);
+        //     DB::table('coupons')->where('user_id',$id)->where('coupon_id',$coupon)->update([
+        //         'isvalid'=>0
+        //     ]);
+        //     return response()->json(['success' => true,'data' => $availcoupon[0]->discount], 200);
+        // }
+        // else{
+        //     return response()->json(['success' => false,'data' => "Coupon code is not valid"], 200);
+        // }
+
+        $availcoupon = DB::table('coupons')->where('coupon_id',$coupon)->where('expired_at','>=',Carbon::now())->get();
+        $countcoupon = count($availcoupon);
+        
         if($countcoupon != 0){
-            $coupen = Coupon::retrieve($coupon,[]);
-            DB::table('coupons')->where('user_id',$id)->where('coupon_id',$coupon)->update([
-                'isvalid'=>0
-            ]);
-            return response()->json(['success' => true,'data' => $availcoupon[0]->discount], 200);
+
+            $coupontype = $availcoupon[0]->type;
+            
+            if($coupontype == 0){
+                
+                $couponuser = DB::table('coupons')->where('user_id',$id)->where('coupon_id',$coupon)->get();
+
+                if(count($couponuser) != 0){
+
+                    $ordercoupon = DB::table('orders')->where('user_id',$id)->where('coupon',$coupon)->get();
+                    if(count($ordercoupon) == 0){
+                        return response()->json(['success' => true,'data' => $availcoupon[0]->discount], 200);
+                    }
+                    else{
+                        return response()->json(['success' => false,'data' => "Coupon code is not valid"], 200);    
+                    }
+
+                }
+                else{
+                    return response()->json(['success' => false,'data' => "Coupon code is not valid"], 200);
+                }
+
+            }
+            else{
+                $ordercoupon = DB::table('orders')->where('user_id',$id)->where('coupon',$coupon)->get();
+                    if(count($ordercoupon) == 0){
+                        return response()->json(['success' => true,'data' => $availcoupon[0]->discount], 200);
+                    }
+                    else{
+                        return response()->json(['success' => false,'data' => "Coupon code is not valid"], 200);    
+                    }
+            }
+
         }
         else{
             return response()->json(['success' => false,'data' => "Coupon code is not valid"], 200);
         }
+
+
+    }
+
+    public function AllCoupons($id){
+
+        $coupons = DB::table('coupons')->where('user_id',$id)->select('id','coupon_id','discount','isvalid','expired_at')->get();
+        return $coupons;
+    }
+
+    public function GlobalCoupons(){
+        $coupons = DB::table('coupons')->where('type',1)->select('id','coupon_id','discount','isvalid','expired_at')->get();
+        return $coupons;
     }
 
 }

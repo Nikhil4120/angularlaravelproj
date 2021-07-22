@@ -18,9 +18,9 @@ export class OrdersService {
     return this.Http.post<any>(environment.localapi+'/orders',data);
   }
 
-  Checkout(token,amount){
+  Checkout(token,amount,currency){
     
-      return this.Http.post<any>(environment.localapi+'/checkout',{'token':token['id'],'amount':amount});
+      return this.Http.post<any>(environment.localapi+'/checkout',{'token':token['id'],'amount':amount,'currency':currency});
   }
 
   Allorder(id){

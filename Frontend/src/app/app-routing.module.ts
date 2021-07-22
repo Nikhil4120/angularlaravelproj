@@ -13,6 +13,7 @@ import { ContactusComponent } from './contactus/contactus.component';
 import { ProductSearchComponent } from './products/product-search/product-search.component';
 import { OrdersComponent } from './orders/orders.component';
 import { OrderDetailsComponent } from './orders/order-details/order-details.component';
+import { CouponComponent } from './coupon/coupon.component';
 
 
 const routes: Routes = [
@@ -27,7 +28,7 @@ const routes: Routes = [
   {path:'productsearch/:id',component:ProductSearchComponent},
   {path:'orders',component:OrdersComponent},
   {path:'orders/:id',component:OrderDetailsComponent},
-  
+  {path:'coupon',component:CouponComponent},
   
 ];
 

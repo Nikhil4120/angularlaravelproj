@@ -11,7 +11,8 @@
         <figcaption>
             <a routerLink="/products/detail/{{ product.id }}" title="{{ product.product_name }}" class="heading">{{
                 product.product_name }}</a>
-            <span>&#8377;{{ product.price }}</span>
+            <span>{{ product.price|converter:currency|currency:currency:(currency=='inr'?'&#8377;':'$') }}</span>
+            
         </figcaption>
     </figure>
 </div>

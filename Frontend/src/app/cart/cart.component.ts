@@ -7,6 +7,7 @@ import { StateService } from '../services/state.service';
 import { TaxService } from '../services/tax.service';
 import { OrdersService } from '../services/orders.service';
 import {  environment } from 'src/environments/environment';
+import { CurrencyService } from '../services/currency.service';
 
 
 @Component({
@@ -37,6 +38,8 @@ export class CartComponent implements OnInit,OnDestroy {
   couponerror = "";
   couponsuccess = "";
   quantityunavail = -1;
+  coupon = "";
+  currency = 'inr';
 
   constructor(
     private cartservice: CartService,
@@ -45,7 +48,8 @@ export class CartComponent implements OnInit,OnDestroy {
     private StateService: StateService,
     private taxservice: TaxService,
     private Orderservice: OrdersService,
-    private router: Router
+    private router: Router,
+    private currencyservice:CurrencyService
     
   ) {}
 
@@ -72,6 +76,10 @@ export class CartComponent implements OnInit,OnDestroy {
       this.grandtotal();
       window.scroll(0, 0);
     });
+
+    this.currencyservice.obs.subscribe(data=>{
+      this.currency = data;
+    })
 
     this.stripePaymentGateway();
   }
@@ -108,20 +116,24 @@ export class CartComponent implements OnInit,OnDestroy {
 
   applycoupon(coupon){
     this.discount = 0;
+    this.coupon = "";
     this.couponerror = "";
     var userid = JSON.parse(
       atob(localStorage.getItem('token').split('.')[1])
     ).user_id;
     this.isloading = true;
     this.Orderservice.couponapply({userid:userid,coupon:coupon}).subscribe(data=>{
+
       this.isloading = false;
       if(data.success){
+        this.coupon = coupon;
         this.Toastr.success("Your coupon code has been applied");
         this.couponsuccess = "Your coupon code has been applied";
         this.discount = data.data;
       }
       else{
         this.couponerror = data.data;
+        this.coupon = "";
       }
     })
   }
@@ -148,7 +160,11 @@ export class CartComponent implements OnInit,OnDestroy {
       this.Orderservice.Availiabitycheck({cartitems:this.cartitems}).subscribe(data=>{
         this.isloading = false;
         if(data.success){
-          this.pay(this.total - (this.total*this.discount/100) + this.taxamount);
+          let amount = this.total - (this.total*this.discount/100) + this.taxamount;
+          if(this.currency != 'inr'){
+            amount = amount/70;
+          }
+          this.pay(amount);
         }
         else{
           this.Toastr.warning("item is out of stock");
@@ -187,6 +203,8 @@ export class CartComponent implements OnInit,OnDestroy {
     let cartservice = this.cartservice;
     let router = this.router;
     let discount = this.discount;
+    let coupon =this.coupon;
+    let currency = this.currency;
     const strikeCheckout = (<any>window).StripeCheckout.configure({
       key: stripekey,
       locale: 'auto',
@@ -194,11 +212,12 @@ export class CartComponent implements OnInit,OnDestroy {
         console.log(stripeToken);
         
         token = stripeToken;
-        
-        ser.Checkout(stripeToken, amount).subscribe((data) => {
+        toastr.success("payment in progress");
+        ser.Checkout(stripeToken, amount,currency).subscribe((data) => {
+          
           console.log(data);
           ser
-            .PlaceOrder({ cartitems: cartitems, userid: userid,charge_id:data.id,discount: discount})
+            .PlaceOrder({ cartitems: cartitems, userid: userid,charge_id:data.id,discount: discount,coupon:coupon,currency:currency})
             .subscribe((data) => {
               toastr.success(data.data);
               cartservice.clearall();
@@ -212,7 +231,7 @@ export class CartComponent implements OnInit,OnDestroy {
       name: 'RemoteStack',
       description: 'Payment widgets',
       amount: amount * 100,
-      currency: 'inr',
+      currency: this.currency,
 
     });
   }

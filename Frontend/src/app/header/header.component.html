@@ -56,6 +56,17 @@
                                     <li><a routerLink="/orders" title="Orders" (click)="dropclose()" style="cursor: pointer;">Orders</a></li>
                                     <li><a data-toggle="modal"
                                         data-target="#changepassword-popup"  title="Change Password" (click)="dropclose()" style="cursor: pointer;">Change Password</a></li>
+                                    <li><a routerLink="/coupon" (click)="dropclose()" style="cursor: pointer;">Coupons</a></li>
+                                </ul>
+                                
+                            </li>
+                            <li *ngIf="loggedIn" class="dropdown" [ngClass]="{'open':currencytoggle}">
+                                <a class="dropdown-toggle" role="button" (click)="currencysetting()">Currencies <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li [ngClass]="{'active':currency=='inr'}"><a (click)="dropclose()" style="cursor: pointer;" (click)="currencychange('inr')">inr</a></li>
+                                    <li [ngClass]="{'active':currency!='inr'}"><a (click)="dropclose()" style="cursor: pointer;" (click)="currencychange('usd')">usd</a></li>
+                                    
+                                    
                                 </ul>
                                 
                             </li>
@@ -79,7 +90,7 @@
                                                     <img src="../../assets/images/edit.svg" alt="">
                                                 </a>
                                                 <p class="product-name"><a routerLink="">{{ item.product_name}}</a></p>
-                                                <p class="price"> &#8377;{{ item.price }}</p>
+                                                <p class="price"> {{ item.price|converter:currency|currency:currency:(currency=='inr'?'&#8377;':'$')}}</p>
                                                 <p class="qty-wrapper">
                                                     <span>Qty : </span>
                                                     <span>{{ item.product_quantity}}</span>
@@ -98,7 +109,7 @@
                                     </ul>
                                     <div class="summary">
                                         <p class="subtotal">
-                                            <span>Cart Subtotal:</span> &nbsp;<span class="price">&#8377;{{ total }}</span>
+                                            <span>Cart Subtotal:</span> &nbsp;<span class="price">{{ total|converter:currency|currency:currency:(currency=='inr'?'&#8377;':'$') }}</span>
                                         </p>
                                     </div>
                                     <div class="cart-action">

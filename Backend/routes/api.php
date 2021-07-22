@@ -65,3 +65,6 @@ Route::post('/skippassword', [ApiController::class,'PasswordSkip']);
 
 Route::post('/availiabity', [ApiController::class,'Availiabity']);
 Route::post('/couponapply', [ApiController::class,'Couponapply']);
+
+Route::get('/allcoupons/{id}',[ApiController::class,'AllCoupons']);
+Route::get('/globalcoupons',[ApiController::class,'GlobalCoupons']);

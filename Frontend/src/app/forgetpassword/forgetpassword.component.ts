@@ -15,6 +15,7 @@ export class ForgetpasswordComponent implements OnInit , OnDestroy {
   isloading = false;
   error = "";
   phase = 1;
+  phasename = "Forget Password";
   otp = "";
   starttime:number = 0;
   minutes =0;
@@ -40,7 +41,7 @@ export class ForgetpasswordComponent implements OnInit , OnDestroy {
       if(data.success){
         this.email = form.value.email;
         form.reset();
-        this.phase = 2
+        this.phase = 2;
         this.otp = data.data;
         this.starttime = new Date().getTime();
         console.log(this.starttime);

@@ -18,6 +18,8 @@ use App\Http\controllers\TaxAmountController;
 use App\Http\controllers\OrderController;
 use App\Http\controllers\AboutController;
 use App\Http\controllers\ContactController;
+use App\Http\controllers\CouponController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -163,3 +165,5 @@ Route::get('/active/category/{id}',[CategoryController::class,'ActiveCategory'])
  Route::post('/give/reply/{id}',[ContactController::class,'Reply'])->name('give.reply');
 
  Route::get('/all/Coupon',[ContactController::class,'Coupons']);
+ Route::get('/add/Coupon',[CouponController::class,'AddCoupon'])->name('add.coupon');
+ Route::post('/store/coupon',[CouponController::class,'StoreCoupon'])->name('store.coupon');

@@ -1,0 +1,42 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>User Coupons</h2>
+            
+        </div>
+        <hr>
+        <h3 *ngIf="coupons.length == 0">No Coupons Availiable</h3>
+        <div class="col-md-12" *ngFor="let item of coupons">
+            <a class="list-group-item clearfix">
+                <div class="pull-left">
+                    <h4 class="list-group-item-heading">Couponcode: {{ item.coupon_id }}</h4>
+                    <p class="list-group-item-text">Get {{ item.discount }} % discont on it</p>
+                </div>
+                <div class="pull-right">
+                    <!-- <span class="badge badge-danger" *ngIf="item.isvalid == 0">expired</span>
+                    <span class="badge badge-success" *ngIf="item.isvalid == 1">Valid</span> -->
+                    <p>Valid till:{{ item.expired_at|date:'medium'}}</p>
+                </div>
+            </a>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Global Coupons</h2>
+        </div>
+        <div class="col-md-12" *ngFor="let item of globalcoupons">
+            <a class="list-group-item clearfix">
+                <div class="pull-left">
+                    <h4 class="list-group-item-heading">Couponcode: {{ item.coupon_id }}</h4>
+                    <p class="list-group-item-text">Get {{ item.discount }} % discont on it</p>
+                </div>
+                <div class="pull-right">
+                    <!-- <span class="badge badge-danger" *ngIf="item.isvalid == 0">expired</span>
+                    <span class="badge badge-success" *ngIf="item.isvalid == 1">Valid</span> -->
+                    <p>Valid till:{{ item.expired_at|date:'medium'}}</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>

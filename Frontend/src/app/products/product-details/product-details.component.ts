@@ -14,6 +14,7 @@ import { ReviewService } from 'src/app/services/review.service';
 import { HeaderService } from 'src/app/services/header.service';
 import { Review } from 'src/app/models/review.model';
 import { newArray } from '@angular/compiler/src/util';
+import { CurrencyService } from 'src/app/services/currency.service';
 
 @Component({
   selector: 'app-product-details',
@@ -66,7 +67,9 @@ export class ProductDetailsComponent implements OnInit {
   averagerating:any = 0;
   averagestar = 0;
   cartproduct = 0;
-  constructor(private ProductService: ProductService, private route: ActivatedRoute, private AuthService: AuthService, private cartservice: CartService, private toastr: ToastrService, private wishlistservice: WishlistService,private reviewservice:ReviewService,private headerService:HeaderService) { }
+  currency = 'inr';
+
+  constructor(private ProductService: ProductService, private route: ActivatedRoute, private AuthService: AuthService, private cartservice: CartService, private toastr: ToastrService, private wishlistservice: WishlistService,private reviewservice:ReviewService,private headerService:HeaderService,private currencyservice:CurrencyService) { }
 
   ngOnInit(): void {
     this.isloading = true;
@@ -79,6 +82,10 @@ export class ProductDetailsComponent implements OnInit {
       
 
     });
+
+    this.currencyservice.obs.subscribe(data=>{
+      this.currency = data;
+    })
 
     this.route.params.subscribe((params: Params) => {
       this.id = +params['id'];

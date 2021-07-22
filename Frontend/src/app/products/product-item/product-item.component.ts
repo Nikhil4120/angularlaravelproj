@@ -5,6 +5,7 @@ import { CartService } from 'src/app/services/cart.service';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment';
+import { CurrencyService } from 'src/app/services/currency.service';
 
 @Component({
   selector: 'app-product-item',
@@ -17,12 +18,18 @@ export class ProductItemComponent implements OnInit {
   @Input() Index:number;
   isloggedin = false;
   envimage = environment.image;
+  currency="inr";
   
-  constructor(private AuthService:AuthService,private cartservice:CartService,private toastr:ToastrService) { }
+  
+  constructor(private AuthService:AuthService,private cartservice:CartService,private toastr:ToastrService,private currencyservice:CurrencyService) { }
   
   ngOnInit(): void {
     this.AuthService.authstatus.subscribe(value=>{
       this.isloggedin  = value;
+    });
+    this.currencyservice.obs.subscribe(data=>{
+      this.currency = data;
+      
     })
   }
   

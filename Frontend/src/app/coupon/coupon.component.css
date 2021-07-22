@@ -1,0 +1,12 @@
+.container{
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.badge-success{
+    background-color: green;
+}
+
+.badge-danger{
+    background-color: red;
+}

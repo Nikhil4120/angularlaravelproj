@@ -11,6 +11,8 @@ import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment';
 import { NgForm } from '@angular/forms';
 import { HeaderService } from '../services/header.service';
+import { LocationService } from '../services/location.service';
+import { CurrencyService } from '../services/currency.service';
 
 @Component({
   selector: 'app-header',
@@ -27,6 +29,8 @@ export class HeaderComponent implements OnInit {
   issubcategory = [];
   total = 0;
   settingopen = false;
+  currencytoggle = false;
+  currency = 'inr';
   @ViewChild('closecart',{static:true}) closecart:ElementRef;
 
   constructor(
@@ -38,7 +42,9 @@ export class HeaderComponent implements OnInit {
     private cartService: CartService,
     private toastr: ToastrService,
     private headerService: HeaderService,
-    private route:ActivatedRoute
+    private route:ActivatedRoute,
+    private locationservice:LocationService,
+    private currencyservice:CurrencyService
   ) {}
 
   ngOnInit(): void {
@@ -60,6 +66,9 @@ export class HeaderComponent implements OnInit {
         );
       }
     });
+    this.currencyservice.obs.subscribe(data=>{
+      this.currency = data;
+    })
     this.CategoryService.getCategories().subscribe((data) => {
       this.category = data;
     });
@@ -113,6 +122,10 @@ export class HeaderComponent implements OnInit {
     }
   }
 
+  currencysetting(){
+    this.currencytoggle = !this.currencytoggle;
+  }
+
   logout() {
     this.tokenservice.remove();
     localStorage.removeItem('cart');
@@ -141,4 +154,7 @@ export class HeaderComponent implements OnInit {
     this.settingopen = false;
   }
 
+  currencychange(name){
+    this.currencyservice.Storecurrency(name);
+  }
 }
