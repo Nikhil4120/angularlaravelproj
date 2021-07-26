@@ -16,7 +16,7 @@ import { ToastrService } from 'ngx-toastr';
 export class UserProfileComponent implements OnInit {
 
   @ViewChild('updateForm', { static: false }) updateform: NgForm;
-  backenderror = "";
+  backenderror:string = "";
   intrest = ["men", "women", "kids"];
   isloading = false;
   formdata = {

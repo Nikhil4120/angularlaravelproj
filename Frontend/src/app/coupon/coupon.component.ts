@@ -5,31 +5,23 @@ import { CouponService } from '../services/coupon.service';
 @Component({
   selector: 'app-coupon',
   templateUrl: './coupon.component.html',
-  styleUrls: ['./coupon.component.css']
+  styleUrls: ['./coupon.component.css'],
 })
 export class CouponComponent implements OnInit {
+  userid: number = JSON.parse(atob(localStorage.getItem('token').split('.')[1]))
+    .user_id;
+  coupons: Coupon[] = [];
+  expirecoupons: Coupon[] = [];
 
-  userid = JSON.parse(
-    atob(localStorage.getItem('token').split('.')[1])
-  ).user_id;
-  coupons:Coupon[] = [];
-  expirecoupons:Coupon[] = [];
-  
-  constructor(private couponservice:CouponService) { }
+  constructor(private couponservice: CouponService) {}
 
   ngOnInit(): void {
-    this.couponservice.Getcoupons(this.userid).subscribe(data=>{
-      
-      this.coupons.push(...data);
+    this.couponservice.Getcoupons(this.userid).subscribe((data) => {
+      this.coupons = data;
     });
-    // this.couponservice.globalcoupons().subscribe(data=>{
-      
-    //   this.coupons.push(...data);
-    // })
-    this.couponservice.expirecoupons(this.userid).subscribe(data=>{
+
+    this.couponservice.expirecoupons(this.userid).subscribe((data) => {
       this.expirecoupons = data;
-    })
-
+    });
   }
-
 }

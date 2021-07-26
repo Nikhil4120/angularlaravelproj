@@ -3,13 +3,15 @@
     <div class="row">
         <h2 *ngIf="wishlists.length == 0">No wishlist availiable</h2>
         <div class="col-md-12" *ngFor="let item of wishlists">
-            <div class="row list-group-item">
+            <div class="row list-group-item" [ngClass]="{'backred': item.status!=1 || item.quantity <=0}">
                 <div class="col-md-2">
-                    <img src="{{ envimage}}/{{ item.product_image}}" alt="" class="img-responsive" style="max-height: 100px;">
+                    <img src="{{ envimage}}/{{ item.product_image}}" alt="">
                 </div>
                 <div class="col-md-8">
-                    <a class="list-group-item-heading heading" routerLink="/products/detail/{{ item.product_id }}" style="font-size: 20px;font-weight: 500">{{ item.product_name }}</a><br>
-                    <p class="list-group-item-text" *ngIf="item.status!=1 || item.quantity <=0" style="margin-top: 20px;">Currently item not availiable</p>
+                    <a class="list-group-item-heading heading" routerLink="/products/detail/{{ item.product_id }}" style="font-size: 20px;font-weight: 500" *ngIf="item.status==1 && item.quantity >0">{{ item.product_name }}</a>
+                    <a class="list-group-item-heading heading" style="font-size: 20px;font-weight: 500" *ngIf="item.status!=1 || item.quantity <= 0">{{ item.product_name }}</a><br>
+                    <br>
+                    <p class="list-group-item-text error" *ngIf="item.status!=1 || item.quantity <=0" style="margin-top: 20px;">Currently item not availiable</p>
                     <p class="list-group-item-text" *ngIf="item.status==1 && item.quantity >0" style="margin-top: 20px;">Quantity: {{ item.quantity}} Price: {{ item.price|converter:currency|currency:currency:(currency=='inr'?'&#8377;':'$')}}</p>
                     
                 </div>

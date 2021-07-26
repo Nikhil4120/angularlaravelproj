@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { NewsletterService } from '../services/newsletter.service';
 
 @Component({
@@ -8,9 +9,9 @@ import { NewsletterService } from '../services/newsletter.service';
   styleUrls: ['./footer.component.css']
 })
 export class FooterComponent implements OnInit {
-  success = "";
-  error = "";
-  constructor(private newsletterservice: NewsletterService) { }
+  success:string = "";
+  error:string = "";
+  constructor(private newsletterservice: NewsletterService,private toastr:ToastrService) { }
 
   ngOnInit(): void {
   }
@@ -26,10 +27,12 @@ export class FooterComponent implements OnInit {
         this.success = data.message;
       }
       else {
-        console.log(data.message);
+        
         this.error = data.message.email;
       }
       form.reset();
+    },(error) => {
+      this.toastr.error('Something went wrong!!!');
     })
   }
 

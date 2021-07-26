@@ -31,11 +31,11 @@
                                 <li class="custom-check" *ngFor="let item of subcategory;let i=index">
                                     <label>
                                         <input type="checkbox" class="icheck" value="{{ item.id }}"
-                                            (change)="filterbysubcat($event,item.subcategory_name,i)" style="cursor:pointer" [checked]="checkedsubcat[i]==1"> {{
+                                            (change)="filterbysubcat($event,i)" style="cursor:pointer" [checked]="checkedsubcat[i]==1"> {{
                                         item.subcategory_name }} <span>({{item.count}})</span>
                                     </label>
                                 </li>
-                                
+                                <li><a (click)="resetsubcategory()" title="Reset" class="reset-link" style="cursor: pointer;">Reset</a></li>
                             </ul>
                         </div>
                     </div>
@@ -44,7 +44,7 @@
                         <div class="filter-option-inner collapse in" id="collapse2">
                             <ul class="colour_family_list clearfix">
                                 <li *ngFor="let item of color;let i=index">
-                                    <a title="{{ item.color_name }}" (click)="filterbycolor($event,item.color_name)" style="cursor: pointer;" [ngClass]="{'checkedcolor':checkedcolor==item.color_name}"> <span
+                                    <a title="{{ item.color_name }}" (click)="filterbycolor(item.color_name)" style="cursor: pointer;" [ngClass]="{'checkedcolor':checkedcolor==item.color_name}"> <span
                                             [style.background-color]="item.color_code"></span> {{ item.color_name }}
                                         <i>({{ item.count }})</i></a>
                                 </li>
@@ -59,7 +59,7 @@
                             <div class="info">{{ filterproduct.length }} items</div>
                             
                             <ng5-slider [(value)]="value" [(highValue)]="highValue" [(options)]="options"
-                                (valueChange)="filterbyprice($event)"></ng5-slider>
+                                (valueChange)="filterbyprice()"></ng5-slider>
                             
                         </div>
                     </div>
@@ -71,12 +71,13 @@
                                 <li class="custom-check" *ngFor="let item of size;let i=index">
                                     <label>
                                         <input type="checkbox" class="icheck" value="{{ item.id }}"
-                                            (change)="filterbysize($event,item.size_name,i)" style="cursor:pointer"> {{ item.size_name
+                                            (change)="filterbysize($event,i)" style="cursor:pointer" [checked]="checkedsize[i]==1"> {{ item.size_name
                                         }} <span>({{ item.count}})</span>
                                     </label>
                                 </li>
-
+                                <li><a (click)="resetsize()" title="Reset" class="reset-link" style="cursor: pointer;">Reset</a></li>
                             </ul>
+                            
                         </div>
                     </div>
                 </div>

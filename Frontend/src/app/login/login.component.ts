@@ -13,13 +13,12 @@ import { TokenService } from '../services/token.service';
 export class LoginComponent implements OnInit {
   @ViewChild('modal', { static: true }) modal;
   @ViewChild('openmodal', { static: true }) openmodal;
-  isloading = false;
-  error = '';
+  isloading: boolean = false;
+  error: string = '';
 
   constructor(
     private AuthService: AuthService,
-    private tokenservice: TokenService,
-    private router: Router
+    private tokenservice: TokenService
   ) {}
 
   ngOnInit(): void {
@@ -30,7 +29,7 @@ export class LoginComponent implements OnInit {
     this.error = '';
     let authobs: Observable<any>;
     this.isloading = true;
-     this.AuthService.login(form.value).subscribe(
+    this.AuthService.login(form.value).subscribe(
       (data) => {
         this.isloading = false;
 
@@ -38,7 +37,6 @@ export class LoginComponent implements OnInit {
         this.tokenservice.handle(data['token']);
         this.AuthService.changeAuthStatus(true);
         this.modal.nativeElement.click();
-        
       },
       (error) => {
         console.log(error.error.message);
@@ -46,15 +44,13 @@ export class LoginComponent implements OnInit {
         this.error = error.error.message;
       }
     );
-    
   }
 
-  modalopen(){
-    console.log(this.openmodal);        
+  modalopen() {
+    console.log(this.openmodal);
   }
 
   modalclose() {
     this.modal.nativeElement.click();
   }
-  
 }

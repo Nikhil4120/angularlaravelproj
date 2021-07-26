@@ -1,41 +1,47 @@
 <div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <h2>Availiable Coupons</h2>
-            
-        </div>
-        <hr>
-        <h3 *ngIf="coupons.length == 0">No Coupons Availiable</h3>
-        <div class="col-md-12" *ngFor="let item of coupons">
-            <a class="list-group-item clearfix">
-                <div class="pull-left">
-                    <h4 class="list-group-item-heading">Couponcode: {{ item.coupon_id }}</h4>
-                    <p class="list-group-item-text">Get {{ item.discount }} % discont on it</p>
-                </div>
-                <div class="pull-right">
-                    <p>Valid till:{{ item.expired_at|date:'medium'}}</p>
-                </div>
-            </a>
-        </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h2>Availiable Coupons</h2>
     </div>
-    <hr>
-    <div class="row">
-        <div class="col-md-12">
-            <h2>Expired Coupons</h2>
-            
+    <hr />
+    <h3 *ngIf="coupons.length == 0">No Coupons Availiable</h3>
+    <div class="col-md-12" *ngFor="let item of coupons">
+      <a class="list-group-item clearfix">
+        <div class="pull-left">
+          <h4 class="list-group-item-heading">
+            Couponcode: {{ item.coupon_id }}
+          </h4>
+          <p class="list-group-item-text">
+            Get {{ item.discount }} % discont on it
+          </p>
         </div>
-        <hr>
-        <h3 *ngIf="coupons.length == 0">No Coupons Availiable</h3>
-        <div class="col-md-12" *ngFor="let item of expirecoupons">
-            <a class="list-group-item clearfix">
-                <div class="pull-left">
-                    <h4 class="list-group-item-heading">Couponcode: {{ item.coupon_id }}</h4>
-                    <p class="list-group-item-text">Get {{ item.discount }} % discont on it</p>
-                </div>
-                <div class="pull-right">
-                    <span class="badge badge-info">expired</span>
-                </div>
-            </a>
+        <div class="pull-right">
+          <p>Valid till:{{ item.expired_at | date }}</p>
         </div>
+      </a>
     </div>
+  </div>
+  <hr />
+  <div class="row">
+    <div class="col-md-12">
+      <h2>Expired Coupons</h2>
+    </div>
+    <hr />
+    <h3 *ngIf="coupons.length == 0">No Coupons Availiable</h3>
+    <div class="col-md-12" *ngFor="let item of expirecoupons">
+      <a class="list-group-item clearfix">
+        <div class="pull-left">
+          <h4 class="list-group-item-heading">
+            Couponcode: {{ item.coupon_id }}
+          </h4>
+          <p class="list-group-item-text">
+            Get {{ item.discount }} % discont on it
+          </p>
+        </div>
+        <div class="pull-right">
+          <span class="badge badge-info">expired</span>
+        </div>
+      </a>
+    </div>
+  </div>
 </div>

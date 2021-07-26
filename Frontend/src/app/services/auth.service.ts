@@ -40,7 +40,7 @@ export class AuthService {
 
   Refreshtoken(token){
     this.http.get(environment.localapi+'/refresh?token='+token).subscribe(data=>{
-      console.log(data);
+      
       this.tokenservice.set(data);
     });
   }

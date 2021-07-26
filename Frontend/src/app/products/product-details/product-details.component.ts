@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { ProductService } from 'src/app/services/product.service';
@@ -19,20 +18,18 @@ import { CurrencyService } from 'src/app/services/currency.service';
 @Component({
   selector: 'app-product-details',
   templateUrl: './product-details.component.html',
-  styleUrls: ['./product-details.component.css']
+  styleUrls: ['./product-details.component.css'],
 })
-
 export class ProductDetailsComponent implements OnInit {
-
   envimage = environment.image;
-  isloading = true;
-  id: number;
+  isloading: boolean = true;
+  product_id: number;
   product: any = [];
   allproduct: any;
   size: [];
-  wishlist = false;
-  quantity:any=[];
-  toggle:boolean = false;
+  wishlist: boolean = false;
+  quantity: any = [];
+  toggle: boolean = false;
   customOptions: OwlOptions = {
     loop: true,
     mouseDrag: true,
@@ -43,172 +40,203 @@ export class ProductDetailsComponent implements OnInit {
     navText: ['', ''],
     responsive: {
       0: {
-        items: 1
+        items: 1,
       },
       400: {
-        items: 4
+        items: 4,
       },
       740: {
-        items: 3
+        items: 3,
       },
       940: {
-        items: 1
-      }
+        items: 1,
+      },
     },
-    nav: true
-  }
-  product_size = "";
-  product_quantity = 1;
-  isloggedin = false;
+    nav: true,
+  };
+  product_size: string = '';
+  product_quantity: number = 1;
+  isloggedin: boolean = false;
   userid: number;
   wishlists = [];
-  allreviews:Review[] = [];
+  allreviews: Review[] = [];
   filterreviews = [];
-  averagerating:any = 0;
+  averagerating: any = 0;
   averagestar = 0;
   cartproduct = 0;
-  currency = 'inr';
+  currency: string = 'inr';
   wishlist_id = -1;
 
-  constructor(private ProductService: ProductService, private route: ActivatedRoute, private AuthService: AuthService, private cartservice: CartService, private toastr: ToastrService, private wishlistservice: WishlistService,private reviewservice:ReviewService,private headerService:HeaderService,private currencyservice:CurrencyService) { }
+  constructor(
+    private ProductService: ProductService,
+    private route: ActivatedRoute,
+    private AuthService: AuthService,
+    private cartservice: CartService,
+    private toastr: ToastrService,
+    private wishlistservice: WishlistService,
+    private reviewservice: ReviewService,
+    private headerService: HeaderService,
+    private currencyservice: CurrencyService
+  ) {}
 
   ngOnInit(): void {
     this.isloading = true;
-    
-    this.AuthService.authstatus.subscribe(data => {
-      this.isloggedin = data;
-      if(this.isloggedin){
-        this.userid = JSON.parse(atob(localStorage.getItem('token').split('.')[1])).user_id;
-      }
-      
 
+    this.AuthService.authstatus.subscribe((data) => {
+      this.isloggedin = data;
+      if (this.isloggedin) {
+        this.userid = JSON.parse(
+          atob(localStorage.getItem('token').split('.')[1])
+        ).user_id;
+      }
     });
 
-    this.currencyservice.obs.subscribe(data=>{
+    this.currencyservice.obs.subscribe((data) => {
       this.currency = data;
-    })
+    });
 
     this.route.params.subscribe((params: Params) => {
-      this.id = +params['id'];
-      this.product_size = "";
-
-      
+      this.product_id = +params['id'];
+      this.product_size = '';
 
       let productavail = JSON.parse(localStorage.getItem('cart'));
-      if(productavail){
-        productavail = productavail.filter(m=>m.id == this.id);
+      if (productavail) {
+        productavail = productavail.filter((m) => m.id == this.product_id);
         console.log(productavail.length);
-        if(productavail.length !=0){
-          this.cartproduct = parseInt((productavail[0])['product_quantity']);
+        if (productavail.length != 0) {
+          this.cartproduct = parseInt(productavail[0]['product_quantity']);
         }
       }
-      
-
 
       this.product_quantity = 1;
       this.wishlist = false;
-      
-      this.ProductService.GetProduct().subscribe(data => {
-        this.allproduct = data.filter(item => item.id != this.id);
-        this.product = data.filter(item => item.id == this.id)[0];
-        this.size = this.product.size_id.split(",");
+
+      this.ProductService.GetProduct().subscribe((data) => {
+        this.allproduct = data.filter((item) => item.id != this.product_id);
+        this.product = data.filter((item) => item.id == this.product_id)[0];
+        this.size = this.product.size_id.split(',');
         console.log(this.product.quantity - this.cartproduct);
-        if(this.product.quantity - this.cartproduct != 0){
+        if (this.product.quantity - this.cartproduct != 0) {
           this.quantity = new Array(this.product.quantity - this.cartproduct);
         }
-        
+
         this.route.queryParams.subscribe((params: any) => {
           if (params.size) {
             this.product_size = params.size;
           }
-        })
+        });
         window.scroll(0, 0);
         this.isloading = false;
       });
-      this.wishlistservice.Wishlist().subscribe(data => {
+      this.wishlistservice.Wishlist().subscribe((data) => {
         this.wishlists = data.data;
-        if (this.wishlists.find(m => m.product_id == this.id && m.user_id == this.userid)) {
-          this.wishlist_id = (this.wishlists.find(m => m.product_id == this.id && m.user_id == this.userid)).id;
+        if (
+          this.wishlists.find(
+            (m) => m.product_id == this.product_id && m.user_id == this.userid
+          )
+        ) {
+          this.wishlist_id = this.wishlists.find(
+            (m) => m.product_id == this.product_id && m.user_id == this.userid
+          ).id;
           this.wishlist = true;
         }
       });
-      this.reviewservice.Allreview(this.id).subscribe(data=>{
+      this.reviewservice.Allreview(this.product_id).subscribe((data) => {
         this.allreviews = data;
-        if(this.allreviews.length != 0){
-          const sum = this.allreviews.reduce((sum,current)=>sum+current.review,0);
-        this.averagerating = (sum/(this.allreviews.length)).toFixed(2);
-        this.averagestar = Math.round(this.averagerating);
+        if (this.allreviews.length != 0) {
+          const sum = this.allreviews.reduce(
+            (sum, current) => sum + current.review,
+            0
+          );
+          this.averagerating = (sum / this.allreviews.length).toFixed(2);
+          this.averagestar = Math.round(this.averagerating);
         }
-        
-        this.filterreviews = this.allreviews.slice(0,5);
+
+        this.filterreviews = this.allreviews.slice(0, 5);
       });
     });
   }
 
   addtocart(product) {
-    if(this.product.quantity < this.product_quantity){
-      this.toastr.warning("Out of Stock");
-    }
-    else{
+    if (this.product.quantity < this.product_quantity) {
+      this.toastr.warning('Out of Stock');
+    } else {
       product['size'] = this.product_size;
       product['product_quantity'] = this.product_quantity;
       this.quantity = new Array(this.quantity.length - this.product_quantity);
       this.cartservice.addTocart(product);
-      // this.toastr.success("Your item is added to cart");
     }
   }
 
   addwishlist() {
-    this.wishlistservice.Addwishlist({ user_id: this.userid, product_id: this.id }).subscribe(data => {
-      this.toastr.success("Item Added to wishlist");
-      this.wishlist = true;
-    });
+    this.wishlistservice
+      .Addwishlist({ user_id: this.userid, product_id: this.product_id })
+      .subscribe(
+        (data) => {
+          this.toastr.success('Item Added to wishlist');
+          this.wishlist = true;
+        },
+        (error) => {
+          this.toastr.error('Something went wrong!!!');
+        }
+      );
   }
 
   removewishlist(id) {
-    this.wishlistservice.Removewishlist(id).subscribe(data => {
-      this.toastr.success("Item Removed to wishlist");
-      this.wishlist = false;
-    });
-
-  }
-  
-  onSubmit(form:NgForm){
-    this.isloading= true;
-    this.reviewservice.Addreview({review:form.value.rating,description:form.value.description,user_id:this.userid,product_id:this.id}).subscribe(data=>{
-      this.isloading = false;
-      this.toastr.success("Review Added Successfully");
-      form.reset();
-      this.reviewservice.Allreview(this.id).subscribe(data=>{
-        this.allreviews = data;
-        const sum = this.allreviews.reduce((sum,current)=>sum+current.review,0);
-        this.averagerating = (sum/(this.allreviews.length)).toFixed(2);
-        this.averagestar = Math.round(this.averagerating);
-        this.filterreviews = data.slice(0,5);
-      })
-    }
+    this.wishlistservice.Removewishlist(id).subscribe(
+      (data) => {
+        this.toastr.success('Item Removed to wishlist');
+        this.wishlist = false;
+      },
+      (error) => {
+        this.toastr.error('Something went wrong!!!');
+      }
     );
+  }
+
+  onSubmit(form: NgForm) {
+    this.isloading = true;
+    this.reviewservice
+      .Addreview({
+        review: form.value.rating,
+        description: form.value.description,
+        user_id: this.userid,
+        product_id: this.product_id,
+      })
+      .subscribe((data) => {
+        this.isloading = false;
+        this.toastr.success('Review Added Successfully');
+        form.reset();
+        this.reviewservice.Allreview(this.product_id).subscribe((data) => {
+          this.allreviews = data;
+          const sum = this.allreviews.reduce(
+            (sum, current) => sum + current.review,
+            0
+          );
+          this.averagerating = (sum / this.allreviews.length).toFixed(2);
+          this.averagestar = Math.round(this.averagerating);
+          this.filterreviews = data.slice(0, 5);
+        });
+      });
   }
 
   subcategorychange(name) {
     this.headerService.Storesubcategory(name);
-    
   }
 
   categorychange() {
     this.headerService.Storesubcategory('');
   }
 
-  counter(i:number){
+  counter(i: number) {
     return newArray(i);
   }
 
-  viewmore(){
+  viewmore() {
     this.filterreviews = this.allreviews;
   }
 
-  reviewtoggle(){
+  reviewtoggle() {
     this.toggle = !this.toggle;
   }
-  
 }

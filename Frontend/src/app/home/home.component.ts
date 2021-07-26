@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit {
 
   product:Product[] = [];
   filterproduct = [];
-  i = 8;
+  no_of_records = 8;
   sliders = [];
   envimage = environment.image;
 
@@ -49,7 +49,7 @@ export class HomeComponent implements OnInit {
     window.scroll(0,0);
     this.ProductService.GetProduct().subscribe(data=>{
       this.product = data.filter(m=>m.istrending == 1);
-      this.filterproduct = this.product.slice(0,this.i);
+      this.filterproduct = this.product.slice(0,this.no_of_records);
     });
     this.sliderservice.GetSlider().subscribe(data=>{
       this.sliders = data.data.slice(0,3);
@@ -57,8 +57,8 @@ export class HomeComponent implements OnInit {
   }
   
   moreproduct(){
-    this.i = this.i + 4; 
-   this.filterproduct =  this.product.slice(0,this.i);
+    this.no_of_records = this.no_of_records + 4; 
+   this.filterproduct =  this.product.slice(0,this.no_of_records);
   }
   
 }

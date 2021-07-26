@@ -5,24 +5,28 @@ import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-contactus',
   templateUrl: './contactus.component.html',
-  styleUrls: ['./contactus.component.css']
+  styleUrls: ['./contactus.component.css'],
 })
 export class ContactusComponent implements OnInit {
-  isloading = false;
-  constructor(private contactservice:ContactService,private toastr:ToastrService) { }
+  isloading:boolean = false;
+  constructor(
+    private contactservice: ContactService,
+    private toastr: ToastrService
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
-  onSubmit(form:NgForm){
+  onSubmit(form: NgForm) {
     this.isloading = true;
-    this.contactservice.Contactus(form.value).subscribe(data=>{
-      this.isloading = false;
-      form.reset();
-      this.toastr.success("Mail Sent Successfully");
-    },error=>{
-      this.toastr.error(error.error.message);
-    })
+    this.contactservice.Contactus(form.value).subscribe(
+      (data) => {
+        this.isloading = false;
+        form.reset();
+        this.toastr.success('Mail Sent Successfully');
+      },
+      (error) => {
+        this.toastr.error(error.error.message);
+      }
+    );
   }
-
 }

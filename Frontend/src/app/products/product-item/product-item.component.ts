@@ -10,38 +10,34 @@ import { CurrencyService } from 'src/app/services/currency.service';
 @Component({
   selector: 'app-product-item',
   templateUrl: './product-item.component.html',
-  styleUrls: ['./product-item.component.css']
+  styleUrls: ['./product-item.component.css'],
 })
 export class ProductItemComponent implements OnInit {
-
-  @Input() product:Product;
-  @Input() Index:number;
+  @Input() product: Product;
+  @Input() Index: number;
   isloggedin = false;
   envimage = environment.image;
-  currency="inr";
-  
-  
-  constructor(private AuthService:AuthService,private cartservice:CartService,private toastr:ToastrService,private currencyservice:CurrencyService) { }
-  
+  currency = 'inr';
+
+  constructor(
+    private AuthService: AuthService,
+    private cartservice: CartService,
+    private toastr: ToastrService,
+    private currencyservice: CurrencyService
+  ) {}
+
   ngOnInit(): void {
-    this.AuthService.authstatus.subscribe(value=>{
-      this.isloggedin  = value;
+    this.AuthService.authstatus.subscribe((value) => {
+      this.isloggedin = value;
     });
-    this.currencyservice.obs.subscribe(data=>{
+    this.currencyservice.obs.subscribe((data) => {
       this.currency = data;
-      
-    })
+    });
   }
-  
-  addcart(product){
+
+  addcart(product) {
     let positiony = window.scrollY;
     this.cartservice.addTocart(product);
-    window.scroll(0,positiony);
-    
-      
-   
-    
-
+    window.scroll(0, positiony);
   }
-
 }

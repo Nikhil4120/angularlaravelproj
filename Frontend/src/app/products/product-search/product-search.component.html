@@ -28,9 +28,11 @@
                             <ul>
                                 <li class="custom-check" *ngFor="let item of subcategory;let i=index">
                                     <label>
-                                        <input type="checkbox" class="icheck" (change)="filterbysubcat($event,item.subcategory_name,i)" style="cursor:pointer"> {{ item.subcategory_name }} <span>({{ item.count }})</span>
+                                        <input type="checkbox" class="icheck" (change)="filterbysubcat($event,item.subcategory_name,i)" style="cursor:pointer" [checked]="checkedsubcat[i]==1
+                                        "> {{ item.subcategory_name }} <span>({{ item.count }})</span>
                                     </label>
                                 </li>
+                                <li><a (click)="resetsubcategory()" title="Reset" class="reset-link" style="cursor: pointer;">Reset</a></li>
                             </ul>
                         </div>
                     </div>
@@ -66,11 +68,11 @@
                                 <li class="custom-check" *ngFor="let item of size;let i=index">
                                     <label>
                                         <input type="checkbox" class="icheck" value="{{ item.id }}" (change)="filterbysize($event,item.size_name,i)" style="cursor:pointer"
-                                            > {{ item.size_name
+                                        [checked]="checkedsize[i]==1"> {{ item.size_name
                                         }} <span>({{ item.count }})</span>
                                     </label>
                                 </li>
-                                
+                                <li><a (click)="resetsize()" title="Reset" class="reset-link" style="cursor: pointer;">Reset</a></li>
                             </ul>
                         </div>
                     </div>

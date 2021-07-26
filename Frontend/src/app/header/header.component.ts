@@ -31,7 +31,7 @@ export class HeaderComponent implements OnInit {
   settingopen = false;
   currencytoggle = false;
   currency = 'inr';
-  @ViewChild('closecart',{static:true}) closecart:ElementRef;
+  @ViewChild('closecart', { static: true }) closecart: ElementRef;
 
   constructor(
     private CategoryService: CategoryService,
@@ -42,13 +42,12 @@ export class HeaderComponent implements OnInit {
     private cartService: CartService,
     private toastr: ToastrService,
     private headerService: HeaderService,
-    private route:ActivatedRoute,
-    private locationservice:LocationService,
-    private currencyservice:CurrencyService
+    private route: ActivatedRoute,
+    private locationservice: LocationService,
+    private currencyservice: CurrencyService
   ) {}
 
   ngOnInit(): void {
-    
     this.AuthService.authstatus.subscribe((value) => {
       this.loggedIn = value;
       if (this.loggedIn) {
@@ -58,27 +57,35 @@ export class HeaderComponent implements OnInit {
             this.username = data['user'].username;
           },
           (error) => {
-            this.toastr.error(
-              error.error.message
-            );
+            this.toastr.error(error.error.message);
             this.logout();
           }
         );
       }
+    },(error) => {
+      this.toastr.error(error.error.message);
     });
-    this.currencyservice.obs.subscribe(data=>{
+    this.currencyservice.obs.subscribe((data) => {
       this.currency = data;
-    })
+    },(error) => {
+      this.toastr.error(error.error.message);
+    });
     this.CategoryService.getCategories().subscribe((data) => {
       this.category = data;
+    },(error) => {
+      this.toastr.error(error.error.message);
     });
     this.SubcategoryService.getSubcategories().subscribe((data) => {
       this.subcategory = data;
       this.issubcategories();
+    },(error) => {
+      this.toastr.error(error.error.message);
     });
     this.cartService.getCartProducts().subscribe((data) => {
       this.cartitems = data;
       this.grandtotal();
+    },(error) => {
+      this.toastr.error(error.error.message);
     });
     this.cartitem();
   }
@@ -122,7 +129,7 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  currencysetting(){
+  currencysetting() {
     this.currencytoggle = !this.currencytoggle;
   }
 
@@ -135,27 +142,25 @@ export class HeaderComponent implements OnInit {
 
   subcategorychange(name) {
     this.headerService.Storesubcategory(name);
-    
   }
 
   categorychange() {
     this.headerService.Storesubcategory('');
   }
 
-  hidecart(){
+  hidecart() {
     this.closecart.nativeElement.click();
   }
 
-  setting(){
+  setting() {
     this.settingopen = !this.settingopen;
   }
 
-  dropclose(){
+  dropclose() {
     this.settingopen = false;
   }
 
-  
-  currencychange(name){
+  currencychange(name) {
     this.currencyservice.Storecurrency(name);
   }
 }
