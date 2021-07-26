@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 20, 2021 at 02:29 PM
+-- Generation Time: Jul 26, 2021 at 07:14 AM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 7.4.19
 
@@ -113,7 +113,31 @@ INSERT INTO `cancelorders` (`id`, `order_id`, `user_id`, `reason`, `description`
 (13, 42, 6, 'Order Placed By mistake', NULL, '2021-07-20 09:25:54', NULL),
 (14, 44, 6, 'I have Changed my mind', NULL, '2021-07-20 10:16:08', NULL),
 (15, 46, 6, 'I have Changed my mind', NULL, '2021-07-20 11:23:38', NULL),
-(16, 45, 6, 'I have Changed my mind', NULL, '2021-07-20 11:24:09', NULL);
+(16, 45, 6, 'I have Changed my mind', NULL, '2021-07-20 11:24:09', NULL),
+(17, 48, 6, 'Product price is decreased', NULL, '2021-07-20 13:03:10', NULL),
+(18, 50, 6, 'I have Changed my mind', NULL, '2021-07-21 04:16:11', NULL),
+(19, 51, 6, 'I have Changed my mind', NULL, '2021-07-21 04:54:31', NULL),
+(20, 52, 6, 'I have Changed my mind', NULL, '2021-07-21 05:15:26', NULL),
+(21, 53, 6, 'I have Changed my mind', NULL, '2021-07-21 05:26:18', NULL),
+(22, 54, 6, 'I have Changed my mind', NULL, '2021-07-21 05:43:45', NULL),
+(23, 55, 6, 'I have Changed my mind', NULL, '2021-07-21 06:27:59', NULL),
+(24, 47, 6, 'I have Changed my mind', NULL, '2021-07-21 07:16:54', NULL),
+(25, 56, 6, 'I have Changed my mind', NULL, '2021-07-21 07:25:56', NULL),
+(26, 57, 6, 'I have Changed my mind', NULL, '2021-07-21 08:34:36', NULL),
+(27, 58, 6, 'I have Changed my mind', NULL, '2021-07-21 09:12:34', NULL),
+(28, 59, 6, 'I have Changed my mind', NULL, '2021-07-21 13:03:54', NULL),
+(29, 60, 6, 'Product price is decreased', NULL, '2021-07-21 13:32:20', NULL),
+(30, 61, 6, 'I have Changed my mind', NULL, '2021-07-21 15:18:48', NULL),
+(31, 62, 6, 'I have Changed my mind', NULL, '2021-07-21 16:08:01', NULL),
+(32, 64, 6, 'I have Changed my mind', NULL, '2021-07-22 08:51:24', NULL),
+(33, 65, 6, 'I have Changed my mind', NULL, '2021-07-22 09:24:20', NULL),
+(34, 66, 6, 'I have Changed my mind', NULL, '2021-07-22 10:44:17', NULL),
+(35, 67, 6, 'I have Changed my mind', NULL, '2021-07-22 11:10:15', NULL),
+(36, 68, 6, 'I have Changed my mind', NULL, '2021-07-22 11:19:43', NULL),
+(37, 69, 6, 'I have Changed my mind', NULL, '2021-07-22 11:27:45', NULL),
+(38, 70, 6, 'I have Changed my mind', NULL, '2021-07-22 11:48:44', NULL),
+(39, 71, 6, 'I have Changed my mind', NULL, '2021-07-22 11:51:11', NULL),
+(40, 76, 6, 'Product price is decreased', NULL, '2021-07-26 04:45:32', NULL);
 
 -- --------------------------------------------------------
 
@@ -267,8 +291,10 @@ CREATE TABLE `coupons` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `coupon_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `user_id` int(11) NOT NULL,
+  `type` int(11) NOT NULL DEFAULT 0,
   `discount` int(11) NOT NULL,
   `isvalid` int(11) NOT NULL,
+  `expired_at` datetime NOT NULL DEFAULT current_timestamp(),
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -277,10 +303,18 @@ CREATE TABLE `coupons` (
 -- Dumping data for table `coupons`
 --
 
-INSERT INTO `coupons` (`id`, `coupon_id`, `user_id`, `discount`, `isvalid`, `created_at`, `updated_at`) VALUES
-(1, 'lhqRKp3A', 6, 10, 1, '2021-07-20 10:17:12', NULL),
-(2, 'bDD0WwUZ', 6, 10, 1, '2021-07-20 11:18:12', NULL),
-(3, 'XU5prw3I', 6, 10, 1, '2021-07-20 12:27:32', NULL);
+INSERT INTO `coupons` (`id`, `coupon_id`, `user_id`, `type`, `discount`, `isvalid`, `expired_at`, `created_at`, `updated_at`) VALUES
+(1, 'lhqRKp3A', 6, 0, 10, 1, '2021-07-24 09:48:22', '2021-07-20 10:17:12', NULL),
+(2, 'bDD0WwUZ', 6, 0, 10, 0, '2021-07-24 09:48:22', '2021-07-20 11:18:12', NULL),
+(3, 'XU5prw3I', 6, 0, 10, 1, '2021-07-22 09:48:22', '2021-07-20 12:27:32', NULL),
+(4, 'Qkf607jg', 6, 0, 10, 1, '2021-07-22 09:48:22', '2021-07-20 13:10:16', NULL),
+(5, 'lIW15JRs', 6, 0, 10, 1, '2021-07-22 09:48:22', '2021-07-21 04:52:46', NULL),
+(6, 'XnO5qJGy', 6, 0, 10, 1, '2021-07-22 09:48:22', '2021-07-21 05:11:08', NULL),
+(7, 'rdAAVTKN', 6, 0, 10, 1, '2021-07-22 09:48:22', '2021-07-21 09:11:23', NULL),
+(8, 'THc3xJuG', 0, 1, 10, 1, '2021-07-23 10:58:00', '2021-07-22 05:56:47', NULL),
+(9, 'EjsOfHNd', 0, 1, 10, 1, '2021-07-24 11:04:00', '2021-07-22 05:34:37', NULL),
+(10, 'H2Sbpz1P', 6, 0, 10, 1, '2021-07-23 00:00:00', '2021-07-22 12:04:50', NULL),
+(11, 'oTIDvvMB', 0, 1, 15, 1, '2021-07-26 20:20:00', '2021-07-23 10:50:36', NULL);
 
 -- --------------------------------------------------------
 
@@ -325,7 +359,7 @@ CREATE TABLE `frontusers` (
 --
 
 INSERT INTO `frontusers` (`id`, `username`, `firstname`, `lastname`, `email`, `password`, `gender`, `phoneno`, `mobileno`, `intrest`, `status`, `created_at`, `updated_at`) VALUES
-(6, 'nikhil42', 'Nikhil', 'SHAH', 'nikhilvshah12274@gmail.com', '$2y$10$TNTfslLTxHsKytAJtcJGe.DdAsilsXAb9wULAKktgtQU5HXt3.076', 'Male', '8460469135', '09104653449', 'men,women,kids,swimming', 1, NULL, NULL),
+(6, 'nikhil42', 'Nikhil', 'SHAH', 'nikhilvshah12274@gmail.com', '$2y$10$T8yf/cyxJAQUrW42PuyW9eoB9aeZKVTb9tX/fPX6uJTJM3RMsvoG2', 'Male', '8460469135', '09104653449', 'men,women,kids,swimming', 1, NULL, NULL),
 (9, 'nikhil4120', 'nikhil', 'shah', 'nikhilshah4120@gmail.com', '$2y$10$U4V7npM.1vk6G5sxkqCqiOe47L9YYSxZi3xODNRV.9T8Xr4OBAevC', 'Male', '8460469135', '09104653449', 'men,women', 1, NULL, NULL),
 (12, 'nik', 'nikhil', 'shah', 'niks04446@gmail.com', '$2y$10$RkyH.K2fQjmGtUddLfo/q.6j48A7Zps8i1/Vnk.OqQ1UIGyAMFJ/i', 'Male', '25623789', '8460469135', 'men,women,kids', 1, NULL, NULL),
 (14, 'nikhil', 'nikhil', 'SHAH', 'admin@gmail.com', '$2y$10$oZDx7f9eJ1NYQvdu1lC/buNGX1Yi4oH6tomTSVuyr96ST6lpdufLa', 'Male', '09104653449', '09104653449', 'men,women,kids', 1, NULL, NULL),
@@ -452,6 +486,9 @@ CREATE TABLE `orders` (
   `delievery_status` int(11) NOT NULL,
   `order_id` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `charge_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `discount` int(11) NOT NULL DEFAULT 0,
+  `coupon` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `currency` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'inr',
   `status` tinyint(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -461,34 +498,63 @@ CREATE TABLE `orders` (
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `product_id`, `user_id`, `quantity`, `total_amount`, `delievery_status`, `order_id`, `charge_id`, `status`, `created_at`, `updated_at`) VALUES
-(20, 5, 6, 1, 500, 5, 'OD_60ee9494b7f34', 'ch_1JD2gNSFoMkBRyaG1ed1hEPq', 1, '2021-07-14 07:39:00', NULL),
-(21, 1, 6, 1, 200, 5, 'OD_60ee95b460a88', 'ch_1JD2l1SFoMkBRyaGR7ZUp21J', 1, '2021-07-14 07:43:48', NULL),
-(22, 4, 6, 1, 1260, 5, 'OD_60ee95b460a88', 'ch_1JD2l1SFoMkBRyaGR7ZUp21J', 1, '2021-07-14 07:43:48', NULL),
-(23, 4, 6, 1, 1260, 5, 'OD_60eee21fbd6c1', 'ch_1JD7qZSFoMkBRyaGpqDFh1Sk', 1, '2021-07-14 13:09:51', NULL),
-(24, 3, 6, 1, 500, 5, 'OD_60efb153afe0e', 'ch_1JDLe7SFoMkBRyaGbyQubMgf', 1, '2021-07-15 03:53:55', NULL),
-(25, 2, 6, 1, 250, 6, 'OD_60efc5fb0f179', 'ch_1JDN1OSFoMkBRyaGce0EPXE9', 1, '2021-07-15 05:22:03', NULL),
-(26, 7, 6, 1, 500, 5, 'OD_60efe6883266e', 'ch_1JDPBoSFoMkBRyaGKCCFKrVe', 1, '2021-07-15 07:40:56', NULL),
-(27, 6, 6, 1, 120, 5, 'OD_60f0ffea2c053', 'ch_1JDhvfSFoMkBRyaGQgZKLfbO', 1, '2021-07-16 03:41:30', NULL),
-(28, 2, 6, 1, 250, 6, 'OD_60f10418a8581', 'ch_1JDiCwSFoMkBRyaGO8Etc8M2', 1, '2021-07-16 03:59:20', NULL),
-(29, 1, 6, 1, 200, 5, 'OD_60f10418a8581', 'ch_1JDiCwSFoMkBRyaGO8Etc8M2', 1, '2021-07-16 03:59:20', NULL),
-(30, 5, 6, 1, 500, 5, 'OD_60f104c36a84f', 'ch_1JDiFhSFoMkBRyaGPAOAVUWm', 1, '2021-07-16 04:02:11', NULL),
-(31, 3, 6, 1, 500, 6, 'OD_60f10a4b6f27f', 'ch_1JDicXSFoMkBRyaGXBfllX8k', 1, '2021-07-16 04:25:47', NULL),
-(32, 7, 6, 1, 500, 5, 'OD_60f10b0334ee5', 'ch_1JDifVSFoMkBRyaGdaSOt8mT', 1, '2021-07-16 04:28:51', NULL),
-(33, 3, 6, 1, 500, 4, 'OD_60f114463591b', 'ch_1JDjHkSFoMkBRyaGDscyNRiP', 1, '2021-07-16 05:08:22', NULL),
-(34, 3, 6, 1, 500, 5, 'OD_60f11804ced91', 'ch_1JDjXDSFoMkBRyaGeliyPFBa', 1, '2021-07-16 05:24:20', NULL),
-(36, 5, 6, 1, 500, 5, 'OD_60f123d26ca93', 'ch_1JDkJxSFoMkBRyaG0WiW4Jt8', 1, '2021-07-16 06:14:42', NULL),
-(37, 3, 6, 1, 500, 5, 'OD_60f12af043f06', 'ch_1JDknKSFoMkBRyaGeKvexmvU', 1, '2021-07-16 06:45:04', NULL),
-(38, 7, 6, 1, 500, 5, 'OD_60f144681ae6f', 'ch_1JDmUUSFoMkBRyaGSOnPB7ys', 1, '2021-07-16 08:33:44', NULL),
-(39, 3, 6, 1, 500, 5, 'OD_60f667796f591', 'ch_1JFC4KSFoMkBRyaGBeOe3JLD', 1, '2021-07-20 06:04:41', NULL),
-(40, 3, 6, 1, 500, 5, 'OD_60f671a6aed3e', 'ch_1JFCkLSFoMkBRyaGZ46SpI88', 1, '2021-07-20 06:48:06', NULL),
-(41, 3, 6, 1, 500, 5, 'OD_60f67f9387bd7', 'ch_1JFDfqSFoMkBRyaGg1X9Nagf', 1, '2021-07-20 07:47:31', NULL),
-(42, 3, 6, 1, 500, 5, 'OD_60f695d98ce68', 'ch_1JFF9oSFoMkBRyaGS2WkLYrC', 1, '2021-07-20 09:22:33', NULL),
-(43, 7, 6, 1, 500, 1, 'OD_60f6a113633e6', 'ch_1JFFuASFoMkBRyaGgBDMVqSm', 1, '2021-07-20 10:10:27', NULL),
-(44, 7, 6, 1, 500, 5, 'OD_60f6a1e1e497a', 'ch_1JFFxUSFoMkBRyaGaCJckWcZ', 1, '2021-07-20 10:13:53', NULL),
-(45, 7, 6, 1, 500, 5, 'OD_60f6a2a6e2f2e', 'ch_1JFG0gSFoMkBRyaGGODZWbhf', 1, '2021-07-20 10:17:10', NULL),
-(46, 7, 6, 1, 500, 5, 'OD_60f6b0f241e3c', 'ch_1JFGxhSFoMkBRyaGEwtbSjbf', 1, '2021-07-20 11:18:10', NULL),
-(47, 1, 6, 1, 200, 1, 'OD_60f6c132f39e8', 'ch_1JFI2nSFoMkBRyaGTxomCb4i', 1, '2021-07-20 12:27:30', NULL);
+INSERT INTO `orders` (`id`, `product_id`, `user_id`, `quantity`, `total_amount`, `delievery_status`, `order_id`, `charge_id`, `discount`, `coupon`, `currency`, `status`, `created_at`, `updated_at`) VALUES
+(20, 5, 6, 1, 500, 5, 'OD_60ee9494b7f34', 'ch_1JD2gNSFoMkBRyaG1ed1hEPq', 0, NULL, 'inr', 1, '2021-07-14 07:39:00', NULL),
+(21, 1, 6, 1, 200, 5, 'OD_60ee95b460a88', 'ch_1JD2l1SFoMkBRyaGR7ZUp21J', 0, NULL, 'inr', 1, '2021-07-14 07:43:48', NULL),
+(22, 4, 6, 1, 1260, 5, 'OD_60ee95b460a88', 'ch_1JD2l1SFoMkBRyaGR7ZUp21J', 0, NULL, 'inr', 1, '2021-07-14 07:43:48', NULL),
+(23, 4, 6, 1, 1260, 5, 'OD_60eee21fbd6c1', 'ch_1JD7qZSFoMkBRyaGpqDFh1Sk', 0, NULL, 'inr', 1, '2021-07-14 13:09:51', NULL),
+(24, 3, 6, 1, 500, 5, 'OD_60efb153afe0e', 'ch_1JDLe7SFoMkBRyaGbyQubMgf', 0, NULL, 'inr', 1, '2021-07-15 03:53:55', NULL),
+(25, 2, 6, 1, 250, 6, 'OD_60efc5fb0f179', 'ch_1JDN1OSFoMkBRyaGce0EPXE9', 0, NULL, 'inr', 1, '2021-07-15 05:22:03', NULL),
+(26, 7, 6, 1, 500, 5, 'OD_60efe6883266e', 'ch_1JDPBoSFoMkBRyaGKCCFKrVe', 0, NULL, 'inr', 1, '2021-07-15 07:40:56', NULL),
+(27, 6, 6, 1, 120, 5, 'OD_60f0ffea2c053', 'ch_1JDhvfSFoMkBRyaGQgZKLfbO', 0, NULL, 'inr', 1, '2021-07-16 03:41:30', NULL),
+(28, 2, 6, 1, 250, 6, 'OD_60f10418a8581', 'ch_1JDiCwSFoMkBRyaGO8Etc8M2', 0, NULL, 'inr', 1, '2021-07-16 03:59:20', NULL),
+(29, 1, 6, 1, 200, 5, 'OD_60f10418a8581', 'ch_1JDiCwSFoMkBRyaGO8Etc8M2', 0, NULL, 'inr', 1, '2021-07-16 03:59:20', NULL),
+(30, 5, 6, 1, 500, 5, 'OD_60f104c36a84f', 'ch_1JDiFhSFoMkBRyaGPAOAVUWm', 0, NULL, 'inr', 1, '2021-07-16 04:02:11', NULL),
+(31, 3, 6, 1, 500, 6, 'OD_60f10a4b6f27f', 'ch_1JDicXSFoMkBRyaGXBfllX8k', 0, NULL, 'inr', 1, '2021-07-16 04:25:47', NULL),
+(32, 7, 6, 1, 500, 5, 'OD_60f10b0334ee5', 'ch_1JDifVSFoMkBRyaGdaSOt8mT', 0, NULL, 'inr', 1, '2021-07-16 04:28:51', NULL),
+(33, 3, 6, 1, 500, 4, 'OD_60f114463591b', 'ch_1JDjHkSFoMkBRyaGDscyNRiP', 0, NULL, 'inr', 1, '2021-07-16 05:08:22', NULL),
+(34, 3, 6, 1, 500, 5, 'OD_60f11804ced91', 'ch_1JDjXDSFoMkBRyaGeliyPFBa', 0, NULL, 'inr', 1, '2021-07-16 05:24:20', NULL),
+(36, 5, 6, 1, 500, 5, 'OD_60f123d26ca93', 'ch_1JDkJxSFoMkBRyaG0WiW4Jt8', 0, NULL, 'inr', 1, '2021-07-16 06:14:42', NULL),
+(37, 3, 6, 1, 500, 5, 'OD_60f12af043f06', 'ch_1JDknKSFoMkBRyaGeKvexmvU', 0, NULL, 'inr', 1, '2021-07-16 06:45:04', NULL),
+(38, 7, 6, 1, 500, 5, 'OD_60f144681ae6f', 'ch_1JDmUUSFoMkBRyaGSOnPB7ys', 0, NULL, 'inr', 1, '2021-07-16 08:33:44', NULL),
+(39, 3, 6, 1, 500, 5, 'OD_60f667796f591', 'ch_1JFC4KSFoMkBRyaGBeOe3JLD', 0, NULL, 'inr', 1, '2021-07-20 06:04:41', NULL),
+(40, 3, 6, 1, 500, 5, 'OD_60f671a6aed3e', 'ch_1JFCkLSFoMkBRyaGZ46SpI88', 0, NULL, 'inr', 1, '2021-07-20 06:48:06', NULL),
+(41, 3, 6, 1, 500, 5, 'OD_60f67f9387bd7', 'ch_1JFDfqSFoMkBRyaGg1X9Nagf', 0, NULL, 'inr', 1, '2021-07-20 07:47:31', NULL),
+(42, 3, 6, 1, 500, 5, 'OD_60f695d98ce68', 'ch_1JFF9oSFoMkBRyaGS2WkLYrC', 0, NULL, 'inr', 1, '2021-07-20 09:22:33', NULL),
+(43, 7, 6, 1, 500, 1, 'OD_60f6a113633e6', 'ch_1JFFuASFoMkBRyaGgBDMVqSm', 0, NULL, 'inr', 1, '2021-07-20 10:10:27', NULL),
+(44, 7, 6, 1, 500, 5, 'OD_60f6a1e1e497a', 'ch_1JFFxUSFoMkBRyaGaCJckWcZ', 0, NULL, 'inr', 1, '2021-07-20 10:13:53', NULL),
+(45, 7, 6, 1, 500, 5, 'OD_60f6a2a6e2f2e', 'ch_1JFG0gSFoMkBRyaGGODZWbhf', 0, NULL, 'inr', 1, '2021-07-20 10:17:10', NULL),
+(46, 7, 6, 1, 500, 5, 'OD_60f6b0f241e3c', 'ch_1JFGxhSFoMkBRyaGEwtbSjbf', 0, NULL, 'inr', 1, '2021-07-20 11:18:10', NULL),
+(47, 1, 6, 1, 200, 5, 'OD_60f6c132f39e8', 'ch_1JFI2nSFoMkBRyaGTxomCb4i', 0, NULL, 'inr', 1, '2021-07-20 12:27:30', NULL),
+(48, 5, 6, 1, 500, 5, 'OD_60f6c7bb94914', 'ch_1JFITnSFoMkBRyaGrYhBvmA9', 0, NULL, 'inr', 1, '2021-07-20 12:55:23', NULL),
+(49, 5, 6, 1, 500, 1, 'OD_60f6cb369f8b9', 'ch_1JFIiASFoMkBRyaGnUMI5kTM', 0, NULL, 'inr', 1, '2021-07-20 13:10:14', NULL),
+(50, 7, 6, 1, 500, 5, 'OD_60f79e8c40c82', 'ch_1JFWmkSFoMkBRyaGGjFAccOf', 10, NULL, 'inr', 1, '2021-07-21 04:11:56', NULL),
+(51, 3, 6, 1, 500, 5, 'OD_60f7a81db1d80', 'ch_1JFXQFSFoMkBRyaGkrOEZVVV', 0, NULL, 'inr', 1, '2021-07-21 04:52:45', NULL),
+(52, 3, 6, 1, 500, 5, 'OD_60f7ac6bd9678', 'ch_1JFXi1SFoMkBRyaGw2rgSK6V', 0, NULL, 'inr', 1, '2021-07-21 05:11:07', NULL),
+(53, 3, 6, 1, 500, 5, 'OD_60f7ae8d5697e', 'ch_1JFXqpSFoMkBRyaGlHQxoi2L', 0, NULL, 'inr', 1, '2021-07-21 05:20:13', NULL),
+(54, 3, 6, 1, 500, 5, 'OD_60f7b354dcdde', 'ch_1JFYAYSFoMkBRyaGPkKzIog5', 0, NULL, 'inr', 1, '2021-07-21 05:40:36', NULL),
+(55, 7, 6, 1, 500, 5, 'OD_60f7be46a9a8b', 'ch_1JFYtkSFoMkBRyaGqrGxzLMG', 0, NULL, 'inr', 1, '2021-07-21 06:27:18', NULL),
+(56, 3, 6, 1, 500, 5, 'OD_60f7cb8ca5d6c', 'ch_1JFZmZSFoMkBRyaGlY9ohdTr', 10, NULL, 'inr', 1, '2021-07-21 07:23:56', NULL),
+(57, 7, 6, 1, 500, 5, 'OD_60f7dbf92ae90', 'ch_1JFasNSFoMkBRyaGbXjfwsMt', 10, NULL, 'inr', 1, '2021-07-21 08:34:01', NULL),
+(58, 3, 6, 1, 500, 5, 'OD_60f7e4ba9cf94', 'ch_1JFbSWSFoMkBRyaGVbdw8MPd', 10, NULL, 'inr', 1, '2021-07-21 09:11:22', NULL),
+(59, 7, 6, 1, 500, 5, 'OD_60f81ad3a7034', 'ch_1JFf3uSFoMkBRyaG0jHAV96c', 10, NULL, 'inr', 1, '2021-07-21 13:02:11', NULL),
+(60, 3, 6, 1, 500, 5, 'OD_60f81bf114da0', 'ch_1JFf8VSFoMkBRyaGMZ1BqRPC', 0, NULL, 'inr', 1, '2021-07-21 13:06:57', NULL),
+(61, 3, 6, 1, 500, 5, 'OD_60f83aaf234a6', 'ch_1JFhBSSFoMkBRyaGGLiyty6P', 0, NULL, 'inr', 1, '2021-07-21 15:18:07', NULL),
+(62, 3, 6, 1, 500, 5, 'OD_60f845dd9d4b4', 'ch_1JFhvdSFoMkBRyaGbtRWKIl2', 0, NULL, 'inr', 1, '2021-07-21 16:05:49', NULL),
+(63, 1, 6, 1, 200, 1, 'OD_60f90c517d577', 'ch_1JFv95SFoMkBRyaGsTYhlgrD', 10, 'THc3xJuG', 'inr', 1, '2021-07-22 06:12:33', NULL),
+(64, 1, 6, 1, 200, 5, 'OD_60f92c9ab9950', 'ch_1JFxIPSFoMkBRyaGPGdKcTuR', 0, NULL, 'usd', 1, '2021-07-22 08:30:18', NULL),
+(65, 1, 6, 1, 200, 5, 'OD_60f93491955af', 'ch_1JFxpISFoMkBRyaGGSfdGykN', 0, NULL, 'inr', 1, '2021-07-22 09:04:17', NULL),
+(66, 3, 6, 1, 500, 5, 'OD_60f93c09d52af', 'ch_1JFyK8SFoMkBRyaGmAjVgQdA', 0, NULL, 'inr', 1, '2021-07-22 09:36:09', NULL),
+(67, 3, 6, 1, 500, 5, 'OD_60f950b25e212', 'ch_1JFzhMSFoMkBRyaGk4tmHY3D', 0, NULL, 'inr', 1, '2021-07-22 11:04:18', NULL),
+(68, 1, 6, 1, 200, 5, 'OD_60f953d521514', 'ch_1JFzuISFoMkBRyaGxnG2UsOH', 0, NULL, 'usd', 1, '2021-07-22 11:17:41', NULL),
+(69, 3, 6, 1, 500, 5, 'OD_60f955ea16b18', 'ch_1JG02tSFoMkBRyaG5mXpL8ka', 0, NULL, 'inr', 1, '2021-07-22 11:26:34', NULL),
+(70, 7, 6, 1, 500, 5, 'OD_60f95ad115a9d', 'ch_1JG0N8SFoMkBRyaGAmipBuow', 10, 'lhqRKp3A', 'inr', 1, '2021-07-22 11:47:29', NULL),
+(71, 7, 6, 1, 500, 5, 'OD_60f95b934b66a', 'ch_1JG0QGSFoMkBRyaG8Hkswp67', 0, NULL, 'inr', 1, '2021-07-22 11:50:43', NULL),
+(72, 3, 6, 1, 500, 1, 'OD_60f95d808a70f', 'ch_1JG0YDSFoMkBRyaG6qcBcXW4', 0, NULL, 'inr', 1, '2021-07-22 11:58:56', NULL),
+(73, 2, 6, 1, 250, 1, 'OD_60f95d808a70f', 'ch_1JG0YDSFoMkBRyaG6qcBcXW4', 0, NULL, 'inr', 1, '2021-07-22 11:58:56', NULL),
+(74, 7, 6, 1, 500, 1, 'OD_60f95ee1d3fa6', 'ch_1JG0dvSFoMkBRyaGllfq1xai', 0, NULL, 'usd', 1, '2021-07-22 12:04:49', NULL),
+(75, 3, 6, 1, 500, 6, 'OD_60fa580ca2ff3', 'ch_1JGHElSFoMkBRyaGvVOuZZzy', 0, NULL, 'inr', 1, '2021-07-23 05:47:56', NULL),
+(76, 3, 6, 1, 500, 5, 'OD_60fe3c8e4786c', 'ch_1JHLbLSFoMkBRyaGmvuduVom', 0, NULL, 'inr', 1, '2021-07-26 04:39:42', NULL);
 
 -- --------------------------------------------------------
 
@@ -557,15 +623,15 @@ CREATE TABLE `products` (
 
 INSERT INTO `products` (`id`, `category_id`, `subcategory_id`, `product_name`, `product_description`, `product_image`, `color_id`, `size_id`, `price`, `sku_id`, `quantity`, `istrending`, `status`, `created_at`, `updated_at`) VALUES
 (1, 3, 1, 'thumb U.S. Polo Assn. Full Sleeve Plain T-Shirts for Men', 'Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit. Sed At Ante. Mauris Eleifend, Quam A Vulputate Dictum, Massa Quam Dapibus Leo, Eget Vulputate Orci Purus Ut Lorem. In Fringilla Mi In Ligula. Pellentesque Aliquam Quam Vel Dolor. Every Item Is A Vital Part Of A Woman\'s Wardrobe.', 'image/products/60d477169d137.jpg', 5, 'M', 200, 'mag209_prod1', 12, 1, 1, '2021-06-24 05:26:14', '2021-06-24 06:52:11'),
-(2, 3, 1, 'India Polo Assn. Full Sleeve Plain T-Shirts for Men', 'Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit. Sed At Ante. Mauris Eleifend, Quam A Vulputate Dictum, Massa Quam Dapibus Leo, Eget Vulputate Orci Purus Ut Lorem. In Fringilla Mi In Ligula. Pellentesque Aliquam Quam Vel Dolor. Every Item Is A Vital Part Of A Woman\'s Wardrobe.', 'image/products/60d571ad938dd.jpg', 3, 'XL', 250, 'mag209_prod2', 10, 1, 1, '2021-06-25 00:33:25', '2021-06-25 00:34:51'),
-(3, 3, 1, 'Australian Polo Assn. Full Sleeve Plain T-Shirts for Men', 'Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit. Sed At Ante. Mauris Eleifend, Quam A Vulputate Dictum, Massa Quam Dapibus Leo, Eget Vulputate Orci Purus Ut Lorem. In Fringilla Mi In Ligula. Pellentesque Aliquam Quam Vel Dolor. Every Item Is A Vital Part Of A Woman\'s Wardrobe.', 'image/products/60d577f55d19d.jpg', 2, 'L', 500, 'mag209_prod3', 1, 1, 1, '2021-06-25 01:00:13', '2021-07-19 11:11:43'),
+(2, 3, 1, 'India Polo Assn. Full Sleeve Plain T-Shirts for Men', 'Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit. Sed At Ante. Mauris Eleifend, Quam A Vulputate Dictum, Massa Quam Dapibus Leo, Eget Vulputate Orci Purus Ut Lorem. In Fringilla Mi In Ligula. Pellentesque Aliquam Quam Vel Dolor. Every Item Is A Vital Part Of A Woman\'s Wardrobe.', 'image/products/60d571ad938dd.jpg', 3, 'XL', 250, 'mag209_prod2', 9, 1, 1, '2021-06-25 00:33:25', '2021-06-25 00:34:51'),
+(3, 3, 1, 'Australian Polo Assn. Full Sleeve Plain T-Shirts for Men', 'Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit. Sed At Ante. Mauris Eleifend, Quam A Vulputate Dictum, Massa Quam Dapibus Leo, Eget Vulputate Orci Purus Ut Lorem. In Fringilla Mi In Ligula. Pellentesque Aliquam Quam Vel Dolor. Every Item Is A Vital Part Of A Woman\'s Wardrobe.', 'image/products/60d577f55d19d.jpg', 2, 'L', 500, 'mag209_prod3', 1, 1, 1, '2021-06-25 01:00:13', '2021-07-23 08:13:18'),
 (4, 2, 4, 'Woven Kanjivaram Silk Blend Saree  (Beige)', 'Mehrang offers high-quality Sarees online at affordable rates. We bring to you the latest collection every month and we believe in constant innovation and creativity. Mehrang Designs will serve all your needs for Silk Saree, Banarasi Saree, Kanjeevaram Saree, Plain Saree, Woven Saree, Georgette Saree, Crepe Saree, Designer Saree and many more. We change our collection with the trend and as per our customers demand. Mehrang is in line with serving marvellous Sarees with the hottest trend this season. The Saree is paired with an unstitched blouse in the same fabric as the saree. These saris are easy to handle', 'image/products/60d87dfa4acdf.jpeg', 6, 'L', 1260, 'SKU_TUSAR_CREAM', 10, 1, 1, '2021-06-27 08:02:42', NULL),
-(5, 2, 3, 'Crepe Solid, Floral Print, Printed Salwar Suit Material', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', 'image/products/60d87f9ae9746.jpeg', 2, 'L', 500, 'mag209_prod4', 7, 1, 1, '2021-06-27 08:09:38', NULL),
+(5, 2, 3, 'Crepe Solid, Floral Print, Printed Salwar Suit Material', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', 'image/products/60d87f9ae9746.jpeg', 2, 'L', 500, 'mag209_prod4', 6, 1, 1, '2021-06-27 08:09:38', NULL),
 (6, 4, 7, 'Boys Festive & Party Kurta and Pyjama Set', 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.', 'image/products/60d88192858da.jpeg', 4, 'S', 120, 'mag209_prod6', 10, 1, 1, '2021-06-27 08:18:02', NULL),
-(7, 3, 1, 'U.K. Polo Assn. Full Sleeve Plain T-Shirts for Men', 'Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit. Sed At Ante. Mauris Eleifend, Quam A Vulputate Dictum, Massa Quam Dapibus Leo, Eget Vulputate Orci Purus Ut Lorem. In Fringilla Mi In Ligula. Pellentesque Aliquam Quam Vel Dolor. Every Item Is A Vital Part Of A Woman\'s Wardrobe.', 'image/products/60dc33439c5a7.jpg', 5, 'M', 500, 'mag209_prod7', 4, 1, 1, '2021-06-30 03:32:59', '2021-07-13 06:44:02'),
-(8, 3, 1, 'India Polo', 'abxgcjhkhj fdghkl', 'image/products/60dc3630d051b.jpg', 1, 'L', 500, 'mag209_prod9', 10, NULL, 1, '2021-06-30 03:45:28', NULL),
-(9, 3, 2, 'thumb thumb U.S. Polo Assn. Full Sleeve Plain Shirts for Men', 'this issdfvgn sdfnm  jbxsc sdfjvc ccdvc  dfbbgnh bn,sdkv', 'image/products/60dd5411871ac.jpeg', 1, 'L', 300, 'mag209_prod11', 7, NULL, 1, '2021-07-01 00:05:13', '2021-07-09 01:28:23'),
-(10, 3, 5, 'thumb U.S. Polo Assn. Full Sleeve Plain T-Shirts for Jabhha', 'sdfgn  dsfghjm, dscdvfbnm, adsfghjk sdfghjk sdfghnm', 'image/products/60dd5513a8019.jpg', 6, 'M', 700, 'SKU_TUSAR_CREAM1', 6, NULL, 1, '2021-07-01 00:09:31', '2021-07-09 01:28:01'),
+(7, 3, 1, 'U.K. Polo Assn. Full Sleeve Plain T-Shirts for Men', 'Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit. Sed At Ante. Mauris Eleifend, Quam A Vulputate Dictum, Massa Quam Dapibus Leo, Eget Vulputate Orci Purus Ut Lorem. In Fringilla Mi In Ligula. Pellentesque Aliquam Quam Vel Dolor. Every Item Is A Vital Part Of A Woman\'s Wardrobe.', 'image/products/60dc33439c5a7.jpg', 5, 'M', 500, 'mag209_prod7', 3, 1, 1, '2021-06-30 03:32:59', '2021-07-13 06:44:02'),
+(8, 3, 1, 'India Polo', 'abxgcjhkhj fdghkl', 'image/products/60dc3630d051b.jpg', 1, 'L', 500, 'mag209_prod9', 10, NULL, 1, '2021-06-30 03:45:28', '2021-07-22 12:31:22'),
+(9, 3, 2, 'thumb thumb U.S. Polo Assn. Full Sleeve Plain Shirts for Men', 'this issdfvgn sdfnm  jbxsc sdfjvc ccdvc  dfbbgnh bn,sdkv', 'image/products/60dd5411871ac.jpeg', 1, 'L', 300, 'mag209_prod11', 7, 1, 1, '2021-07-01 00:05:13', '2021-07-23 12:09:36'),
+(10, 3, 5, 'thumb U.S. Polo Assn. Full Sleeve Plain T-Shirts for Jabhha', 'sdfgn  dsfghjm, dscdvfbnm, adsfghjk sdfghjk sdfghnm', 'image/products/60dd5513a8019.jpg', 6, 'M', 700, 'SKU_TUSAR_CREAM1', 6, NULL, 1, '2021-07-01 00:09:31', '2021-07-23 12:09:13'),
 (11, 3, 2, 'thumb U.S. Polo Assn. Full Sleeve Plain Shirts for Men', 'abcdfghijklmnopqrstuvwxyz agshdjfkglh/; lkjhgdfsdfgnhjmk, kyjhgfssghjk hgsfdfghjhkl kjhgfdafghjkjl kjhgfdasadfdgfhj kjhgfdfgj', 'image/products/60dd89206fa46.jpg', 5, 'L,M', 1000, 'SKU_TUSAR_CREAM', 12, 1, 1, '2021-07-01 03:51:36', '2021-07-09 01:43:04');
 
 -- --------------------------------------------------------
@@ -591,7 +657,8 @@ CREATE TABLE `returnorders` (
 INSERT INTO `returnorders` (`id`, `order_id`, `user_id`, `reason`, `description`, `created_at`, `updated_at`) VALUES
 (1, 25, 6, 'Product isn’t matching with the product description', 'hkgfgsrhjhk', '2021-07-15 06:22:52', NULL),
 (2, 28, 6, 'Product isn’t matching with the product description', NULL, '2021-07-16 04:22:20', NULL),
-(3, 31, 6, 'Product is fake, used or expired', NULL, '2021-07-16 08:25:00', NULL);
+(3, 31, 6, 'Product is fake, used or expired', NULL, '2021-07-16 08:25:00', NULL),
+(4, 75, 6, 'Product isn’t matching with the product description', NULL, '2021-07-23 05:51:38', NULL);
 
 -- --------------------------------------------------------
 
@@ -646,8 +713,13 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('aK1rDwY2Nd4kc1JKdgpYTtHpVvryqTXcnfW5m0uv', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiRWZ5MldFRG9kcFlBZzlSYTZpTTBWbVFXTFlNV0V1UHFGdnlGMURBZiI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1626752572),
-('mIjjkK4hbwVdlfEjd9XrpMSJ4sjpJGfWHGOFMyqm', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoibktZZ1lUSGNVN281bGNwVlFwUThVOWFtRDBXT2FaV2FsZ1ZaV3QxdSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mjc6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9sb2dpbiI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1626760871);
+('dT9C3p27OW3U33u6KHg6XOVRWPsIxecwTx0aTYbN', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiZUZZMVZRM0dhVjFRenhFM2VUeGZIUFBHdk5uUld5VDdSNzduT1JRcSI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1627015658),
+('DXCqVL6aVYptMGtOUz1fTqKN4uZ3chT7F7asWG6j', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoicGE4d000UjN3U2NwbndPN2lVNWNmbkV5SXZKWG1idUFob2VQNUdlTyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1627016007),
+('IdcGb1DV9Pv5DOJu9CQgFy4yK1ZcOcYNnN5B7b6T', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiV0cxc0psd1dJOWtybHB1V2lxb3ppcEhtaDZCUTZ3ZFl2SHlIaWFaUyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzE6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9hbGwvb3JkZXIiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO3M6MTc6InBhc3N3b3JkX2hhc2hfd2ViIjtzOjYwOiIkMnkkMTAkdG5YUy85OXpXTDh1dVdtNDdFVk5XZXRKWjRoQzVBRnIweXFxd1JQd0Mwa3NKRldIb0JxZnEiO3M6MjE6InBhc3N3b3JkX2hhc2hfc2FuY3R1bSI7czo2MDoiJDJ5JDEwJHRuWFMvOTl6V0w4dXVXbTQ3RVZOV2V0Slo0aEM1QUZyMHlxcXdSUHdDMGtzSkZXSG9CcWZxIjt9', 1627019344),
+('kOj9HpFTPyuT4EiWxzByRq10bqnObRWZV2NFe2pE', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiYWtJeE1keEp0NDl5ZlV6ckNzU3ZTYXVkdGs0VnpoRHlGNWZXdG9JbyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1627016792),
+('MSraBGY47rVuCXRO5BvsPtuCXtQDsG3AmV2Beoiu', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoicEZ3OE1jR0pKYXk3Y2FWRGNYNTBSd0xpZjU3aWh2eVVzcWVaN24wMCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1627016343),
+('R1VA8RSpqf3zngFAahhz52kQhmDyh42umCIJeiQC', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiWUo1VU1vb2lReXg5RVpjcGxEcm80b3VyMVpwWmxST09qbFFWRUdBViI7czozOiJ1cmwiO2E6MDp7fXM6OToiX3ByZXZpb3VzIjthOjE6e3M6MzoidXJsIjtzOjMwOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvcHJvZHVjdHMiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO3M6MTc6InBhc3N3b3JkX2hhc2hfd2ViIjtzOjYwOiIkMnkkMTAkdG5YUy85OXpXTDh1dVdtNDdFVk5XZXRKWjRoQzVBRnIweXFxd1JQd0Mwa3NKRldIb0JxZnEiO30=', 1627027999),
+('xa5q5kCimyKLeWGqEn2Tsl4ahVFl1DBvFvQgpbks', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiMVNXME1wRDM2S0lmWERFUGtuQjJHeHduRW5GUGxZcW5Vc1BiOEpGNCI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzA6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMC9wcm9kdWN0cyI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjE7czoxNzoicGFzc3dvcmRfaGFzaF93ZWIiO3M6NjA6IiQyeSQxMCR0blhTLzk5eldMOHV1V200N0VWTldldEpaNGhDNUFGcjB5cXF3UlB3QzBrc0pGV0hvQnFmcSI7czoyMToicGFzc3dvcmRfaGFzaF9zYW5jdHVtIjtzOjYwOiIkMnkkMTAkdG5YUy85OXpXTDh1dVdtNDdFVk5XZXRKWjRoQzVBRnIweXFxd1JQd0Mwa3NKRldIb0JxZnEiO30=', 1627042177);
 
 -- --------------------------------------------------------
 
@@ -890,10 +962,8 @@ CREATE TABLE `wishlists` (
 --
 
 INSERT INTO `wishlists` (`id`, `user_id`, `product_id`, `created_at`, `updated_at`) VALUES
-(1, 6, 9, '2021-07-05 02:47:58', NULL),
-(2, 6, 9, '2021-07-05 03:05:48', NULL),
-(3, 6, 9, '2021-07-06 01:11:40', NULL),
-(4, 6, 9, '2021-07-06 01:11:43', NULL);
+(14, 6, 7, '2021-07-23 05:21:29', NULL),
+(15, 6, 9, '2021-07-26 04:06:11', NULL);
 
 --
 -- Indexes for dumped tables
@@ -1105,7 +1175,7 @@ ALTER TABLE `billinginformations`
 -- AUTO_INCREMENT for table `cancelorders`
 --
 ALTER TABLE `cancelorders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -1141,7 +1211,7 @@ ALTER TABLE `countries`
 -- AUTO_INCREMENT for table `coupons`
 --
 ALTER TABLE `coupons`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -1177,7 +1247,7 @@ ALTER TABLE `newsletterusers`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -1195,7 +1265,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT for table `returnorders`
 --
 ALTER TABLE `returnorders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `reviews`
@@ -1255,7 +1325,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `wishlists`
 --
 ALTER TABLE `wishlists`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -47,7 +47,7 @@
                             <li class="login-link" *ngIf="!loggedIn" #login><a href="#" title="Login" data-toggle="modal"
                                     data-target="#Login-popup" >Login</a></li>
 
-                            <li class="login-link" *ngIf="loggedIn"><a href="#" title="Login"
+                            <li class="login-link" *ngIf="loggedIn"><a title="Logout"
                                     (click)="logout()">Logout</a></li>
                             <li *ngIf="loggedIn" class="dropdown" [ngClass]="{'open':settingopen}">
                                 <a class="dropdown-toggle" role="button" (click)="setting()">Manage <span class="caret"></span></a>

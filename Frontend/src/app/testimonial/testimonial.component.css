@@ -5,4 +5,4 @@
 .testimonial-sliders{border-bottom: 1px solid #e3e3e3;border-top: 1px solid #e3e3e3;margin-bottom: 3px;padding: 37px 40px 25px 55px; margin-top: 3px;}
 .testimonial-sliders .description{color: #2c4453;font-weight: 300;margin-bottom: 0;padding: 0 3%;position: relative;font-size: 18px; font-family: "georgia";line-height: 26px;} 
 .testimonial-sliders .description:before{content:""; height:100%; width:1px; background:#e3e3e3; left:-13px; top:0; position: absolute;} 
-
+.testimonial-sliders img{ height:70px;width: 50px;}

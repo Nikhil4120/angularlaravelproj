@@ -34,10 +34,12 @@ export class ProductItemComponent implements OnInit {
   }
   
   addcart(product){
-    if(this.isloggedin){
-      this.cartservice.addTocart(product);
+    let positiony = window.scrollY;
+    this.cartservice.addTocart(product);
+    window.scroll(0,positiony);
+    
       
-    }
+   
     
 
   }

@@ -300,8 +300,12 @@ export class ProductListComponent implements OnInit {
     });
   }
 
+  
+
   moreproduct() {
     this.i = this.i + 4;
     this.filterproduct = this.product.slice(0, this.i);
   }
+
+
 }

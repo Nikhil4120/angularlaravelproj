@@ -9,6 +9,7 @@ import { Product } from 'src/app/models/product.model';
 import { Subcategory } from 'src/app/models/subcategory.model';
 import { Color } from 'src/app/models/color.model';
 import { Size } from 'src/app/models/size.model';
+import { CurrencyService } from 'src/app/services/currency.service';
 
 @Component({
   selector: 'app-product-search',
@@ -37,11 +38,31 @@ export class ProductSearchComponent implements OnInit {
   checkedsize;
   checkedcolor = "";
   i = 8;
-  constructor(private ProductService:ProductService,private Route:ActivatedRoute,private SubCategoryService:SubcategoryService,private ColorService:ColorService,private SizeService:SizeService) { }
+  currency = 'inr';
+  constructor(private ProductService:ProductService,private Route:ActivatedRoute,private SubCategoryService:SubcategoryService,private ColorService:ColorService,private SizeService:SizeService,private currencyservice: CurrencyService) { }
   
   ngOnInit(): void {
     
-    
+    this.currencyservice.obs.subscribe(data=>{
+      this.currency = data;
+      if(this.currency != 'inr'){
+
+        this.highValue = 30;
+        this.options = {
+          floor:0,
+          ceil:30
+        }
+
+      }
+      else{
+        this.highValue = 2000;
+        this.options = {
+          floor:0,
+          ceil:2000
+        }
+      }
+
+    })
     
     this.Route.params.subscribe((params:Params)=>{
       this.isloading = true;
@@ -122,7 +143,7 @@ export class ProductSearchComponent implements OnInit {
     }
 
     len = this.checkedcolor;
-    console.log(len);
+    
     var temp2 = [];
     if (len == "") {
       temp2 = temp1;
@@ -130,7 +151,16 @@ export class ProductSearchComponent implements OnInit {
     else {
       temp2 = temp1.filter(m => m.color_name == len);
     }
-    temp2 = temp2.filter(m => m.price >= this.value && m.price <= this.highValue);
+    if(this.currency == 'inr'){
+      temp2 = temp2.filter(
+        (m) => (m.price) >= this.value && (m.price) <= this.highValue
+      );  
+    }
+    else{
+      temp2 = temp2.filter(
+        (m) => (m.price/70) >= this.value && (m.price/70) <= this.highValue
+      );
+    }
     this.filterproduct = temp2;
   }
 
