@@ -57,14 +57,15 @@
                                     <li><a data-toggle="modal"
                                         data-target="#changepassword-popup"  title="Change Password" (click)="dropclose()" style="cursor: pointer;">Change Password</a></li>
                                     <li><a routerLink="/coupon" (click)="dropclose()" style="cursor: pointer;">Coupons</a></li>
+                                    <li><a routerLink="/wishlist" (click)="dropclose()" style="cursor: pointer;">Wishlists</a></li>
                                 </ul>
                                 
                             </li>
                             <li *ngIf="loggedIn" class="dropdown" [ngClass]="{'open':currencytoggle}">
                                 <a class="dropdown-toggle" role="button" (click)="currencysetting()">Currencies <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li [ngClass]="{'active':currency=='inr'}"><a (click)="dropclose()" style="cursor: pointer;" (click)="currencychange('inr')">inr</a></li>
-                                    <li [ngClass]="{'active':currency!='inr'}"><a (click)="dropclose()" style="cursor: pointer;" (click)="currencychange('usd')">usd</a></li>
+                                    <li [ngClass]="{'active':currency=='inr'}"><a  style="cursor: pointer;" (click)="currencychange('inr')">inr</a></li>
+                                    <li [ngClass]="{'active':currency!='inr'}"><a  style="cursor: pointer;" (click)="currencychange('usd')">usd</a></li>
                                     
                                     
                                 </ul>
@@ -123,7 +124,7 @@
                                         <form #search="ngForm" (ngSubmit)="onSearch(search)">
                                             <input type="text" class="form-control" placeholder="Search" name="searchtext" ngModel>
                                             <a href="#" title="Search"><i><img src="../../assets/images/search.svg"
-                                                        alt="Search"></i></a>
+                                                        at="Search"></i></a>
                                         </form>
                                     </div>
                                 </div>

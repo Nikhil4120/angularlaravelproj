@@ -13,15 +13,21 @@ export class CouponComponent implements OnInit {
     atob(localStorage.getItem('token').split('.')[1])
   ).user_id;
   coupons:Coupon[] = [];
-  globalcoupons:Coupon[] = [];
+  expirecoupons:Coupon[] = [];
+  
   constructor(private couponservice:CouponService) { }
 
   ngOnInit(): void {
     this.couponservice.Getcoupons(this.userid).subscribe(data=>{
-      this.coupons = data;
+      
+      this.coupons.push(...data);
     });
-    this.couponservice.globalcoupons().subscribe(data=>{
-      this.globalcoupons = data;
+    // this.couponservice.globalcoupons().subscribe(data=>{
+      
+    //   this.coupons.push(...data);
+    // })
+    this.couponservice.expirecoupons(this.userid).subscribe(data=>{
+      this.expirecoupons = data;
     })
 
   }

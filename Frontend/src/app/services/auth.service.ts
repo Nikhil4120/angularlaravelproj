@@ -20,6 +20,7 @@ export class AuthService {
   signup(data:any,intrest:any){
     return this.http.post(environment.localapi+'/register',{data,intrest:intrest});
   }
+
   login(data:any){
     return this.http.post(environment.localapi+'/login',data);
   }
@@ -35,5 +36,12 @@ export class AuthService {
     return this.http.post<any>(environment.localapi+'/emailcheck',{
       email:email
     })
+  }
+
+  Refreshtoken(token){
+    this.http.get(environment.localapi+'/refresh?token='+token).subscribe(data=>{
+      console.log(data);
+      this.tokenservice.set(data);
+    });
   }
 }

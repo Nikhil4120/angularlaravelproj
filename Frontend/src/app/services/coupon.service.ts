@@ -14,8 +14,8 @@ export class CouponService {
     return this.http.get<Coupon[]>(environment.localapi+'/allcoupons/'+id);
   }
 
-  globalcoupons(){
-    return this.http.get<Coupon[]>(environment.localapi+'/globalcoupons');
+  expirecoupons(id){
+    return this.http.get<Coupon[]>(environment.localapi+'/expirecoupons/'+id);
   }
 
 }

@@ -154,6 +154,7 @@ export class HeaderComponent implements OnInit {
     this.settingopen = false;
   }
 
+  
   currencychange(name){
     this.currencyservice.Storecurrency(name);
   }

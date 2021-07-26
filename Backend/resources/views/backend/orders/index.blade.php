@@ -65,7 +65,7 @@
                           @endif
                         </td>
                         <td>
-                        <a href="{{ route('category.view',$row->id)}}" class="btn btn-secondary"><i class="nav-icon fas fa-eye"></i></a>
+                        
                         
                               @if($row->delievery_status == 1)
                                 <a href="{{ route('order.packed',$row->id)}}" class="btn btn-info">Packed</a>

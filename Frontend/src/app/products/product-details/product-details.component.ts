@@ -68,6 +68,7 @@ export class ProductDetailsComponent implements OnInit {
   averagestar = 0;
   cartproduct = 0;
   currency = 'inr';
+  wishlist_id = -1;
 
   constructor(private ProductService: ProductService, private route: ActivatedRoute, private AuthService: AuthService, private cartservice: CartService, private toastr: ToastrService, private wishlistservice: WishlistService,private reviewservice:ReviewService,private headerService:HeaderService,private currencyservice:CurrencyService) { }
 
@@ -127,6 +128,7 @@ export class ProductDetailsComponent implements OnInit {
       this.wishlistservice.Wishlist().subscribe(data => {
         this.wishlists = data.data;
         if (this.wishlists.find(m => m.product_id == this.id && m.user_id == this.userid)) {
+          this.wishlist_id = (this.wishlists.find(m => m.product_id == this.id && m.user_id == this.userid)).id;
           this.wishlist = true;
         }
       });
@@ -163,8 +165,8 @@ export class ProductDetailsComponent implements OnInit {
     });
   }
 
-  removewishlist() {
-    this.wishlistservice.Addwishlist({ user_id: this.userid, product_id: this.id }).subscribe(data => {
+  removewishlist(id) {
+    this.wishlistservice.Removewishlist(id).subscribe(data => {
       this.toastr.success("Item Removed to wishlist");
       this.wishlist = false;
     });

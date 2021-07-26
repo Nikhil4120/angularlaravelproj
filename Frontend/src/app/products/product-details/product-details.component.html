@@ -67,7 +67,7 @@
             </select>
           </div>
         </div>
-        <div class="add-to-cart-btn clearfix">
+        <div class="add-to-cart-button clearfix">
           <label>Qty:</label>
           <h3 *ngIf="quantity.length <= 0">Out of stock</h3>
           <select name="product_quantity" [(ngModel)]="product_quantity" *ngIf="quantity.length > 0">
@@ -115,7 +115,7 @@
                 style="cursor: pointer"
                 class="link-wishlist"
                 *ngIf="isloggedin && wishlist"
-                (click)="removewishlist()"
+                (click)="removewishlist(wishlist_id)"
                 >Remove to Wishlist</a
               >
             </li>

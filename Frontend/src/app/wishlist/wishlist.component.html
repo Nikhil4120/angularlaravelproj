@@ -1,0 +1,22 @@
+<div class="loader" *ngIf="isloading"></div>
+<div class="container" *ngIf="!isloading">
+    <div class="row">
+        <h2 *ngIf="wishlists.length == 0">No wishlist availiable</h2>
+        <div class="col-md-12" *ngFor="let item of wishlists">
+            <div class="row list-group-item">
+                <div class="col-md-2">
+                    <img src="{{ envimage}}/{{ item.product_image}}" alt="" class="img-responsive" style="max-height: 100px;">
+                </div>
+                <div class="col-md-8">
+                    <a class="list-group-item-heading heading" routerLink="/products/detail/{{ item.product_id }}" style="font-size: 20px;font-weight: 500">{{ item.product_name }}</a><br>
+                    <p class="list-group-item-text" *ngIf="item.status!=1 || item.quantity <=0" style="margin-top: 20px;">Currently item not availiable</p>
+                    <p class="list-group-item-text" *ngIf="item.status==1 && item.quantity >0" style="margin-top: 20px;">Quantity: {{ item.quantity}} Price: {{ item.price|converter:currency|currency:currency:(currency=='inr'?'&#8377;':'$')}}</p>
+                    
+                </div>
+                <div class="col-md-2">
+                    <span class="glyphicon glyphicon-trash" style="float: right;cursor: pointer;" (click)="removewishlist(item.id)"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

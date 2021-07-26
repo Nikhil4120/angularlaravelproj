@@ -303,10 +303,10 @@ class ApiController extends Controller implements JWTSubject
         $wishlist = DB::table('wishlists')->get();
         return response()->json(['success' => true,'data' => $wishlist], 200);
     }
-    public function RemoveWishList(Request $request){
-        $user_id = $request->user_id;
-        $product_id = $request->product_id;
-        $wishlist = DB::table('wishlists')->where('user_id',$user_id)->where('product_id',$product_id)->delete();
+    public function RemoveWishList($id){
+        
+        $wishlist = DB::table('wishlists')->where('id',$id)->delete();
+        
         return response()->json(['success' => true,'data' => "Items Removed"], 200);
     }
 
@@ -539,6 +539,7 @@ class ApiController extends Controller implements JWTSubject
     		
             return response()->json(['success' => true,'data' => "Password has been changed"], 200);
     		
+            
 
     		
 
@@ -724,13 +725,87 @@ class ApiController extends Controller implements JWTSubject
 
     public function AllCoupons($id){
 
-        $coupons = DB::table('coupons')->where('user_id',$id)->select('id','coupon_id','discount','isvalid','expired_at')->get();
-        return $coupons;
+        $coupons = DB::table('coupons')->where('expired_at','>=',Carbon::now())->select('id','coupon_id','discount','isvalid','expired_at','type')->get();
+
+        $temp = [];
+        for ($i=0; $i <count($coupons);$i++) { 
+            # code...
+            $coupon_id = $coupons[$i]->coupon_id;
+            $coupon_type = $coupons[$i]->type;
+
+            $order = DB::table('orders')->where('user_id',$id)->where('coupon',$coupon_id)->get();
+
+            if(count($order) == 0){
+                if($coupon_type == 0){
+
+                    $localcoupon = DB::table('coupons')->where('coupon_id',$coupon_id)->where('user_id',$id)->get();
+
+                    if(count($localcoupon) != 0){
+                        array_push($temp,$coupons[$i]);    
+                    }
+
+                }
+                else{
+                    array_push($temp,$coupons[$i]);
+                }
+                
+            }
+
+        }
+        
+        return $temp;
     }
 
-    public function GlobalCoupons(){
-        $coupons = DB::table('coupons')->where('type',1)->select('id','coupon_id','discount','isvalid','expired_at')->get();
-        return $coupons;
+    public function ExpireCoupons($id){
+        $coupons = DB::table('coupons')->select('id','coupon_id','discount','isvalid','expired_at','type')->get();
+
+        $temp = [];
+        for ($i=0; $i <count($coupons);$i++) { 
+            # code...
+            $coupon_id = $coupons[$i]->coupon_id;
+            $coupon_type = $coupons[$i]->type;
+
+            $order = DB::table('orders')->where('user_id',$id)->where('coupon',$coupon_id)->get();
+
+            if(count($order) != 0){
+                if($coupon_type == 0){
+
+                    $localcoupon = DB::table('coupons')->where('coupon_id',$coupon_id)->where('user_id',$id)->get();
+
+                    if(count($localcoupon) != 0){
+                        array_push($temp,$coupons[$i]);    
+                    }
+
+                }
+                else{
+                    array_push($temp,$coupons[$i]);
+                }
+                
+            }
+            else{
+                if($coupon_type == 0){
+                    $expire_coupon = DB::table('coupons')->where('coupon_id',$coupon_id)->where('expired_at','<',Carbon::now())->where('user_id',$id)->get();
+                }
+                else{
+                    $expire_coupon = DB::table('coupons')->where('coupon_id',$coupon_id)->where('expired_at','<',Carbon::now())->get();
+                }
+                
+                if(count($expire_coupon) != 0){
+                    array_push($temp,$coupons[$i]);
+                }
+
+
+            }
+
+        }
+        
+        return $temp;
+    }
+
+    public function Userwishlists($id){
+
+        $wishlists = DB::table('wishlists')->join('products','products.id','wishlists.product_id')->select('wishlists.*','products.product_name','products.product_image','products.quantity','products.status','products.price')->where('wishlists.user_id',$id)->orderBy('wishlists.id','desc')->get();
+        return $wishlists;
     }
 
 }

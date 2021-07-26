@@ -109,6 +109,12 @@
         *ngFor="let item of orderfilters"
         [orderitem]="item"
       ></app-order-items>
+      <span class="button-outer text-center" style="margin-top: 20px;">
+        <a class="btn btn-tertiary" style="cursor: pointer;" title="More Orders" (click)="moreorder()" *ngIf="orderfilters.length!=temp.length && orderfilters.length != filterorder.length">More Orders</a>
+        </span>
     </div>
+    
+    
+    
   </div>
 </div>

@@ -16,22 +16,21 @@ import { CurrencyService } from 'src/app/services/currency.service';
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
-  styleUrls: ['./product-list.component.css']
+  styleUrls: ['./product-list.component.css'],
 })
 export class ProductListComponent implements OnInit {
-
   value: number = 0;
   highValue: number = 2000;
   options: Options = {
     floor: 0,
-    ceil: 2000
-  }
+    ceil: 2000,
+  };
   isloading = false;
   id;
   checkedsubcat;
   checkedsize;
-  checkedcolor = "";
-  Category: string = "";
+  checkedcolor = '';
+  Category: string = '';
   product: Product[] = [];
   filterproduct: Product[] = [];
   size: Size[];
@@ -42,23 +41,51 @@ export class ProductListComponent implements OnInit {
   countsubcategory = [];
   countsize = [];
   countcolor = [];
-  i=8;
-  selectedsubcategory = "";
+  i = 8;
+  selectedsubcategory = '';
   currency = 'inr';
 
-  constructor(private CategoryService: CategoryService, private route: ActivatedRoute, private router: Router, private ProductService: ProductService, private SizeService: SizeService, private SubCategoryService: SubcategoryService, private ColorService: ColorService,private headerservice:HeaderService,private currencyservice:CurrencyService) { }
+  constructor(
+    private CategoryService: CategoryService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private ProductService: ProductService,
+    private SizeService: SizeService,
+    private SubCategoryService: SubcategoryService,
+    private ColorService: ColorService,
+    private headerservice: HeaderService,
+    private currencyservice: CurrencyService
+  ) {}
 
-  
   ngOnInit(): void {
-    
-    this.headerservice.obs.subscribe(data=>{
+    this.headerservice.obs.subscribe((data) => {
       this.selectedsubcategory = data;
-      if(this.checkedsubcat){
+      if (this.checkedsubcat) {
         this.countsubcategories();
         this.mainFunctionForFilter();
       }
     });
-    
+
+    this.currencyservice.obs.subscribe(data=>{
+      this.currency = data;
+      if(this.currency != 'inr'){
+
+        this.highValue = 30;
+        this.options = {
+          floor:0,
+          ceil:30
+        }
+
+      }
+      else{
+        this.highValue = 2000;
+        this.options = {
+          floor:0,
+          ceil:2000
+        }
+      }
+
+    })
     this.route.params.subscribe((params: Params) => {
       this.filterproduct = [];
       this.id = params['id'];
@@ -69,107 +96,98 @@ export class ProductListComponent implements OnInit {
       this.isloading = true;
       window.scroll(0, 0);
       this.selectedsubcategory = this.headerservice.Getsubcategory();
-      console.log(this.selectedsubcategory);
-      this.CategoryService.getCategories().subscribe(data => {
-        
+      
+      this.CategoryService.getCategories().subscribe((data) => {
         this.Category = this.id;
-        const category =  data.find(m=>m.category_name.toLowerCase() == this.Category);
+        const category = data.find(
+          (m) => m.category_name.toLowerCase() == this.Category
+        );
         this.getSubCategory(category.id);
         this.getproduct();
-
       });
-      this.SizeService.getSizes().subscribe(data => {
+      this.SizeService.getSizes().subscribe((data) => {
         this.size = data;
-
       });
-      this.ColorService.getcolor().subscribe(data => {
+      this.ColorService.getcolor().subscribe((data) => {
         this.color = data;
       });
     });
-
   }
 
   getproduct() {
     console.log(this.Category);
-    this.ProductService.GetProduct().subscribe(data => {
-      this.product = data.filter(item => item.category_name.toLowerCase() == this.Category);
-      if(this.selectedsubcategory != ""){
-        this.filterproduct = this.product.filter(m=>m.subcategory_name==this.selectedsubcategory);
+    this.ProductService.GetProduct().subscribe((data) => {
+      this.product = data.filter(
+        (item) => item.category_name.toLowerCase() == this.Category
+      );
+      if (this.selectedsubcategory != '') {
+        this.filterproduct = this.product.filter(
+          (m) => m.subcategory_name == this.selectedsubcategory
+        );
+      } else {
+        this.filterproduct = this.product.slice(0, 8);
       }
-      else{
-        this.filterproduct = this.product.slice(0,8);
-      }
-      
+
       this.isloading = false;
       this.countsizes();
       this.countcolors();
       this.countsubcategories();
-      
     });
   }
 
   getSubCategory(categoryid: number) {
-    this.SubCategoryService.getSubcategories().subscribe(data => {
-      this.subcategory = data.filter(item => item.category_id == categoryid);
+    this.SubCategoryService.getSubcategories().subscribe((data) => {
+      this.subcategory = data.filter((item) => item.category_id == categoryid);
       this.countsubcategories();
-      
     });
   }
 
   sorting(e) {
-
-    if (e.target.value == "name") {
-      this.filterproduct.sort((a, b) => (a.product_name < b.product_name) ? -1 : 1);
+    if (e.target.value == 'name') {
+      this.filterproduct.sort((a, b) =>
+        a.product_name < b.product_name ? -1 : 1
+      );
+    } else {
+      this.filterproduct.sort((a, b) => (a.price < b.price ? -1 : 1));
     }
-    else {
-      this.filterproduct.sort((a, b) => (a.price < b.price) ? -1 : 1);
-    }
-
   }
 
   mainFunctionForFilter() {
-    var len = this.checkedsubcat.filter(m => m != 0).length;
+    var len = this.checkedsubcat.filter((m) => m != 0).length;
     var temp = [];
     if (len == 0) {
       temp = this.product;
-    }
-
-    else {
+    } else {
       for (let index = 0; index < this.subcategory.length; index++) {
         const element = this.checkedsubcat[index];
         if (element != 0) {
-
-          const prod = this.product.filter(m => m.subcategory_name == this.subcategory[index].subcategory_name);
+          const prod = this.product.filter(
+            (m) =>
+              m.subcategory_name == this.subcategory[index].subcategory_name
+          );
           temp.push(...prod);
-
         }
-
       }
-
     }
 
-    len = this.checkedsize.filter(m => m != 0).length;
+    len = this.checkedsize.filter((m) => m != 0).length;
 
     var temp1 = [];
     if (len == 0) {
-
       temp1 = temp;
-    }
-    else {
+    } else {
       for (let index = 0; index < this.size.length; index++) {
         const element = this.checkedsize[index];
         if (element != 0) {
           const prod = temp.filter((m, i) => {
-            const t = m.size_id.split(",");
+            const t = m.size_id.split(',');
             if (t.includes(this.size[index].size_name)) {
               if (!temp1.includes(m)) {
                 return true;
-              }
-              else {
+              } else {
                 return false;
               }
-            }
-            else {
+            } else {
               return false;
             }
           });
@@ -179,19 +197,25 @@ export class ProductListComponent implements OnInit {
     }
 
     len = this.checkedcolor;
-    
+
     var temp2 = [];
-    if (len == "") {
+    if (len == '') {
       temp2 = temp1;
+    } else {
+      temp2 = temp1.filter((m) => m.color_name == len);
     }
-    else {
-      temp2 = temp1.filter(m => m.color_name == len);
+    if(this.currency == 'inr'){
+      temp2 = temp2.filter(
+        (m) => (m.price) >= this.value && (m.price) <= this.highValue
+      );  
+    }
+    else{
+      temp2 = temp2.filter(
+        (m) => (m.price/70) >= this.value && (m.price/70) <= this.highValue
+      );
     }
     
-      temp2 = temp2.filter(m => m.price >= this.value && m.price <= this.highValue);
-    
-    
-    
+
     this.filterproduct = temp2;
   }
 
@@ -199,20 +223,17 @@ export class ProductListComponent implements OnInit {
     if (e.target.checked) {
       this.checkedsize[i] = 1;
       this.mainFunctionForFilter();
-    }
-    else {
+    } else {
       this.checkedsize[i] = 0;
       this.mainFunctionForFilter();
     }
   }
 
   filterbysubcat(e, name, i) {
-
     if (e.target.checked) {
       this.checkedsubcat[i] = 1;
       this.mainFunctionForFilter();
-    }
-    else {
+    } else {
       this.checkedsubcat[i] = 0;
       this.mainFunctionForFilter();
     }
@@ -225,68 +246,62 @@ export class ProductListComponent implements OnInit {
   filterbycolor(e, name) {
     this.checkedcolor = name;
     this.mainFunctionForFilter();
-
   }
 
   resetcolor() {
-
-    this.checkedcolor = ""
+    this.checkedcolor = '';
     this.mainFunctionForFilter();
   }
 
   countsubcategories() {
     this.checkedsubcat = this.subcategory.map((value, index) => {
       this.subcategory[index]['count'] = 0;
-      if(value.subcategory_name == this.selectedsubcategory){
+      if (value.subcategory_name == this.selectedsubcategory) {
         return 1;
-      }
-      else{
+      } else {
         return 0;
       }
-      
     });
-    
 
     for (let index = 0; index < this.subcategory.length; index++) {
-      const len = (this.product.filter(m => m.subcategory_name == this.subcategory[index].subcategory_name)).length;
+      const len = this.product.filter(
+        (m) => m.subcategory_name == this.subcategory[index].subcategory_name
+      ).length;
       this.subcategory[index].count = len;
     }
-    
   }
 
   countsizes() {
     this.checkedsize = this.size.map((value, index) => {
-      (this.size[index])['count'] = 0;
+      this.size[index]['count'] = 0;
       return 0;
     });
 
     for (let index = 0; index < this.size.length; index++) {
-      const len = (this.product.filter((m, i) => {
-        const temp = this.product[i].size_id.split(",");
+      const len = this.product.filter((m, i) => {
+        const temp = this.product[i].size_id.split(',');
         if (temp.includes(this.size[index].size_name)) {
           return true;
-        }
-        else {
+        } else {
           return false;
         }
-      })).length;
+      }).length;
       this.size[index].count = len;
     }
-
   }
-  
+
   countcolors() {
     this.countcolor = this.color.map((value, index) => {
-      (this.color[index])['count'] = 0;
-      const len = this.product.filter(m => value.color_name == m.color_name).length;
+      this.color[index]['count'] = 0;
+      const len = this.product.filter(
+        (m) => value.color_name == m.color_name
+      ).length;
       this.color[index]['count'] = len;
     });
-
   }
 
-  moreproduct(){
-    this.i = this.i + 4; 
-   this.filterproduct =  this.product.slice(0,this.i);
+  moreproduct() {
+    this.i = this.i + 4;
+    this.filterproduct = this.product.slice(0, this.i);
   }
-
 }

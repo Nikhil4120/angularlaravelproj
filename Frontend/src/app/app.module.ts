@@ -36,6 +36,7 @@ import { ChangepasswordComponent } from './changepassword/changepassword.compone
 import { ForgetpasswordComponent } from './forgetpassword/forgetpassword.component';
 import { CouponComponent } from './coupon/coupon.component';
 import { ConverterPipe } from './pipes/converter.pipe';
+import { WishlistComponent } from './wishlist/wishlist.component';
 
 @NgModule({
   declarations: [
@@ -67,6 +68,7 @@ import { ConverterPipe } from './pipes/converter.pipe';
     ForgetpasswordComponent,
     CouponComponent,
     ConverterPipe,
+    WishlistComponent,
     
   ],
   imports: [

@@ -27,7 +27,7 @@
                             <ul>
                                 <li class="custom-check" *ngFor="let item of subcategory;let i=index">
                                     <label>
-                                        <input type="checkbox" class="icheck" (change)="filterbysubcat($event,item.subcategory_name,i)"> {{ item.subcategory_name }} <span>({{ item.count }})</span>
+                                        <input type="checkbox" class="icheck" (change)="filterbysubcat($event,item.subcategory_name,i)" style="cursor:pointer"> {{ item.subcategory_name }} <span>({{ item.count }})</span>
                                     </label>
                                 </li>
                             </ul>
@@ -38,13 +38,13 @@
                         <div class="filter-option-inner collapse in" id="collapse2">
                             <ul class="colour_family_list clearfix">
                                 <li *ngFor="let item of color;let i=index">
-                                    <a title="Magenta" (click)="filterbycolor($event,item.color_name)" style="cursor:pointer"> <span
+                                    <a (click)="filterbycolor($event,item.color_name)" style="cursor:pointer" [ngClass]="{'checkedcolor':checkedcolor==item.color_name}"> <span
                                             [style.background-color]="item.color_code"></span> {{ item.color_name }}
                                         <i>({{ item.count }})</i></a>
                                 </li>
 
                                
-                                <li><a href="#" title="Reset" class="reset-link" (click)="resetcolor()">Reset</a></li>
+                                <li><a title="Reset" class="reset-link" (click)="resetcolor()" style="cursor:pointer">Reset</a></li>
                             </ul>
                         </div>
                     </div>
@@ -64,7 +64,7 @@
                             <ul>
                                 <li class="custom-check" *ngFor="let item of size;let i=index">
                                     <label>
-                                        <input type="checkbox" class="icheck" value="{{ item.id }}" (change)="filterbysize($event,item.size_name,i)"
+                                        <input type="checkbox" class="icheck" value="{{ item.id }}" (change)="filterbysize($event,item.size_name,i)" style="cursor:pointer"
                                             > {{ item.size_name
                                         }} <span>({{ item.count }})</span>
                                     </label>
@@ -85,10 +85,10 @@
 
                     <div class="pager_right">
                         <div class="sort-by">
-                            <label>Sort By</label>
+                            <label>Sort By</label> &nbsp;
                             <div class="form-group">
                                 <select class="custom-dropdown" (change)="sorting($event)">
-                                    <option selected disabled>Select</option>
+                                    
                                     <option value="name">Name</option>
                                     <option value="price">Price</option>
                                 </select>
@@ -109,7 +109,7 @@
 
                 <div class="col-sm-12 col-xs-12">
                     <span class="button-outer text-center" *ngIf="filterproduct.length == 0 && !isloading">
-                        <a class="btn-tertiary" style="cursor: pointer;" title="More Products" (click)="moreproduct()" 
+                        <a class="btn-tertiary" style="cursor: pointer;" title="More Products" *ngIf="filterproduct.length>8" (click)="moreproduct()" 
                             >More Products</a>
                     </span>
                 </div>

@@ -38,7 +38,7 @@ Route::post('/useremailcheck',[ApiController::class,'UserEmailCheck']);
 Route::post('/contact',[ApiController::class,'Contactus']);
 Route::post('/addwishlist',[ApiController::class,'AddWishList']);
 Route::get('/wishlist',[ApiController::class,'WishList']);
-Route::post('/removelist',[ApiController::class,'RemoveWishList']);
+Route::get('/removelist/{id}',[ApiController::class,'RemoveWishList']);
 
 Route::get('/testimonial',[ApiController::class,'Testimonial']);
 Route::get('/slider',[ApiController::class,'Slider']);
@@ -67,4 +67,6 @@ Route::post('/availiabity', [ApiController::class,'Availiabity']);
 Route::post('/couponapply', [ApiController::class,'Couponapply']);
 
 Route::get('/allcoupons/{id}',[ApiController::class,'AllCoupons']);
-Route::get('/globalcoupons',[ApiController::class,'GlobalCoupons']);
+Route::get('/expirecoupons/{id}',[ApiController::class,'ExpireCoupons']);
+
+Route::get('/UserWishlist/{id}',[ApiController::class,'UserWishlists']);

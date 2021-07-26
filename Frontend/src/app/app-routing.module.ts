@@ -14,6 +14,7 @@ import { ProductSearchComponent } from './products/product-search/product-search
 import { OrdersComponent } from './orders/orders.component';
 import { OrderDetailsComponent } from './orders/order-details/order-details.component';
 import { CouponComponent } from './coupon/coupon.component';
+import { WishlistComponent } from './wishlist/wishlist.component';
 
 
 const routes: Routes = [
@@ -26,9 +27,10 @@ const routes: Routes = [
   {path:'cart',component:CartComponent,canActivate:[AfterloginService]},
   {path:'contact',component:ContactusComponent},
   {path:'productsearch/:id',component:ProductSearchComponent},
-  {path:'orders',component:OrdersComponent},
-  {path:'orders/:id',component:OrderDetailsComponent},
-  {path:'coupon',component:CouponComponent},
+  {path:'orders',component:OrdersComponent,canActivate:[AfterloginService]},
+  {path:'orders/:id',component:OrderDetailsComponent,canActivate:[AfterloginService]},
+  {path:'coupon',component:CouponComponent,canActivate:[AfterloginService]},
+  {path:'wishlist',component:WishlistComponent,canActivate:[AfterloginService]},
   
 ];
 

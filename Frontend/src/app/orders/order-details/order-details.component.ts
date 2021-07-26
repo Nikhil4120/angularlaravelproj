@@ -68,7 +68,7 @@ export class OrderDetailsComponent implements OnInit {
       this.isloading = false;
       if(data.length != 0){
         this.cartservice.addTocart(data[0]);
-        this.toastr.success("Item is added to cart");
+        
       }
       else{
         this.toastr.warning("Item is either deactivated or out of stock");

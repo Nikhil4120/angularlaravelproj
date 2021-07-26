@@ -17,7 +17,11 @@ export class WishlistService {
     return this.http.get<any>(environment.localapi+'/wishlist');
   }
 
-  Removewishlist(data){
-    return this.http.get<any>(environment.localapi+'/removelist');
+  Removewishlist(id){
+    return this.http.get<any>(environment.localapi+'/removelist/'+id);
+  }
+
+  Userwishlist(id){
+    return this.http.get<any>(environment.localapi+'/UserWishlist/'+id);
   }
 }

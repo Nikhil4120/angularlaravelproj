@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CartService } from '../services/cart.service';
-import { ToastRef, ToastrService } from 'ngx-toastr';
+import {  ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { CountryService } from '../services/country.service';
 import { StateService } from '../services/state.service';

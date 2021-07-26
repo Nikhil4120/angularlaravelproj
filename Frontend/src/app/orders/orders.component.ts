@@ -13,10 +13,12 @@ export class OrdersComponent implements OnInit {
   order:Order[] = [];
   filterorder = [];
   orderfilters = [];
+  temp = [];
   selecteditem;
   isloading = false;
   search = "";
   page = 1;
+  i =10;
 
   orderstatus = [
     {id:1,name:"Placed",checkeditem:0},
@@ -58,8 +60,8 @@ export class OrdersComponent implements OnInit {
          
 
       },[]);
-      console.log(this.filterorder);
-      this.orderfilters = this.filterorder;
+      this.temp = this.filterorder;
+      this.orderfilters = this.filterorder.slice(0,this.i);
       this.selecteditem = data[0];
       
       this.isloading = false;
@@ -136,12 +138,12 @@ export class OrdersComponent implements OnInit {
 
     }
     
-    
-    this.orderfilters = temp2;
+    this.temp = temp2;    
+    this.orderfilters = temp2.slice(0,this.i);
   }
 
   ChangeStatus(e,i){
-    
+    this.i = 10;
     if(e.target.checked){
       this.orderstatus[i].checkeditem = 1;
       this.MainFunctionForFilter();
@@ -153,7 +155,7 @@ export class OrdersComponent implements OnInit {
 
   }
   ChangeDate(e,i){
-    
+    this.i = 10;    
     if(e.target.checked){
       this.datestatus[i].checkeditem = 1;
       this.MainFunctionForFilter();
@@ -166,23 +168,14 @@ export class OrdersComponent implements OnInit {
   }
 
   filtersearch(){
+    this.i = 10;
     this.MainFunctionForFilter();
   }
 
 
-  pagechange(name){
-    const len = this.order.length;
-    const pagecount = Math.ceil(len/5);
-    if(name == "previous"){
-      if(this.page != 1){
-        this.page = this.page-1;
-      }      
-    }
-    else if(name  == "next"){
-      if(this.page != pagecount){
-        this.page = this.page + 1;
-      }
-    }
+  moreorder(){
+    this.i = this.i + 10;        
+    this.MainFunctionForFilter();
   }
 
 }
