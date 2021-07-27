@@ -169,10 +169,12 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   addwishlist() {
+    this.isloading = true;
     this.wishlistservice
       .Addwishlist({ user_id: this.userid, product_id: this.product_id })
       .subscribe(
         (data) => {
+          this.isloading = false;
           this.toastr.success('Item Added to wishlist');
           this.wishlist = true;
         },
@@ -183,8 +185,10 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   removewishlist(id) {
+    this.isloading = true;
     this.wishlistservice.Removewishlist(id).subscribe(
       (data) => {
+        this.isloading = false;
         this.toastr.success('Item Removed to wishlist');
         this.wishlist = false;
       },

@@ -21,8 +21,8 @@ export class WishlistComponent implements OnInit {
   constructor(
     private wishlistservice: WishlistService,
     private toastr: ToastrService,
-    private currencyservice: CurrencyService,
-    private reviewservice: ReviewService
+    private currencyservice: CurrencyService
+    
   ) {}
 
   ngOnInit(): void {
@@ -42,12 +42,18 @@ export class WishlistComponent implements OnInit {
   }
 
   removewishlist(id) {
-    this.isloading = true;
+
+    if(confirm("Are you sure want to delete")){
+      this.isloading = true;
     this.wishlistservice.Removewishlist(id).subscribe((data) => {
       this.isloading = false;
       let index = this.wishlists.findIndex((m) => m.id == id);
       this.wishlists.splice(index, 1);
       this.toastr.success('item removed to wishlist');
+    },(error)=>{
+      this.toastr.error("Something went wrong....");
     });
+    }
+    
   }
 }

@@ -12,7 +12,7 @@ import { SubcategoryService } from 'src/app/services/subcategory.service';
 import { Options } from 'ng5-slider';
 import { HeaderService } from 'src/app/services/header.service';
 import { CurrencyService } from 'src/app/services/currency.service';
-import { error } from 'console';
+
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
