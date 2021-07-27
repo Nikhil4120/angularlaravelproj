@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { Coupon } from '../models/coupon.model';
 import { CouponService } from '../services/coupon.service';
 
@@ -12,16 +13,23 @@ export class CouponComponent implements OnInit {
     .user_id;
   coupons: Coupon[] = [];
   expirecoupons: Coupon[] = [];
+  isloading:boolean = false;
 
-  constructor(private couponservice: CouponService) {}
+  constructor(private couponservice: CouponService,private toastr:ToastrService) {}
 
   ngOnInit(): void {
+    this.isloading = true;
     this.couponservice.Getcoupons(this.userid).subscribe((data) => {
       this.coupons = data;
+    },(error)=>{
+      this.toastr.error("Something went wrong...");
     });
 
     this.couponservice.expirecoupons(this.userid).subscribe((data) => {
+      this.isloading = false;
       this.expirecoupons = data;
+    },(error)=>{
+      this.toastr.error("Something went wrong...");
     });
   }
 }

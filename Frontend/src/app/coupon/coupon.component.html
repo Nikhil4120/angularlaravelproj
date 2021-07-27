@@ -4,7 +4,7 @@
       <h2>Availiable Coupons</h2>
     </div>
     <hr />
-    <h3 *ngIf="coupons.length == 0">No Coupons Availiable</h3>
+    <h3 *ngIf="coupons.length == 0 && !isloading">No Coupons Availiable</h3>
     <div class="col-md-12" *ngFor="let item of coupons">
       <a class="list-group-item clearfix">
         <div class="pull-left">
@@ -27,7 +27,7 @@
       <h2>Expired Coupons</h2>
     </div>
     <hr />
-    <h3 *ngIf="coupons.length == 0">No Coupons Availiable</h3>
+    <h3 *ngIf="expirecoupons.length == 0 && !isloading">No Coupons Availiable</h3>
     <div class="col-md-12" *ngFor="let item of expirecoupons">
       <a class="list-group-item clearfix">
         <div class="pull-left">

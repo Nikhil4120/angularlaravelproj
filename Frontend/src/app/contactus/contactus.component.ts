@@ -8,7 +8,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./contactus.component.css'],
 })
 export class ContactusComponent implements OnInit {
-  isloading:boolean = false;
+  isloading: boolean = false;
   constructor(
     private contactservice: ContactService,
     private toastr: ToastrService

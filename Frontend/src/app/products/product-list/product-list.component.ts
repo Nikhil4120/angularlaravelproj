@@ -192,8 +192,8 @@ export class ProductListComponent implements OnInit {
         const element = this.checkedsize[index];
         if (element != 0) {
           const prod = storeproduct.filter((m, i) => {
-            const t = m.size_id.split(',');
-            if (t.includes(this.size[index].size_name)) {
+            const filtersize = m.size_id.split(',');
+            if (filtersize.includes(this.size[index].size_name)) {
               if (!productbysize.includes(m)) {
                 return true;
               } else {

@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
         this.modal.nativeElement.click();
       },
       (error) => {
-        console.log(error.error.message);
+        
         this.isloading = false;
         this.error = error.error.message;
       }

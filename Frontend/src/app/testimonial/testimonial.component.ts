@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { OwlOptions } from 'ngx-owl-carousel-o';
 import { TestimonialService } from '../services/testimonial.service';
 import { environment } from 'src/environments/environment';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-testimonial',
   templateUrl: './testimonial.component.html',
@@ -37,11 +38,13 @@ export class TestimonialComponent implements OnInit {
 
   testimonials = [];
 
-  constructor(private testimonialservice:TestimonialService) { }
+  constructor(private testimonialservice:TestimonialService,private toastr:ToastrService) { }
 
   ngOnInit(): void {
     this.testimonialservice.Gettestimonial().subscribe(data=>{
       this.testimonials = data.data.splice(0,4);
+    },(error)=>{
+      this.toastr.error("Something went wrong...");
     });
   }
 

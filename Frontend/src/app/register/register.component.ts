@@ -12,13 +12,13 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent implements OnInit {
-  backenderror:string = '';
-  checks:boolean = false;
-  isshown:boolean = false;
-  error:string = '';
-  usercreated:boolean = false;
+  backenderror: string = '';
+  checks: boolean = false;
+  isshown: boolean = false;
+  error: string = '';
+  usercreated: boolean = false;
   checked = [];
-  isLoading:boolean = false;
+  isLoading: boolean = false;
   @ViewChild('authForm', { static: false }) regform: NgForm;
   constructor(
     private AuthService: AuthService,

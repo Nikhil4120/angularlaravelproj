@@ -231,11 +231,11 @@
               <hr />
               <div class="form-group">
                 <label for="" class="form-label">Coupon</label>
-                <input type="text" class="form-control" #coupons /><br />
+                <input type="text" class="form-control" name="coupons" ngModel #coupons="ngModel"/><br />
                 <button
                   class="btn btn-secondary"
                   (click)="applycoupon(coupons.value)"
-                  [disabled]="coupons.value == ''"
+                  [disabled]="!coupons.value"
                 >
                   Apply Coupon
                 </button>

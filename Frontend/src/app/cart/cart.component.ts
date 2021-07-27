@@ -140,6 +140,7 @@ export class CartComponent implements OnInit, OnDestroy {
     this.discount = 0;
     this.coupon = '';
     this.couponerror = '';
+    this.couponsuccess = '';
     let userid = JSON.parse(
       atob(localStorage.getItem('token').split('.')[1])
     ).user_id;

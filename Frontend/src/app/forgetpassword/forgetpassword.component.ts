@@ -52,7 +52,7 @@ export class ForgetpasswordComponent implements OnInit, OnDestroy {
         this.phase = 2;
         this.otp = data.data;
         this.starttime = new Date().getTime();
-        console.log(this.starttime);
+        
         this.cleartime = setInterval(() => {
           this.Timecount(this.starttime);
         }, 1000);
@@ -132,16 +132,6 @@ export class ForgetpasswordComponent implements OnInit, OnDestroy {
         this.confirmpassword.type = 'password';
       }
     }
-  }
-
-  skippassword() {
-    this.changepasswordservice
-      .Skippassword({ email: this.email })
-      .subscribe((data) => {
-        this.tokenservice.handle(data['token']);
-        this.AuthService.changeAuthStatus(true);
-        this.modal.nativeElement.click();
-      });
   }
 
   ngOnDestroy() {}
